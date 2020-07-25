@@ -24,3 +24,15 @@ most popular specializations in business, it is also indisputably one of the mos
 and other financial managers often have very tedious expense management tasks that involve monitoring daily company
 transactions. Any software that can make their tasks easier are high in demand, so I wanted to start 
 with an application that is simple but in the field of financial management.
+
+## User Stories
+
+- As a user, I want to be able to add a new student and teacher to the database
+- As a user, I want to be able to increase the outstanding tuition fees due for the student
+- As a user, I want to be able to increase the outstanding salaries due to teachers
+- As a user, I want to be able to pay off the outstanding salaries to teachers
+- As a user, I want to be able to write off the outstanding tuition from students when paid
+- As a user, I want to be able to select a student and view their tuition history
+- As a user, I want to be able to select a teacher and view their salary history
+- As a user, I want to be able to see an overview of all outstanding incoming and outgoing balances
+- As a user, I want to be able to select a student or teacher and add a course to their profile
