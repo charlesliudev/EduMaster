@@ -49,7 +49,7 @@ public class Teacher {
 
     // HELPERS ---------------------
 
-    //EFFECTS: returns a randomly generated 6 digit number
+    // EFFECTS: returns a randomly generated 6 digit number
     public int generateTeacherID() {
         String id = "";
         for (int i = 1; i < 7; i++) {
@@ -59,7 +59,7 @@ public class Teacher {
         return Integer.valueOf(id);
     }
 
-    // GETTERS (fields) ---------------------
+    // GETTERS:
 
     public String getFirstName() {
         return this.firstName;
@@ -84,4 +84,5 @@ public class Teacher {
     public int getOutstandingSalary() {
         return this.outstandingSalary;
     }
+
 }

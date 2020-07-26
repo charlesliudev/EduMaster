@@ -60,7 +60,7 @@ public class Student {
         return Integer.valueOf(id);
     }
 
-    // GETTERS (fields) -----------------------
+    // GETTERS:
 
     public String getFirstName() {
         return this.firstName;
@@ -85,5 +85,4 @@ public class Student {
     public int getOutstandingTuition() {
         return this.outstandingTuition;
     }
-
 }

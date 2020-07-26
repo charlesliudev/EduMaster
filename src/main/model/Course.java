@@ -21,7 +21,10 @@ public class Course {
         this.maxStudents = maxStudents;
     }
 
-    // GETTERS: ------------------------
+    // GETTERS:
+    public String getCourseName() {
+        return this.courseName;
+    }
 
     public ArrayList<Teacher> getTeachers() {
         return this.teachers;
@@ -29,9 +32,5 @@ public class Course {
 
     public ArrayList<Student> getStudents() {
         return this.students;
-    }
-
-    public String getCourseName() {
-        return this.courseName;
     }
 }
