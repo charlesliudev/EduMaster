@@ -28,8 +28,8 @@ class StudentTest {
 
     @Test
     public void testConstructor() {
-        assertEquals(george.firstName, "George");
-        assertEquals(george.lastName, "Becky");
+        assertEquals(george.getFirstName(), "George");
+        assertEquals(george.getLastName(), "Becky");
     }
 
     @Test
