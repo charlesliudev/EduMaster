@@ -19,12 +19,13 @@ public class SchoolApp {
         input = new Scanner(System.in);
 
         while (keepGoing) {
-            displayMenu();
+            //displayMenu();
             command = input.next();
             command = command.toLowerCase();
 
         }
     }
-    // displayMenu
-    // processCommand
+
+    // display menu
+    // process command
 }
