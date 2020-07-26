@@ -21,4 +21,9 @@ public class CourseTest {
         assertEquals(cpsc210.getStudents().size(), 0);
         assertEquals(cpsc210.getTeachers().size(), 0);
     }
+
+    @Test
+    public void testGetCourseName() {
+        assertEquals(cpsc210.getCourseName(), "CPSC-210");
+    }
 }
