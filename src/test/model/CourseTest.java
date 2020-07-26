@@ -18,5 +18,7 @@ public class CourseTest {
         assertEquals(cpsc210.courseCost, 600);
         assertEquals(cpsc210.courseSalary, 5000);
         assertEquals(cpsc210.maxStudents, 20);
+        assertEquals(cpsc210.getStudents().size(), 0);
+        assertEquals(cpsc210.getTeachers().size(), 0);
     }
 }
