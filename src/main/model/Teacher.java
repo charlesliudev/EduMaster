@@ -47,8 +47,6 @@ public class Teacher {
         school.transactionRecordSummary.add(thisTransaction.transactionSummary);
     }
 
-    // HELPERS ---------------------
-
     // EFFECTS: returns a randomly generated 6 digit number
     public int generateTeacherID() {
         String id = "";

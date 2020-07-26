@@ -48,8 +48,6 @@ public class Student {
         }
     }
 
-    // HELPERS --------------------------
-
     //EFFECTS: returns a randomly generated 6 digit number
     public int generateStudentID() {
         String id = "";
