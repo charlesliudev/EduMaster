@@ -25,10 +25,6 @@ public class SchoolApp {
 
         }
     }
-
-    // displayMenu()
-    // processCommand()
-
-
-
+    // displayMenu
+    // processCommand
 }
