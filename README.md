@@ -28,6 +28,7 @@ with an application that is simple but in the field of financial management.
 ## User Stories
 
 - As a user, I want to be able to add a new student and teacher to the database
+- As a user, I want to be able to add a new course to the database
 - As a user, I want to be able to increase the outstanding tuition fees due for the student
 - As a user, I want to be able to increase the outstanding salaries due to teachers
 - As a user, I want to be able to pay off the outstanding salaries to teachers
