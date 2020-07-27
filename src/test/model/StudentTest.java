@@ -88,4 +88,12 @@ class StudentTest {
         assertTrue((0 < jessie.studentID) && (jessie.studentID < 1000000));
         assertTrue((0 < brian.studentID) && (brian.studentID < 1000000));
     }
+
+    @Test
+    public void testGetterMethods() {
+        assertEquals(george.getStudentID(), george.studentID);
+        assertEquals(george.getCoursesEnrolled(), george.coursesEnrolled);
+        assertEquals(george.getCoursesPaidFor(), george.coursesPaidFor);
+        assertEquals(george.getTuitionRecord(), george.tuitionRecord);
+    }
 }
