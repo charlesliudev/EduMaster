@@ -9,6 +9,7 @@ public class Student {
     public String lastName;
     public int studentID;
     public ArrayList<Course> coursesEnrolled = new ArrayList<>();
+    public ArrayList<Course> coursesPaidFor = new ArrayList<>();
     public int outstandingTuition = 0;
     public ArrayList<Transaction> tuitionRecord = new ArrayList<>();
     public School schoolAttended = null;
@@ -74,6 +75,10 @@ public class Student {
 
     public ArrayList<Course> getCoursesEnrolled() {
         return this.coursesEnrolled;
+    }
+
+    public ArrayList<Course> getCoursesPaidFor() {
+        return this.coursesPaidFor;
     }
 
     public ArrayList<Transaction> getTuitionRecord() {

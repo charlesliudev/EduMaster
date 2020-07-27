@@ -9,6 +9,7 @@ public class Teacher {
     public String lastName;
     public int teacherID;
     public ArrayList<Course> coursesTaught = new ArrayList<>();
+    public ArrayList<Course> coursesPaidFor = new ArrayList<>();
     public int outstandingSalary = 0;
     public ArrayList<Transaction> salaryRecord = new ArrayList<>();
     public School schoolAttended = null;
@@ -73,6 +74,10 @@ public class Teacher {
 
     public ArrayList<Course> getCoursesTaught() {
         return this.coursesTaught;
+    }
+
+    public ArrayList<Course> getCoursesPaidFor() {
+        return this.coursesPaidFor;
     }
 
     public ArrayList<Transaction> getSalaryRecord() {

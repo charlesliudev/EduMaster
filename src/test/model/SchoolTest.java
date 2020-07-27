@@ -27,26 +27,32 @@ public class SchoolTest {
     }
 
     @Test
-    public void testAddStudent() {
+    public void testAddRemoveStudent() {
         assertFalse(mySchool.students.contains(george));
         mySchool.addStudent(george);
         assertTrue(mySchool.students.contains(george));
         assertEquals(george.schoolAttended, mySchool);
+        mySchool.removeStudent(george);
+        assertFalse(mySchool.students.contains(george));
     }
 
     @Test
-    public void testAddTeacher() {
+    public void testAddRemoveTeacher() {
         assertFalse(mySchool.teachers.contains(vivian));
         mySchool.addTeacher(vivian);
         assertTrue(mySchool.teachers.contains(vivian));
         assertEquals(vivian.schoolAttended, mySchool);
+        mySchool.removeTeacher(vivian);
+        assertFalse(mySchool.teachers.contains(vivian));
     }
 
     @Test
-    public void testAddCourse() {
+    public void testAddRemoveCourse() {
         assertFalse(mySchool.courses.contains(cpsc210));
         mySchool.addCourse(cpsc210);
         assertTrue(mySchool.courses.contains(cpsc210));
+        mySchool.removeCourse(cpsc210);
+        assertFalse(mySchool.courses.contains(cpsc210));
     }
 
     @Test
@@ -66,6 +72,28 @@ public class SchoolTest {
 
         assertEquals(george.outstandingTuition, 1100);
         assertEquals(vivian.outstandingSalary, 8000);
+    }
+
+    @Test
+    public void testEnactTuitionTwiceForOneCourse() {
+        mySchool.addStudent(george);
+        george.enroll(cpsc210);
+        assertEquals(george.getOutstandingTuition(), 0);
+        mySchool.enactNewOutstandingTransactions();
+        assertEquals(george.getOutstandingTuition(), 600);
+        mySchool.enactNewOutstandingTransactions();
+        assertEquals(george.getOutstandingTuition(), 600);
+    }
+
+    @Test
+    public void testEnactSalaryTwiceForOneCourse() {
+        mySchool.addTeacher(vivian);
+        vivian.assignCourse(cpsc210);
+        assertEquals(vivian.getOutstandingSalary(), 0);
+        mySchool.enactNewOutstandingTransactions();
+        assertEquals(vivian.getOutstandingSalary(), 5000);
+        mySchool.enactNewOutstandingTransactions();
+        assertEquals(vivian.getOutstandingSalary(), 5000);
     }
 
     @Test
@@ -92,4 +120,21 @@ public class SchoolTest {
         assertEquals(mySchool.getAllOutstandingSalaries(), 9000);
     }
 
+    @Test
+    public void testStartNewYear() {
+        mySchool.addStudent(george);
+        mySchool.addTeacher(vivian);
+        assertEquals(mySchool.accumulatedAnnualTuition, 0);
+        assertEquals(mySchool.accumulatedAnnualSalary, 0);
+        george.payTuition(1000, mySchool);
+        vivian.collectSalary(2000, mySchool);
+        assertEquals(mySchool.accumulatedAnnualTuition, 1000);
+        assertEquals(mySchool.accumulatedAnnualSalary, 2000);
+
+        mySchool.startNewYear();
+
+
+        assertEquals(mySchool.accumulatedAnnualTuition, 0);
+        assertEquals(mySchool.accumulatedAnnualSalary, 0);
+    }
 }

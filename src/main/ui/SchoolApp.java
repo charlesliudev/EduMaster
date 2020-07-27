@@ -18,8 +18,8 @@ public class SchoolApp {
         runSchool();
     }
 
-    // EFFECTS:
-    // MODIFIES:
+    // MODIFIES: this
+    // EFFECTS: opens the EduMaster home menu for users and processes user command
     private void runSchool() {
         boolean keepGoing = true;
         String command;
@@ -49,8 +49,8 @@ public class SchoolApp {
         System.out.println("\tt -> Teachers");
         System.out.println("\tc -> Courses");
         System.out.println("\tx -> Enact New Outstanding Fees");
+        System.out.println("\tn -> Start New Financial Year");
         System.out.println("\tq -> Quit");
-
     }
 
     // MODIFIES: this
@@ -66,19 +66,33 @@ public class SchoolApp {
             courses();
         } else if (command.equals("x")) {
             enactNewOutstandingFees();
+        } else if (command.equals("n")) {
+            startNewYear();
         } else {
             System.out.println("Please enter a valid command.");
         }
     }
 
+    // START NEW YEAR BRANCH (N) ---------------------------------------------------
+
+    // resets the accumulated annual cash flows record to 0, to begin recording for new year.
+    public void startNewYear() {
+        mySchool.startNewYear();
+        System.out.println("Annual accumulated transactions have been set to zero. Welcome to a new financial year.");
+    }
+
     // SCHOOL FINANCIAL OVERVIEW BRANCH (O) ----------------------------------------
 
+    // displays an overview of the school's status when called on, showing number of students, teachers, courses. Also
+    // shows outstanding transactions, total student tuition for the year
     public void financialOverview() {
         System.out.println("-------- Financial Overview --------");
         System.out.println("Number of Students: " + mySchool.students.size());
         System.out.println("Number of Teachers: " + mySchool.teachers.size());
         System.out.println("Number of Courses Offered: " + mySchool.courses.size());
+        System.out.println("Outstanding Student Tuition: " + mySchool.getAllOutstandingTuition());
         System.out.println("Total Annual Student Tuition: " + mySchool.accumulatedAnnualTuition);
+        System.out.println("Outstanding Teacher Salaries: " + mySchool.getAllOutstandingSalaries());
         System.out.println("Total Annual Teacher Salary: " + mySchool.accumulatedAnnualSalary);
         System.out.println("------------------------------------");
         System.out.println("Full Transaction Record: ");
@@ -121,6 +135,7 @@ public class SchoolApp {
         System.out.println("\tv -> View all teachers");
         System.out.println("\te -> Edit / View a teacher profile");
         System.out.println("\ta -> Add new teachers");
+        System.out.println("\tr -> Remove a teacher");
         System.out.println("\tb -> Back to main menu");
     }
 
@@ -132,17 +147,24 @@ public class SchoolApp {
         } else if (command.equals("a")) {
             addNewTeacher();
         } else if (command.equals("e")) {
-            System.out.println("Enter teacher's ID: ");
-            String unprocessedInput = input.next();
-            try {
-                int id = Integer.valueOf(unprocessedInput);
-                Teacher thisTeacher = findTeacherByID(id);
-                showTeacherPage(thisTeacher);
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid 6-digit ID. You can view all teachers to find valid IDs.");
-            }
+            handleTeacherSearch();
+        } else if (command.equals("r")) {
+            removeTeacher();
         } else {
             System.out.println("Please enter a valid command.");
+        }
+    }
+
+    // EFFECTS: lets user search for a teacher by ID and processes the search to display teacher info
+    public void handleTeacherSearch() {
+        System.out.println("Enter teacher's ID: ");
+        String unprocessedInput = input.next();
+        try {
+            int id = Integer.valueOf(unprocessedInput);
+            Teacher thisTeacher = findTeacherByID(id);
+            showTeacherPage(thisTeacher);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid 6-digit ID. You can view all teachers to find valid IDs.");
         }
     }
 
@@ -199,7 +221,8 @@ public class SchoolApp {
     }
 
     // MODIFIES: this
-    // EFFECTS:
+    // EFFECTS: allows user to write off a payment to a teacher. Adds to school's transaction records, deprecates
+    //          teacher's outstanding salaries, adds to teacher's salary records
     private void recordTeacherSalaryPayment(Teacher teacher) {
         try {
             System.out.println("How much was the teacher paid?");
@@ -216,6 +239,8 @@ public class SchoolApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to assign a teacher to teach a new course
     private void assignTeacherToCourse(Teacher teacher) {
         System.out.println("Assigning " + teacher.firstName + teacher.lastName + " to teach a new course:");
         System.out.println("Course name: ");
@@ -231,6 +256,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: lists the ID, first name, last name, of all teachers at the school
     private void displayAllTeachers() {
         System.out.println("Here are the teachers in this school:");
         System.out.println("\tTeacher ID, First Name, Last Name");
@@ -240,6 +266,8 @@ public class SchoolApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to add a new teacher to the school database
     private void addNewTeacher() {
         System.out.println("What is the teacher's first name?");
         String firstName = input.next().toLowerCase();
@@ -250,6 +278,24 @@ public class SchoolApp {
         System.out.println("Teacher successfully added.");
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to remove a teacher from the school
+    private void removeTeacher() {
+        System.out.println("Please enter teacher ID: ");
+        try {
+            int id = Integer.valueOf(input.next());
+            if (findTeacherByID(id) != null) {
+                mySchool.removeTeacher(findTeacherByID(id));
+                System.out.println("Teacher successfully removed.");
+            } else {
+                System.out.println("Teacher not found. Try again.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid 6-digit teacher ID.");
+        }
+    }
+
+    // EFFECTS: takes an teacherID, finds teacher in school database. If found, return the teacher, else return null
     private Teacher findTeacherByID(int id) {
         for (Teacher teacher : mySchool.teachers) {
             if (teacher.teacherID == id) {
@@ -259,6 +305,7 @@ public class SchoolApp {
         return null;
     }
 
+    // EFFECTS: displays all info about the selected teacher: first name, last name, ID, outstanding salary to pay
     private void displayTeacherInfo(Teacher teacher) {
         System.out.println("Currently viewing " + teacher.firstName + " " + teacher.lastName + "'s profile:");
         System.out.println(teacher.firstName + " " + teacher.lastName);
@@ -267,6 +314,7 @@ public class SchoolApp {
         System.out.println("Options: ");
     }
 
+    // EFFECTS: displays menu with options for user to operate on the selected teacher
     private void showIndividualTeacherOptions(Teacher teacher) {
         System.out.println("\ta -> Assign teacher to a course");
         System.out.println("\tc -> See courses taught");
@@ -277,6 +325,7 @@ public class SchoolApp {
 
     // COURSES BRANCH  -------------------------------------------------------------
 
+    // EFFECTS: opens the course menu, where user can then choose what they want to do with courses
     private void courses() {
         boolean stayOnCourses = true;
 
@@ -292,29 +341,40 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: displays the course menu to user
     private void displayCourseMenu() {
         System.out.println("What would you like to do with the courses?");
         System.out.println("\tv -> View all courses");
         System.out.println("\te -> View a course");
         System.out.println("\ta -> Add new courses");
+        System.out.println("\tr -> Remove a course");
         System.out.println("\tb -> Back to main menu");
     }
 
+    // EFFECTS: processes the user input from the course menu and calls on appropriate methods
     private void handleCourseCommand(String command) {
         if (command.equals("v")) {
             displayAllCourses();
         } else if (command.equals("a")) {
             addNewCourse();
         } else if (command.equals("e")) {
-            System.out.println("Enter course's name: ");
-            String id = input.next();
-            Course thisCourse = findCourseByName(id);
-            showCoursePage(thisCourse);
+            handleCourseSearch();
+        } else if (command.equals("r")) {
+            removeCourse();
         } else {
             System.out.println("Please enter a valid command.");
         }
     }
 
+    // EFFECTS: lets user search for a course by name and processes the search to display course info
+    private void handleCourseSearch() {
+        System.out.println("Enter course's name: ");
+        String id = input.next();
+        Course thisCourse = findCourseByName(id);
+        showCoursePage(thisCourse);
+    }
+
+    // EFFECTS: shows the profile of the selected course with menu of options to operate on selected course
     private void showCoursePage(Course course) {
         if (course != null) {
             boolean stay = true;
@@ -333,6 +393,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: processes the user input from the course menu
     private void handleEditCourseCommand(String command, Course course) {
         if (command.equals("s")) {
             displayStudents(course);
@@ -343,6 +404,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: displays a list of name of all courses offered in school
     private void displayAllCourses() {
         System.out.println("Here are the courses offered in this school:");
         System.out.println("\tCourse Name");
@@ -352,6 +414,8 @@ public class SchoolApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to add a new course to be offered in the school
     private void addNewCourse() {
         try {
             System.out.println("What is the name of the course?");
@@ -370,22 +434,37 @@ public class SchoolApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to remove a course from the school
+    private void removeCourse() {
+        System.out.println("Please enter course name: ");
+        String id = input.next();
+        if (findCourseByName(id) != null) {
+            mySchool.removeCourse(findCourseByName(id));
+            System.out.println("Course successfully removed.");
+        } else {
+            System.out.println("Course not found. Try again.");
+        }
+    }
+
+    // EFFECTS: takes the name of a course and searches for it in school. Return course if found, else return null
     private Course findCourseByName(String id) {
         for (Course course : mySchool.courses) {
-            if (course.courseName == id) {
+            if (course.courseName.equals(id)) {
                 return course;
             }
         }
         return null;
     }
 
+    // EFFECTS: displays the profile of a selected course to user, with options menu to operate on selected course
     private void displayCourseInfo(Course course) {
         System.out.println("Currently viewing " + course.courseName + " profile:");
         System.out.println(course.courseName);
         System.out.println("Options: ");
     }
 
-
+    // EFFECTS: displays the students enrolled in a course
     private void displayStudents(Course course) {
         System.out.println("Viewing students enrolled in: " + course.courseName);
         System.out.println("------------------------------------");
@@ -394,6 +473,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: displays the teachers that teach the course
     private void displayTeachers(Course course) {
         System.out.println("Viewing teachers that teach in: " + course.courseName);
         System.out.println("------------------------------------");
@@ -402,6 +482,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: shows the menu with options to operate on a selected course to users
     private void showIndividualCourseOptions(Course course) {
         System.out.println("\ts -> View students enrolled");
         System.out.println("\tt -> View teachers of course");
@@ -410,6 +491,7 @@ public class SchoolApp {
 
 
     // STUDENTS BRANCH -------------------------------------------------------------
+    // EFFECTS: opens the students menu, where user can then choose what they want to do with students
     private void students() {
         boolean stayOnStudents = true;
 
@@ -425,34 +507,45 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: displays the student menu
     private void displayStudentMenu() {
         System.out.println("What would you like to do with the students?");
         System.out.println("\tv -> View all students");
         System.out.println("\te -> Edit / View a student profile");
         System.out.println("\ta -> Add new students");
+        System.out.println("\tr -> Remove a student");
         System.out.println("\tb -> Back to main menu");
     }
 
+    // EFFECTS: processes the user input from the student menu and calls on appropriate methods
     private void handleStudentCommand(String command) {
         if (command.equals("v")) {
             displayAllStudents();
         } else if (command.equals("a")) {
             addNewStudent();
         } else if (command.equals("e")) {
-            System.out.println("Enter student's ID: ");
-            String unprocessedInput = input.next();
-            try {
-                int id = Integer.valueOf(unprocessedInput);
-                Student thisStudent = findStudentByID(id);
-                showStudentPage(thisStudent);
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid 6-digit ID. You can view all students to find valid IDs.");
-            }
+            handleStudentSearch();
+        } else if (command.equals("r")) {
+            removeStudent();
         } else {
             System.out.println("Please enter a valid command.");
         }
     }
 
+    // EFFECTS: lets user search for a student by ID and processes the search to display student info
+    public void handleStudentSearch() {
+        System.out.println("Enter student's ID: ");
+        String unprocessedInput = input.next();
+        try {
+            int id = Integer.valueOf(unprocessedInput);
+            Student thisStudent = findStudentByID(id);
+            showStudentPage(thisStudent);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid 6-digit ID. You can view all students to find valid IDs.");
+        }
+    }
+
+    // shows the profile of a single selected student along with options to operate on selected student
     private void showStudentPage(Student student) {
         if (student != null) {
             boolean stay = true;
@@ -471,6 +564,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: processes user input from individual student options menu
     private void handleEditStudentCommand(String command, Student student) {
         if (command.equals("a")) {
             enrollStudentInCourse(student);
@@ -485,6 +579,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: lists out the courses in which student is enrolled
     private void showEnrolledCourses(Student student) {
         System.out.println("\t" + student.firstName + "'s enrolled courses:");
         System.out.println("\t--------------------------------");
@@ -493,6 +588,7 @@ public class SchoolApp {
         }
     }
 
+    // EFFECTS: displays to user all tuition transactions made by student
     private void showTuitionHistory(Student student) {
         System.out.println(student.firstName + "'s payment history:");
         System.out.println("-------------------------");
@@ -501,6 +597,9 @@ public class SchoolApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to write down a student's tuition payment, adds to school's transaction records,
+    //          deprecates student's outstanding tuition, adds to student's tuition history
     private void recordStudentTuitionPayment(Student student) {
         try {
             System.out.println("How much did the student pay?");
@@ -517,6 +616,8 @@ public class SchoolApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to enroll student into a new course
     private void enrollStudentInCourse(Student student) {
         System.out.println("Enrolling " + student.firstName + student.lastName + " into a new course:");
         System.out.println("Course name: ");
@@ -530,7 +631,7 @@ public class SchoolApp {
         }
     }
 
-
+    // EFFECTS: displays a list of students ID, first name, last name, at the school to user
     private void displayAllStudents() {
         System.out.println("Here are the students in this school:");
         System.out.println("\tStudent ID, First Name, Last Name");
@@ -540,6 +641,8 @@ public class SchoolApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to add a new student to the school
     private void addNewStudent() {
         System.out.println("What is the student's first name?");
         String firstName = input.next().toLowerCase();
@@ -550,6 +653,24 @@ public class SchoolApp {
         System.out.println("Student successfully added.");
     }
 
+    // MODIFIES: this
+    // EFFECTS: allows user to remove a student from the school
+    private void removeStudent() {
+        System.out.println("Please enter student ID: ");
+        try {
+            int id = Integer.valueOf(input.next());
+            if (findStudentByID(id) != null) {
+                mySchool.removeStudent(findStudentByID(id));
+                System.out.println("Student successfully removed.");
+            } else {
+                System.out.println("Student not found. Try again.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid 6-digit student ID.");
+        }
+    }
+
+    // EFFECTS: takes a student ID and searches for student in school. Return student if found, else return null
     private Student findStudentByID(int id) {
         for (Student student : mySchool.students) {
             if (student.studentID == id) {
@@ -559,6 +680,8 @@ public class SchoolApp {
         return null;
     }
 
+    // EFFECTS: displays the information of a selected student to the user: first name, last name, outstanding tuition,
+    //          and a menu with options to operate on selected student
     private void displayStudentInfo(Student student) {
         System.out.println("Currently viewing " + student.firstName + " " + student.lastName + "'s profile:");
         System.out.println(student.firstName + " " + student.lastName);
@@ -567,6 +690,7 @@ public class SchoolApp {
         System.out.println("Options: ");
     }
 
+    // EFFECTS: displays the menu with options to operate on a selected student.
     private void showIndividualStudentOptions(Student student) {
         System.out.println("\ta -> Enroll student into a course");
         System.out.println("\tc -> See enrolled courses");
