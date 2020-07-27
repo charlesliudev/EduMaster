@@ -62,4 +62,12 @@ public class TeacherTest {
         assertEquals(vivian.coursesTaught.size(), 1);
         assertEquals(cpsc210.teachers.size(), 1);
     }
+
+    @Test
+    public void testGetterMethods() {
+        assertEquals(vivian.getTeacherID(), vivian.teacherID);
+        assertEquals(vivian.getCoursesTaught(), vivian.coursesTaught);
+        assertEquals(vivian.getCoursesPaidFor(), vivian.coursesPaidFor);
+        assertEquals(vivian.getSalaryRecord(), vivian.salaryRecord);
+    }
 }
