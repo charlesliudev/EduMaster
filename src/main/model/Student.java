@@ -40,13 +40,15 @@ public class Student {
     //MODIFIES: this
     //EFFECTS: takes a Course, and adds course to coursesEnrolled, adds student to the course's students list. If
     //         student is already enrolled, then do nothing. If the course is full (reached maxStudents), do nothing.
-    public void enroll(Course course) {
+    public boolean enroll(Course course) {
         if (course.students.size() < course.maxStudents) {
             if (!(this.coursesEnrolled.contains(course))) {
                 this.coursesEnrolled.add(course);
                 course.students.add(this);
+                return true;
             }
         }
+        return false;
     }
 
     //EFFECTS: returns a randomly generated 6 digit number

@@ -27,13 +27,14 @@ with an application that is simple but in the field of financial management.
 
 ## User Stories
 
-- As a user, I want to be able to add a new student and teacher to the database
-- As a user, I want to be able to add a new course to the database
+- As a user, I want to be able to add new students, teachers, and courses to the School
+- As a user, I want to be able to remove students, teachers, and courses from the School
+- As a user, I want to be able to enroll a student into a new course
+- As a user, I want to be able to assign a teacher to teach a course
 - As a user, I want to be able to increase the outstanding tuition fees due for the student
 - As a user, I want to be able to increase the outstanding salaries due to teachers
 - As a user, I want to be able to pay off the outstanding salaries to teachers
 - As a user, I want to be able to write off the outstanding tuition from students when paid
-- As a user, I want to be able to select a student and view their tuition history
-- As a user, I want to be able to select a teacher and view their salary history
-- As a user, I want to be able to see an overview of all outstanding incoming and outgoing balances
-- As a user, I want to be able to select a student or teacher and add a course to their profile
+- As a user, I want to be able to select a student and view their profile and tuition history
+- As a user, I want to be able to select a teacher and view their profile and salary history
+- As a user, I want to be able to see a financial overview of the School

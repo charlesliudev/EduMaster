@@ -90,16 +90,16 @@ public class SchoolApp {
         System.out.println("Number of Students: " + mySchool.students.size());
         System.out.println("Number of Teachers: " + mySchool.teachers.size());
         System.out.println("Number of Courses Offered: " + mySchool.courses.size());
-        System.out.println("Outstanding Student Tuition: " + mySchool.getAllOutstandingTuition());
-        System.out.println("Total Annual Student Tuition: " + mySchool.accumulatedAnnualTuition);
-        System.out.println("Outstanding Teacher Salaries: " + mySchool.getAllOutstandingSalaries());
-        System.out.println("Total Annual Teacher Salary: " + mySchool.accumulatedAnnualSalary);
+        System.out.println("Outstanding Student Tuition: $" + mySchool.getAllOutstandingTuition());
+        System.out.println("Total Annual Student Tuition: $" + mySchool.accumulatedAnnualTuition);
+        System.out.println("Outstanding Teacher Salaries: $" + mySchool.getAllOutstandingSalaries());
+        System.out.println("Total Annual Teacher Salary: $" + mySchool.accumulatedAnnualSalary);
         System.out.println("------------------------------------");
         System.out.println("Full Transaction Record: ");
         for (String summary : mySchool.transactionRecordSummary) {
             System.out.println(summary);
         }
-        System.out.println("_____________________________________");
+        System.out.println("____________________________________");
     }
 
     // ENACT OUTSTANDING FEES BRANCH (X) -------------------------------------------
