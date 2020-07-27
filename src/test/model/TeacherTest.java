@@ -65,6 +65,8 @@ public class TeacherTest {
 
     @Test
     public void testGetterMethods() {
+        assertEquals(vivian.getFirstName(), vivian.firstName);
+        assertEquals(vivian.getLastName(), vivian.lastName);
         assertEquals(vivian.getTeacherID(), vivian.teacherID);
         assertEquals(vivian.getCoursesTaught(), vivian.coursesTaught);
         assertEquals(vivian.getCoursesPaidFor(), vivian.coursesPaidFor);
