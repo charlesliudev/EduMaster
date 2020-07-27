@@ -55,7 +55,7 @@ public class Student {
     public int generateStudentID() {
         String id = "";
         for (int i = 1; i < 7; i++) {
-            String nextNum = "" + (int)(Math.random() * 10);
+            String nextNum = "" + (int) (Math.random() * 10);
             id += nextNum;
         }
         return Integer.valueOf(id);

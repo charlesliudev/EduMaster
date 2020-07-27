@@ -235,7 +235,7 @@ public class SchoolApp {
                 System.out.println("Remaining outstanding salary: $" + teacher.outstandingSalary + ".");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Please enter a positive number amount.");
+            System.out.println("Please enter a positive integer amount.");
         }
     }
 
@@ -245,16 +245,35 @@ public class SchoolApp {
         System.out.println("Assigning " + teacher.firstName + teacher.lastName + " to teach a new course:");
         System.out.println("Course name: ");
         String courseName = input.next();
-        for (Course course : mySchool.courses) {
-            if (course.courseName.equals(courseName)) {
-                teacher.coursesTaught.add(course);
-                course.teachers.add(teacher);
+        Course theCourse = findCourseByName(courseName);
+        if (theCourse != null) {
+            if (theCourse.courseName.equals(courseName)) {
+                teacher.coursesTaught.add(theCourse);
+                theCourse.teachers.add(teacher);
                 System.out.println("Course assigned to successfully.");
-            } else {
-                System.out.println("Course not found.");
             }
+        } else {
+            System.out.println("Sorry, course not found. Try viewing all courses offered.");
         }
     }
+
+//    private void enrollStudentInCourse(Student student) {
+//        System.out.println("Enrolling " + student.firstName + student.lastName + " into a new course:");
+//        System.out.println("Enter course name. Format example: 'cpsc210' ");
+//        String courseName = input.next();
+//        Course theCourse = findCourseByName(courseName);
+//        if (theCourse != null) {
+//            if (student.enroll(theCourse)) {
+//                student.enroll(theCourse);
+//                theCourse.students.add(student);
+//                System.out.println("Course enrolled in successfully.");
+//            } else {
+//                System.out.println("Sorry, this course is full.");
+//            }
+//        } else {
+//            System.out.println("Sorry, course not found.");
+//        }
+//    }
 
     // EFFECTS: lists the ID, first name, last name, of all teachers at the school
     private void displayAllTeachers() {
@@ -275,7 +294,7 @@ public class SchoolApp {
         String lastName = input.next().toLowerCase();
         Teacher newTeacher = new Teacher(firstName, lastName);
         mySchool.addTeacher(newTeacher);
-        System.out.println("Teacher successfully added.");
+        System.out.println("Teacher successfully added, with an ID of " + newTeacher.teacherID + ".");
     }
 
     // MODIFIES: this
@@ -285,7 +304,9 @@ public class SchoolApp {
         try {
             int id = Integer.valueOf(input.next());
             if (findTeacherByID(id) != null) {
-                mySchool.removeTeacher(findTeacherByID(id));
+                Teacher toRemove = findTeacherByID(id);
+                mySchool.removeTeacher(toRemove);
+                toRemove.schoolAttended = null;
                 System.out.println("Teacher successfully removed.");
             } else {
                 System.out.println("Teacher not found. Try again.");
@@ -418,14 +439,14 @@ public class SchoolApp {
     // EFFECTS: allows user to add a new course to be offered in the school
     private void addNewCourse() {
         try {
-            System.out.println("What is the name of the course?");
+            System.out.println("What is the name of the course? Format example: 'cpsc210'");
             String courseName = input.next().toLowerCase();
             System.out.println("What is the course's tuition fee?");
-            int courseCost = Integer.valueOf(input.next().toLowerCase());
+            int courseCost = Integer.valueOf(input.next());
             System.out.println("What is the course's salary pay?");
-            int courseSalary = Integer.valueOf(input.next().toLowerCase());
+            int courseSalary = Integer.valueOf(input.next());
             System.out.println("What is the course's seat limit?");
-            int maxStudents = Integer.valueOf(input.next().toLowerCase());
+            int maxStudents = Integer.valueOf(input.next());
             Course newCourse = new Course(courseName, courseCost, courseSalary, maxStudents);
             mySchool.addCourse(newCourse);
             System.out.println("Course successfully added.");
@@ -437,7 +458,7 @@ public class SchoolApp {
     // MODIFIES: this
     // EFFECTS: allows user to remove a course from the school
     private void removeCourse() {
-        System.out.println("Please enter course name: ");
+        System.out.println("Please enter course name. Format example: 'cpsc210'");
         String id = input.next();
         if (findCourseByName(id) != null) {
             mySchool.removeCourse(findCourseByName(id));
@@ -534,7 +555,7 @@ public class SchoolApp {
 
     // EFFECTS: lets user search for a student by ID and processes the search to display student info
     public void handleStudentSearch() {
-        System.out.println("Enter student's ID: ");
+        System.out.println("Enter student's ID. You may view all students to see valid IDs.");
         String unprocessedInput = input.next();
         try {
             int id = Integer.valueOf(unprocessedInput);
@@ -612,7 +633,7 @@ public class SchoolApp {
                 System.out.println("Remaining outstanding tuition: $" + student.outstandingTuition + ".");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Please enter a positive number amount.");
+            System.out.println("Please enter a positive integer amount.");
         }
     }
 
@@ -620,14 +641,19 @@ public class SchoolApp {
     // EFFECTS: allows user to enroll student into a new course
     private void enrollStudentInCourse(Student student) {
         System.out.println("Enrolling " + student.firstName + student.lastName + " into a new course:");
-        System.out.println("Course name: ");
+        System.out.println("Enter course name. Format example: 'cpsc210' ");
         String courseName = input.next();
-        for (Course course : mySchool.courses) {
-            if (course.courseName.equals(courseName)) {
-                student.coursesEnrolled.add(course);
-                course.students.add(student);
+        Course theCourse = findCourseByName(courseName);
+        if (theCourse != null) {
+            if (student.enroll(theCourse)) {
+                student.enroll(theCourse);
+                theCourse.students.add(student);
                 System.out.println("Course enrolled in successfully.");
+            } else {
+                System.out.println("Sorry, this course is full.");
             }
+        } else {
+            System.out.println("Sorry, course not found. Try viewing all courses offered.");
         }
     }
 
@@ -650,7 +676,7 @@ public class SchoolApp {
         String lastName = input.next().toLowerCase();
         Student newStudent = new Student(firstName, lastName);
         mySchool.addStudent(newStudent);
-        System.out.println("Student successfully added.");
+        System.out.println("Student successfully added, with an ID of " + newStudent.studentID + ".");
     }
 
     // MODIFIES: this
@@ -660,7 +686,9 @@ public class SchoolApp {
         try {
             int id = Integer.valueOf(input.next());
             if (findStudentByID(id) != null) {
-                mySchool.removeStudent(findStudentByID(id));
+                Student toRemove = findStudentByID(id);
+                mySchool.removeStudent(toRemove);
+                toRemove.schoolAttended = null;
                 System.out.println("Student successfully removed.");
             } else {
                 System.out.println("Student not found. Try again.");
