@@ -20,6 +20,7 @@ public class SchoolApp {
 
     // MODIFIES: this
     // EFFECTS: opens the EduMaster home menu for users and processes user command
+    // *NOTE*: runSchool() method was designed based off of TellerApp() from the Teller Application
     private void runSchool() {
         boolean keepGoing = true;
         String command;
@@ -42,6 +43,7 @@ public class SchoolApp {
 
     // EFFECTS: displays a menu of the options available to user
     private void displayMenu() {
+        System.out.println("____________________________________");
         System.out.println("Welcome to EduMaster Home!");
         System.out.println("What would you like to do today?");
         System.out.println("\to -> Financial Overview");
@@ -73,7 +75,7 @@ public class SchoolApp {
         }
     }
 
-    // START NEW YEAR BRANCH (N) ---------------------------------------------------
+    // START NEW YEAR BRANCH (n) ---------------------------------------------------
 
     // resets the accumulated annual cash flows record to 0, to begin recording for new year.
     public void startNewYear() {
@@ -81,7 +83,7 @@ public class SchoolApp {
         System.out.println("Annual accumulated transactions have been set to zero. Welcome to a new financial year.");
     }
 
-    // SCHOOL FINANCIAL OVERVIEW BRANCH (O) ----------------------------------------
+    // SCHOOL FINANCIAL OVERVIEW BRANCH (o) ----------------------------------------
 
     // displays an overview of the school's status when called on, showing number of students, teachers, courses. Also
     // shows outstanding transactions, total student tuition for the year
@@ -99,10 +101,10 @@ public class SchoolApp {
         for (String summary : mySchool.transactionRecordSummary) {
             System.out.println(summary);
         }
-        System.out.println("____________________________________");
+        System.out.println("End");
     }
 
-    // ENACT OUTSTANDING FEES BRANCH (X) -------------------------------------------
+    // ENACT OUTSTANDING FEES BRANCH (x) -------------------------------------------
 
     // EFFECTS: enacts the annual outstanding tuition to students for the year based on their courses taken
     //          enacts the annual outstanding salaries to teachers for the year based on their courses taught
@@ -111,7 +113,7 @@ public class SchoolApp {
         System.out.println("New outstanding tuition fees and salaries for the year have been enacted.");
     }
 
-    // TEACHERS BRANCH -------------------------------------------------------------
+    // TEACHERS BRANCH (t) -------------------------------------------------------------
 
     // EFFECTS: opens the teachers menu, where user can then choose what they want to do with teachers
     private void teachers() {
@@ -131,6 +133,7 @@ public class SchoolApp {
 
     // EFFECTS: displays teacher menu
     private void displayTeacherMenu() {
+        System.out.println("--------------------------------------------");
         System.out.println("What would you like to do with the teachers?");
         System.out.println("\tv -> View all teachers");
         System.out.println("\te -> Edit / View a teacher profile");
@@ -257,23 +260,6 @@ public class SchoolApp {
         }
     }
 
-//    private void enrollStudentInCourse(Student student) {
-//        System.out.println("Enrolling " + student.firstName + student.lastName + " into a new course:");
-//        System.out.println("Enter course name. Format example: 'cpsc210' ");
-//        String courseName = input.next();
-//        Course theCourse = findCourseByName(courseName);
-//        if (theCourse != null) {
-//            if (student.enroll(theCourse)) {
-//                student.enroll(theCourse);
-//                theCourse.students.add(student);
-//                System.out.println("Course enrolled in successfully.");
-//            } else {
-//                System.out.println("Sorry, this course is full.");
-//            }
-//        } else {
-//            System.out.println("Sorry, course not found.");
-//        }
-//    }
 
     // EFFECTS: lists the ID, first name, last name, of all teachers at the school
     private void displayAllTeachers() {
@@ -344,7 +330,7 @@ public class SchoolApp {
         System.out.println("\tb -> Back");
     }
 
-    // COURSES BRANCH  -------------------------------------------------------------
+    // COURSES BRANCH (c) -------------------------------------------------------------
 
     // EFFECTS: opens the course menu, where user can then choose what they want to do with courses
     private void courses() {
@@ -364,6 +350,7 @@ public class SchoolApp {
 
     // EFFECTS: displays the course menu to user
     private void displayCourseMenu() {
+        System.out.println("-------------------------------------------");
         System.out.println("What would you like to do with the courses?");
         System.out.println("\tv -> View all courses");
         System.out.println("\te -> View a course");
@@ -510,8 +497,8 @@ public class SchoolApp {
         System.out.println("\tb -> Back");
     }
 
+    // STUDENTS BRANCH (s) -------------------------------------------------------------
 
-    // STUDENTS BRANCH -------------------------------------------------------------
     // EFFECTS: opens the students menu, where user can then choose what they want to do with students
     private void students() {
         boolean stayOnStudents = true;
@@ -530,6 +517,7 @@ public class SchoolApp {
 
     // EFFECTS: displays the student menu
     private void displayStudentMenu() {
+        System.out.println("--------------------------------------------");
         System.out.println("What would you like to do with the students?");
         System.out.println("\tv -> View all students");
         System.out.println("\te -> Edit / View a student profile");
