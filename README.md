@@ -38,3 +38,5 @@ with an application that is simple but in the field of financial management.
 - As a user, I want to be able to select a student and view their profile and tuition history
 - As a user, I want to be able to select a teacher and view their profile and salary history
 - As a user, I want to be able to see a financial overview of the School
+- As a user, I want to be able to save the current state of the School
+- As a user, I want to be able to reload the previous state of the School when I open the application again
