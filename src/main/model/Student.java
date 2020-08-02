@@ -42,7 +42,7 @@ public class Student {
     //         student is already enrolled, then do nothing. If the course is full (reached maxStudents), do nothing.
     public boolean enroll(Course course) {
         if (course.students.size() < course.maxStudents) {
-            if (!(this.coursesEnrolled.contains(course))) {
+            if (!(this.coursesEnrolled.contains(course.courseName))) {
                 this.coursesEnrolled.add(course.courseName);
                 course.students.add("" + this.studentID);
                 return true;

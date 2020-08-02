@@ -28,7 +28,7 @@ public class Teacher {
     // EFFECTS: takes a Course, and assigns a teacher to teach it by adding it to coursesTaught, adds teacher to the
     //          course's list of teachers. If teacher already teaching the course, do nothing.
     public void assignCourse(Course course) {
-        if (!(this.coursesTaught.contains(course))) {
+        if (!(this.coursesTaught.contains(course.courseName))) {
             coursesTaught.add(course.courseName);
             course.teachers.add("" + this.teacherID);
         }
