@@ -35,7 +35,7 @@ public class School {
             int amountToIncrement = 0;
             for (String courseName : student.coursesEnrolled) {
                 Course course = getCourseByName(courseName);
-                if (! (student.coursesPaidFor.contains(course))) {
+                if (! (student.coursesPaidFor.contains(course.courseName))) {
                     amountToIncrement += course.courseCost;
                     student.coursesPaidFor.add(courseName);
                 }
@@ -47,7 +47,7 @@ public class School {
             int amountToIncrement = 0;
             for (String courseName : teacher.coursesTaught) {
                 Course course = getCourseByName(courseName);
-                if (! (teacher.coursesPaidFor.contains(course))) {
+                if (! (teacher.coursesPaidFor.contains(course.courseName))) {
                     amountToIncrement += course.courseSalary;
                     teacher.coursesPaidFor.add(course.courseName);
                 }

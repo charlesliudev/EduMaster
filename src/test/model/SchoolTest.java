@@ -9,6 +9,7 @@ public class SchoolTest {
     Course cpsc210;
     Course cpsc110;
     Course cpsc121;
+    Course cpsc221;
     Student george;
     Student elizabeth;
     Teacher vivian;
@@ -20,6 +21,9 @@ public class SchoolTest {
         cpsc210 = new Course("CPSC-210", 600, 5000, 30);
         cpsc110 = new Course("CPSC-110", 500, 4000, 30);
         cpsc121 = new Course("CPSC-121", 500, 4000, 30);
+        mySchool.addCourse(cpsc210);
+        mySchool.addCourse(cpsc110);
+        mySchool.addCourse(cpsc121);
         george = new Student("George", "Becky", 100000);
         elizabeth = new Student("Elizabeth", "Parkinson", 100001);
         vivian = new Teacher("Vivian", "Lin", 100004);
@@ -31,7 +35,7 @@ public class SchoolTest {
         assertFalse(mySchool.students.contains(george));
         mySchool.addStudent(george);
         assertTrue(mySchool.students.contains(george));
-        assertEquals(george.schoolAttended, mySchool);
+        assertEquals(george.schoolAttended, mySchool.schoolName);
         mySchool.removeStudent(george);
         assertFalse(mySchool.students.contains(george));
     }
@@ -41,18 +45,19 @@ public class SchoolTest {
         assertFalse(mySchool.teachers.contains(vivian));
         mySchool.addTeacher(vivian);
         assertTrue(mySchool.teachers.contains(vivian));
-        assertEquals(vivian.schoolAttended, mySchool);
+        assertEquals(vivian.schoolAttended, mySchool.schoolName);
         mySchool.removeTeacher(vivian);
         assertFalse(mySchool.teachers.contains(vivian));
     }
 
     @Test
     public void testAddRemoveCourse() {
-        assertFalse(mySchool.courses.contains(cpsc210));
-        mySchool.addCourse(cpsc210);
-        assertTrue(mySchool.courses.contains(cpsc210));
-        mySchool.removeCourse(cpsc210);
-        assertFalse(mySchool.courses.contains(cpsc210));
+        cpsc221 = new Course("CPSC-221", 600, 5000, 30);
+        assertFalse(mySchool.courses.contains(cpsc221));
+        mySchool.addCourse(cpsc221);
+        assertTrue(mySchool.courses.contains(cpsc221));
+        mySchool.removeCourse(cpsc221);
+        assertFalse(mySchool.courses.contains(cpsc221));
     }
 
     @Test
