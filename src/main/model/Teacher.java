@@ -8,19 +8,19 @@ public class Teacher {
     public String firstName;
     public String lastName;
     public int teacherID;
-    public ArrayList<Course> coursesTaught = new ArrayList<>();
-    public ArrayList<Course> coursesPaidFor = new ArrayList<>();
+    public ArrayList<String> coursesTaught = new ArrayList<>();
+    public ArrayList<String> coursesPaidFor = new ArrayList<>();
     public int outstandingSalary = 0;
     public ArrayList<Transaction> salaryRecord = new ArrayList<>();
-    public School schoolAttended = null;
+    public String schoolAttended = null;
 
     //Constructor
     //REQUIRES: firstName and lastName have non-zero length
     //EFFECTS: constructs a teacher with firstName and lastName, then generates a random int teacher ID
-    public Teacher(String firstName, String lastName) {
+    public Teacher(String firstName, String lastName, int id) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.teacherID = generateTeacherID();
+        this.teacherID = id;
     }
 
     // REQUIRES: course must be in the teacher's school's course offerings
@@ -29,8 +29,8 @@ public class Teacher {
     //          course's list of teachers. If teacher already teaching the course, do nothing.
     public void assignCourse(Course course) {
         if (!(this.coursesTaught.contains(course))) {
-            coursesTaught.add(course);
-            course.teachers.add(this);
+            coursesTaught.add(course.courseName);
+            course.teachers.add("" + this.teacherID);
         }
     }
 
@@ -48,16 +48,6 @@ public class Teacher {
         school.transactionRecordSummary.add(thisTransaction.transactionSummary);
     }
 
-    // EFFECTS: returns a randomly generated 6 digit number
-    public int generateTeacherID() {
-        String id = "";
-        for (int i = 1; i < 7; i++) {
-            String nextNum = "" + (int)(Math.random() * 10);
-            id += nextNum;
-        }
-        return Integer.valueOf(id);
-    }
-
     // GETTERS:
 
     public String getFirstName() {
@@ -72,11 +62,11 @@ public class Teacher {
         return this.teacherID;
     }
 
-    public ArrayList<Course> getCoursesTaught() {
+    public ArrayList<String> getCoursesTaught() {
         return this.coursesTaught;
     }
 
-    public ArrayList<Course> getCoursesPaidFor() {
+    public ArrayList<String> getCoursesPaidFor() {
         return this.coursesPaidFor;
     }
 

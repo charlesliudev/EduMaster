@@ -1,7 +1,11 @@
 package ui;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Scanner;
 
+import com.google.gson.Gson;
 import model.School;
 import model.Student;
 import model.Teacher;
@@ -25,7 +29,7 @@ public class SchoolApp {
         boolean keepGoing = true;
         String command;
         input = new Scanner(System.in);
-        mySchool = new School();
+        loadAll();
 
         while (keepGoing) {
             displayMenu();
@@ -34,10 +38,24 @@ public class SchoolApp {
 
             if (command.equals("q")) {
                 keepGoing = false;
-                System.out.println("Okay, have a good day :)");
+                mySchool.saveAll();
+                System.out.println("All changes saved. Have a good day :)");
             } else {
                 handleCommand(command);
             }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads School from school.json file, if that file exists.
+    // otherwise, initialize new School
+    private void loadAll() {
+        Gson gson = new Gson();
+        try {
+            Reader reader = new FileReader("./data/school.json");
+            mySchool = gson.fromJson(reader, School.class);
+        } catch (IOException e) {
+            init();
         }
     }
 
@@ -46,7 +64,7 @@ public class SchoolApp {
         System.out.println("____________________________________");
         System.out.println("Welcome to EduMaster Home!");
         System.out.println("What would you like to do today?");
-        System.out.println("\to -> Financial Overview");
+        System.out.println("\to -> Overview");
         System.out.println("\ts -> Students");
         System.out.println("\tt -> Teachers");
         System.out.println("\tc -> Courses");
@@ -59,7 +77,7 @@ public class SchoolApp {
     // EFFECTS: takes user input command and calls on the correct method to handle user desire
     private void handleCommand(String command) {
         if (command.equals("o")) {
-            financialOverview();
+            overview();
         } else if (command.equals("s")) {
             students();
         } else if (command.equals("t")) {
@@ -83,12 +101,12 @@ public class SchoolApp {
         System.out.println("Annual accumulated transactions have been set to zero. Welcome to a new financial year.");
     }
 
-    // SCHOOL FINANCIAL OVERVIEW BRANCH (o) ----------------------------------------
+    // SCHOOL OVERVIEW BRANCH (o) ----------------------------------------
 
     // displays an overview of the school's status when called on, showing number of students, teachers, courses. Also
     // shows outstanding transactions, total student tuition for the year
-    public void financialOverview() {
-        System.out.println("-------- Financial Overview --------");
+    public void overview() {
+        System.out.println("--------- School Overview ---------");
         System.out.println("Number of Students: " + mySchool.students.size());
         System.out.println("Number of Teachers: " + mySchool.teachers.size());
         System.out.println("Number of Courses Offered: " + mySchool.courses.size());
@@ -209,8 +227,8 @@ public class SchoolApp {
     private void showAssignedCourses(Teacher teacher) {
         System.out.println(teacher.firstName + "'s assigned courses:");
         System.out.println("----------------------");
-        for (Course course : teacher.coursesTaught) {
-            System.out.println(course.courseName);
+        for (String courseName : teacher.coursesTaught) {
+            System.out.println(courseName);
         }
     }
 
@@ -251,8 +269,8 @@ public class SchoolApp {
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {
             if (theCourse.courseName.equals(courseName)) {
-                teacher.coursesTaught.add(theCourse);
-                theCourse.teachers.add(teacher);
+                teacher.coursesTaught.add(theCourse.courseName);
+                theCourse.teachers.add("" + teacher.teacherID);
                 System.out.println("Course assigned to successfully.");
             }
         } else {
@@ -278,7 +296,7 @@ public class SchoolApp {
         String firstName = input.next().toLowerCase();
         System.out.println("What is the teacher's last name?");
         String lastName = input.next().toLowerCase();
-        Teacher newTeacher = new Teacher(firstName, lastName);
+        Teacher newTeacher = new Teacher(firstName, lastName, generateTeacherID());
         mySchool.addTeacher(newTeacher);
         System.out.println("Teacher successfully added, with an ID of " + newTeacher.teacherID + ".");
     }
@@ -314,6 +332,7 @@ public class SchoolApp {
 
     // EFFECTS: displays all info about the selected teacher: first name, last name, ID, outstanding salary to pay
     private void displayTeacherInfo(Teacher teacher) {
+        System.out.println("------------------------------------");
         System.out.println("Currently viewing " + teacher.firstName + " " + teacher.lastName + "'s profile:");
         System.out.println(teacher.firstName + " " + teacher.lastName);
         System.out.println("Teacher ID: " + teacher.teacherID);
@@ -376,7 +395,7 @@ public class SchoolApp {
 
     // EFFECTS: lets user search for a course by name and processes the search to display course info
     private void handleCourseSearch() {
-        System.out.println("Enter course's name: ");
+        System.out.println("Enter course's name. Format example: 'cpsc220'");
         String id = input.next();
         Course thisCourse = findCourseByName(id);
         showCoursePage(thisCourse);
@@ -467,8 +486,11 @@ public class SchoolApp {
 
     // EFFECTS: displays the profile of a selected course to user, with options menu to operate on selected course
     private void displayCourseInfo(Course course) {
+        System.out.println("------------------------------------");
         System.out.println("Currently viewing " + course.courseName + " profile:");
         System.out.println(course.courseName);
+        System.out.println("Annual Tuition Fee: $" + course.courseCost);
+        System.out.println("Annual Salary Paid: $" + course.courseSalary);
         System.out.println("Options: ");
     }
 
@@ -476,7 +498,8 @@ public class SchoolApp {
     private void displayStudents(Course course) {
         System.out.println("Viewing students enrolled in: " + course.courseName);
         System.out.println("------------------------------------");
-        for (Student student : course.students) {
+        for (String studentID : course.students) {
+            Student student = findStudentByID(Integer.valueOf(studentID));
             System.out.println("\t" + student.studentID + ", " + student.firstName + ", " + student.lastName);
         }
     }
@@ -485,7 +508,8 @@ public class SchoolApp {
     private void displayTeachers(Course course) {
         System.out.println("Viewing teachers that teach in: " + course.courseName);
         System.out.println("------------------------------------");
-        for (Teacher teacher : course.teachers) {
+        for (String teacherID : course.teachers) {
+            Teacher teacher = findTeacherByID(Integer.valueOf(teacherID));
             System.out.println("\t" + teacher.teacherID + ", " + teacher.firstName + ", " + teacher.lastName);
         }
     }
@@ -592,8 +616,8 @@ public class SchoolApp {
     private void showEnrolledCourses(Student student) {
         System.out.println("\t" + student.firstName + "'s enrolled courses:");
         System.out.println("\t--------------------------------");
-        for (Course course : student.coursesEnrolled) {
-            System.out.println("\t" + course.courseName);
+        for (String courseName : student.coursesEnrolled) {
+            System.out.println("\t" + courseName);
         }
     }
 
@@ -628,14 +652,13 @@ public class SchoolApp {
     // MODIFIES: this
     // EFFECTS: allows user to enroll student into a new course
     private void enrollStudentInCourse(Student student) {
-        System.out.println("Enrolling " + student.firstName + student.lastName + " into a new course:");
+        System.out.println("Enrolling " + student.firstName + " " + student.lastName + " into a new course:");
         System.out.println("Enter course name. Format example: 'cpsc210' ");
         String courseName = input.next();
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {
             if (student.enroll(theCourse)) {
-                student.enroll(theCourse);
-                theCourse.students.add(student);
+                theCourse.students.add("" + student.studentID);
                 System.out.println("Course enrolled in successfully.");
             } else {
                 System.out.println("Sorry, this course is full.");
@@ -662,7 +685,7 @@ public class SchoolApp {
         String firstName = input.next().toLowerCase();
         System.out.println("What is the student's last name?");
         String lastName = input.next().toLowerCase();
-        Student newStudent = new Student(firstName, lastName);
+        Student newStudent = new Student(firstName, lastName, generateStudentID());
         mySchool.addStudent(newStudent);
         System.out.println("Student successfully added, with an ID of " + newStudent.studentID + ".");
     }
@@ -699,6 +722,7 @@ public class SchoolApp {
     // EFFECTS: displays the information of a selected student to the user: first name, last name, outstanding tuition,
     //          and a menu with options to operate on selected student
     private void displayStudentInfo(Student student) {
+        System.out.println("-----------------------------------");
         System.out.println("Currently viewing " + student.firstName + " " + student.lastName + "'s profile:");
         System.out.println(student.firstName + " " + student.lastName);
         System.out.println("Student ID: " + student.studentID);
@@ -713,5 +737,37 @@ public class SchoolApp {
         System.out.println("\tp -> Record student tuition payment");
         System.out.println("\th -> View full tuition record");
         System.out.println("\tb -> Back");
+    }
+
+    //EFFECTS: returns a 6 digit number that is the last ID generated incremented by 1
+    // ID starts with '1' to represent it is a student ID
+    public int generateStudentID() {
+        int newID;
+        if (mySchool.lastStudentIDGenerated != 0) {
+            newID = mySchool.lastStudentIDGenerated++;
+        } else {
+            newID = 100000;
+            mySchool.lastStudentIDGenerated = 100000;
+        }
+        return newID;
+    }
+
+    //EFFECTS: returns a 6 digit number that is the last ID generated incremented by 1
+    // ID starts with '2' to represent it is a teacher ID
+    public int generateTeacherID() {
+        int newID;
+        if (mySchool.lastTeacherIDGenerated != 0) {
+            newID = mySchool.lastTeacherIDGenerated++;
+        } else {
+            newID = 200000;
+            mySchool.lastTeacherIDGenerated = 200000;
+        }
+        return newID;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes School
+    private void init() {
+        mySchool = new School("UBC");
     }
 }

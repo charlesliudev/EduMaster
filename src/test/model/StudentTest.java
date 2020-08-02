@@ -16,11 +16,11 @@ class StudentTest {
 
     @BeforeEach
     public void setup() {
-        george = new Student("George", "Becky");
-        rebecca = new Student("Rebecca", "Ku");
-        jessie = new Student("Jessie", "Lee");
-        brian = new Student("Brian", "Qi");
-        mySchool = new School();
+        george = new Student("George", "Becky", 1000000);
+        rebecca = new Student("Rebecca", "Ku", 100001);
+        jessie = new Student("Jessie", "Lee", 100002);
+        brian = new Student("Brian", "Qi", 100003);
+        mySchool = new School("UBC");
         cpsc210 = new Course("CPSC-210", 600, 5000, 3);
         cpsc110 = new Course("CPSC-110", 500, 4000, 30);
         cpsc121 = new Course("CPSC-121", 500, 4000, 30);

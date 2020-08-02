@@ -13,11 +13,11 @@ public class TransactionTest {
 
     @BeforeEach
     public void setup() {
-        mySchool = new School();
-        george = new Student("George", "Becky");
-        elizabeth = new Student("Elizabeth", "Parkinson");
-        vivian = new Teacher("Vivian", "Lin");
-        samuel = new Teacher("Samuel", "Williams");
+        mySchool = new School("UBC");
+        george = new Student("George", "Becky", 100000);
+        elizabeth = new Student("Elizabeth", "Parkinson", 100001);
+        vivian = new Teacher("Vivian", "Lin", 100002);
+        samuel = new Teacher("Samuel", "Williams", 100003);
     }
 
     @Test

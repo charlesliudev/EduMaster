@@ -16,14 +16,14 @@ public class SchoolTest {
 
     @BeforeEach
     public void setup() {
-        mySchool = new School();
+        mySchool = new School("UBC");
         cpsc210 = new Course("CPSC-210", 600, 5000, 30);
         cpsc110 = new Course("CPSC-110", 500, 4000, 30);
         cpsc121 = new Course("CPSC-121", 500, 4000, 30);
-        george = new Student("George", "Becky");
-        elizabeth = new Student("Elizabeth", "Parkinson");
-        vivian = new Teacher("Vivian", "Lin");
-        samuel = new Teacher("Samuel", "Williams");
+        george = new Student("George", "Becky", 100000);
+        elizabeth = new Student("Elizabeth", "Parkinson", 100001);
+        vivian = new Teacher("Vivian", "Lin", 100004);
+        samuel = new Teacher("Samuel", "Williams", 100009);
     }
 
     @Test

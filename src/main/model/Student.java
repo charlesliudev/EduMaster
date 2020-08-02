@@ -8,18 +8,18 @@ public class Student {
     public String firstName;
     public String lastName;
     public int studentID;
-    public ArrayList<Course> coursesEnrolled = new ArrayList<>();
-    public ArrayList<Course> coursesPaidFor = new ArrayList<>();
+    public ArrayList<String> coursesEnrolled = new ArrayList<>();
+    public ArrayList<String> coursesPaidFor = new ArrayList<>();
     public int outstandingTuition = 0;
     public ArrayList<Transaction> tuitionRecord = new ArrayList<>();
-    public School schoolAttended = null;
+    public String schoolAttended = null;
 
     //REQUIRES: firstName and lastName have non-zero length
     //EFFECTS: constructs a student with firstName and lastName, then generates a random int student ID
-    public Student(String firstName, String lastName) {
+    public Student(String firstName, String lastName, int id) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.studentID = generateStudentID();
+        this.studentID = id;
     }
 
     // REQUIRES: a non-zero positive amount, amount is <= student's outstanding tuition, student attends the school
@@ -43,22 +43,12 @@ public class Student {
     public boolean enroll(Course course) {
         if (course.students.size() < course.maxStudents) {
             if (!(this.coursesEnrolled.contains(course))) {
-                this.coursesEnrolled.add(course);
-                course.students.add(this);
+                this.coursesEnrolled.add(course.courseName);
+                course.students.add("" + this.studentID);
                 return true;
             }
         }
         return false;
-    }
-
-    //EFFECTS: returns a randomly generated 6 digit number
-    public int generateStudentID() {
-        String id = "";
-        for (int i = 1; i < 7; i++) {
-            String nextNum = "" + (int) (Math.random() * 10);
-            id += nextNum;
-        }
-        return Integer.valueOf(id);
     }
 
     // GETTERS:
@@ -75,11 +65,11 @@ public class Student {
         return this.studentID;
     }
 
-    public ArrayList<Course> getCoursesEnrolled() {
+    public ArrayList<String> getCoursesEnrolled() {
         return this.coursesEnrolled;
     }
 
-    public ArrayList<Course> getCoursesPaidFor() {
+    public ArrayList<String> getCoursesPaidFor() {
         return this.coursesPaidFor;
     }
 

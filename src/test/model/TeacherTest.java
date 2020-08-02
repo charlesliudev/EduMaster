@@ -13,8 +13,8 @@ public class TeacherTest {
 
     @BeforeEach
     public void setup() {
-        vivian = new Teacher("Vivian", "Lin");
-        mySchool = new School();
+        vivian = new Teacher("Vivian", "Lin", 129394);
+        mySchool = new School("UBC");
         cpsc210 = new Course("CPSC-210", 600, 5000, 30);
         cpsc110 = new Course("CPSC-110", 500, 4000, 30);
         cpsc121 = new Course("CPSC-121", 500, 4000, 30);
