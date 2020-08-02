@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import persistence.Saveable;
 
 // represents a school with a list of students that attend, a list of teachers that teach, list of course offerings
-public class School {
+public class School implements Saveable {
     public String schoolName = "";
     public ArrayList<Student> students = new ArrayList<>();
     public ArrayList<Teacher> teachers = new ArrayList<>();
@@ -135,6 +136,7 @@ public class School {
         return null;
     }
 
+    @Override
     public void saveAll() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {

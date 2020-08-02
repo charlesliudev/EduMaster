@@ -138,8 +138,20 @@ public class SchoolTest {
 
         mySchool.startNewYear();
 
-
         assertEquals(mySchool.accumulatedAnnualTuition, 0);
         assertEquals(mySchool.accumulatedAnnualSalary, 0);
+    }
+
+    @Test
+    public void testGetCourseByName() {
+        assertTrue(mySchool.courses.contains(cpsc210));
+        assertEquals(mySchool.getCourseByName("CPSC-210"), cpsc210);
+        assertFalse(mySchool.courses.contains(cpsc221));
+        assertEquals(mySchool.getCourseByName("CPSC-221"), null);
+    }
+
+    @Test
+    public void testSaveAll() {
+        // TODO
     }
 }

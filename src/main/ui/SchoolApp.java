@@ -269,6 +269,7 @@ public class SchoolApp {
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {
             if (theCourse.courseName.equals(courseName)) {
+                teacher.assignCourse(theCourse);
                 System.out.println("Course assigned to successfully.");
             }
         } else {
