@@ -23,12 +23,12 @@ public class TransactionTest {
     @Test
     public void testStudentConstructor() {
         george.payTuition(1000, mySchool);
-        george.tuitionRecord.get(0).amount = 1000;
+        assertEquals(george.tuitionRecord.get(0).amount, 1000);
     }
 
     @Test
     public void testTeacherConstructor() {
         vivian.collectSalary(1000, mySchool);
-        vivian.salaryRecord.get(0).amount = 1000;
+        assertEquals(vivian.salaryRecord.get(0).amount, 1000);
     }
 }

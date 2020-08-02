@@ -269,8 +269,6 @@ public class SchoolApp {
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {
             if (theCourse.courseName.equals(courseName)) {
-                teacher.coursesTaught.add(theCourse.courseName);
-                theCourse.teachers.add("" + teacher.teacherID);
                 System.out.println("Course assigned to successfully.");
             }
         } else {
@@ -658,7 +656,6 @@ public class SchoolApp {
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {
             if (student.enroll(theCourse)) {
-                theCourse.students.add("" + student.studentID);
                 System.out.println("Course enrolled in successfully.");
             } else {
                 System.out.println("Sorry, this course is full.");
