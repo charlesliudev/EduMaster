@@ -138,17 +138,16 @@ public class School implements Saveable {
 
     // EFFECTS: saves current state of school to ./data/school.json file. returns true if success, false otherwise.
     @Override
-    public boolean saveAll() {
+    public boolean saveAll(String filePath) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
-            FileWriter writer = new FileWriter("./data/school.json");
+            FileWriter writer = new FileWriter(filePath);
             gson.toJson(this, writer);
             writer.close();
             return true;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception f) {
+            f.printStackTrace();
         }
         return false;
     }
-
 }

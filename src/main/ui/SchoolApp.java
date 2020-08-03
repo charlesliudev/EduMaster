@@ -38,7 +38,7 @@ public class SchoolApp {
 
             if (command.equals("q")) {
                 keepGoing = false;
-                mySchool.saveAll();
+                mySchool.saveAll("./data/school.json");
                 System.out.println("All changes saved. Have a good day :)");
             } else {
                 handleCommand(command);
@@ -742,7 +742,8 @@ public class SchoolApp {
     public int generateStudentID() {
         int newID;
         if (mySchool.lastStudentIDGenerated != 0) {
-            newID = mySchool.lastStudentIDGenerated++;
+            newID = mySchool.lastStudentIDGenerated + 1;
+            mySchool.lastStudentIDGenerated += 1;
         } else {
             newID = 100000;
             mySchool.lastStudentIDGenerated = 100000;
@@ -755,7 +756,8 @@ public class SchoolApp {
     public int generateTeacherID() {
         int newID;
         if (mySchool.lastTeacherIDGenerated != 0) {
-            newID = mySchool.lastTeacherIDGenerated++;
+            newID = mySchool.lastTeacherIDGenerated + 1;
+            mySchool.lastTeacherIDGenerated += 1;
         } else {
             newID = 200000;
             mySchool.lastTeacherIDGenerated = 200000;

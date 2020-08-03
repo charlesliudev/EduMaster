@@ -4,5 +4,5 @@ package persistence;
 // *NOTE* interface design taken from TellerApp
 public interface Saveable {
     // EFFECTS: writes the saveable to file
-    boolean saveAll();
+    boolean saveAll(String filePath);
 }

@@ -161,15 +161,8 @@ public class SchoolTest {
     @Test
     public void testSaveAll() {
         School loadedSchool = null;
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        // Save the state of the school right now to testData.json file
-        try {
-            FileWriter writer = new FileWriter("./data/testData.json");
-            gson.toJson(mySchool, writer);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        assertTrue(mySchool.saveAll("./data/testData.json"));
+
         // Get the school data from testData.json file
         Gson gson1 = new Gson();
         try {
@@ -186,9 +179,12 @@ public class SchoolTest {
         assertEquals(loadedSchool.accumulatedAnnualTuition, mySchool.accumulatedAnnualTuition);
         assertEquals(loadedSchool.accumulatedAnnualSalary, mySchool.accumulatedAnnualSalary);
         assertEquals(loadedSchool.transactionRecordSummary, mySchool.transactionRecordSummary);
-
-        // Check output of saveAll()
-        assertTrue(mySchool.saveAll());
     }
+
+    @Test
+    public void testSaveAllFail() {
+        assertFalse(mySchool.saveAll("//////4534"));
+    }
+
 }
 
