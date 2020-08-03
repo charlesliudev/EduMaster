@@ -1,7 +1,15 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SchoolTest {
@@ -152,6 +160,35 @@ public class SchoolTest {
 
     @Test
     public void testSaveAll() {
-        // TODO
+        School loadedSchool = null;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        // Save the state of the school right now to testData.json file
+        try {
+            FileWriter writer = new FileWriter("./data/testData.json");
+            gson.toJson(mySchool, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Get the school data from testData.json file
+        Gson gson1 = new Gson();
+        try {
+            Reader reader = new FileReader("./data/testData.json");
+            loadedSchool = gson1.fromJson(reader, School.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Check all fields to see if they match what was saved
+        assertEquals(loadedSchool.schoolName, "UBC");
+        assertEquals(loadedSchool.students.size(), mySchool.students.size());
+        assertEquals(loadedSchool.teachers.size(), mySchool.teachers.size());
+        assertEquals(loadedSchool.courses.size(), mySchool.courses.size());
+        assertEquals(loadedSchool.accumulatedAnnualTuition, mySchool.accumulatedAnnualTuition);
+        assertEquals(loadedSchool.accumulatedAnnualSalary, mySchool.accumulatedAnnualSalary);
+        assertEquals(loadedSchool.transactionRecordSummary, mySchool.transactionRecordSummary);
+
+        // Check output of saveAll()
+        assertTrue(mySchool.saveAll());
     }
 }
+
