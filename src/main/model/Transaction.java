@@ -16,7 +16,7 @@ public class Transaction {
     // NOTE*: this constructor is for a student-school transaction
     public Transaction(Student student, School school, int amount) {
         this.amount = amount;
-        this.transactionID = generateTransactionID();
+        this.transactionID = generateTransactionID(school);
         this.timestamp = formatDate(LocalDateTime.now());
         this.transactionSummary = "Student " + student.studentID + " paid in $" + amount + " on " + this.timestamp;
     }
@@ -27,19 +27,23 @@ public class Transaction {
     // NOTE*: this constructor is for a student-school transaction
     public Transaction(Teacher teacher, School school, int amount) {
         this.amount = amount;
-        this.transactionID = generateTransactionID();
+        this.transactionID = generateTransactionID(school);
         this.timestamp = formatDate(LocalDateTime.now());
         this.transactionSummary = "Teacher " + teacher.teacherID + " was paid $" + amount + " on" + this.timestamp;
     }
 
-    //EFFECTS: returns a randomly generated 6 digit number
-    public int generateTransactionID() {
-        String id = "";
-        for (int i = 0; i < 6; i++) {
-            String nextNum = "" + (int)(Math.random() * 10);
-            id += nextNum;
+    //EFFECTS: returns a transaction ID that increments the last transaction ID by 1. If it is the school's first
+    // transaction, then return 300000. 3 represents that it is a transaction ID.
+    public int generateTransactionID(School school) {
+        if (!(school.lastTransactionIDGenerated == 0)) {
+            int newId = school.lastTransactionIDGenerated + 1;
+            school.lastTransactionIDGenerated += 1;
+            return newId;
+        } else {
+            int newId = 300000;
+            school.lastTransactionIDGenerated = 300000;
+            return newId;
         }
-        return Integer.valueOf(id);
     }
 
     // MODIFIES: LocalDateTime input

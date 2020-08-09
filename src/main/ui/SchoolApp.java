@@ -49,6 +49,7 @@ public class SchoolApp {
     // MODIFIES: this
     // EFFECTS: loads School from school.json file, if that file exists.
     // otherwise, initialize new School
+    // *NOTE* some loadAll() design features taken from TellerApp
     private void loadAll() {
         Gson gson = new Gson();
         try {
@@ -70,12 +71,13 @@ public class SchoolApp {
         System.out.println("\tc -> Courses");
         System.out.println("\tx -> Enact New Outstanding Fees");
         System.out.println("\tn -> Start New Financial Year");
-        System.out.println("\tq -> Quit");
+        System.out.println("\tq -> Quit and Save");
     }
 
     // MODIFIES: this
     // EFFECTS: takes user input command and calls on the correct method to handle user desire
     private void handleCommand(String command) {
+        command = command.toLowerCase();
         if (command.equals("o")) {
             overview();
         } else if (command.equals("s")) {
@@ -163,6 +165,7 @@ public class SchoolApp {
     // MODIFIES: this
     // EFFECTS: takes user input from teacher menu and calls on appropriate methods to handle user desire
     private void handleTeacherCommand(String command) {
+        command = command.toLowerCase();
         if (command.equals("v")) {
             displayAllTeachers();
         } else if (command.equals("a")) {
@@ -210,6 +213,7 @@ public class SchoolApp {
 
     // EFFECTS: takes user input from the teacher profile page and calls on appropriate methods to handle user desire
     private void handleEditTeacherCommand(String command, Teacher teacher) {
+        command = command.toLowerCase();
         if (command.equals("a")) {
             assignTeacherToCourse(teacher);
         } else if (command.equals("p")) {
@@ -264,7 +268,7 @@ public class SchoolApp {
     // EFFECTS: allows user to assign a teacher to teach a new course
     private void assignTeacherToCourse(Teacher teacher) {
         System.out.println("Assigning " + teacher.firstName + teacher.lastName + " to teach a new course:");
-        System.out.println("Course name: ");
+        System.out.println("Enter course name. Format example: 'CPSC-210'");
         String courseName = input.next();
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {
@@ -379,6 +383,7 @@ public class SchoolApp {
 
     // EFFECTS: processes the user input from the course menu and calls on appropriate methods
     private void handleCourseCommand(String command) {
+        command = command.toLowerCase();
         if (command.equals("v")) {
             displayAllCourses();
         } else if (command.equals("a")) {
@@ -394,7 +399,7 @@ public class SchoolApp {
 
     // EFFECTS: lets user search for a course by name and processes the search to display course info
     private void handleCourseSearch() {
-        System.out.println("Enter course's name. Format example: 'cpsc220'");
+        System.out.println("Enter course's name. Format example: 'CPSC-220'");
         String id = input.next();
         Course thisCourse = findCourseByName(id);
         showCoursePage(thisCourse);
@@ -421,6 +426,7 @@ public class SchoolApp {
 
     // EFFECTS: processes the user input from the course menu
     private void handleEditCourseCommand(String command, Course course) {
+        command = command.toLowerCase();
         if (command.equals("s")) {
             displayStudents(course);
         } else if (command.equals("t")) {
@@ -444,7 +450,7 @@ public class SchoolApp {
     // EFFECTS: allows user to add a new course to be offered in the school
     private void addNewCourse() {
         try {
-            System.out.println("What is the name of the course? Format example: 'cpsc210'");
+            System.out.println("What is the name of the course? Format example: 'CPSC-210'");
             String courseName = input.next().toLowerCase();
             System.out.println("What is the course's tuition fee?");
             int courseCost = Integer.valueOf(input.next());
@@ -463,7 +469,7 @@ public class SchoolApp {
     // MODIFIES: this
     // EFFECTS: allows user to remove a course from the school
     private void removeCourse() {
-        System.out.println("Please enter course name. Format example: 'cpsc210'");
+        System.out.println("Please enter course name. Format example: 'CPSC-210'");
         String id = input.next();
         if (findCourseByName(id) != null) {
             mySchool.removeCourse(findCourseByName(id));
@@ -529,6 +535,7 @@ public class SchoolApp {
         while (stayOnStudents) {
             displayStudentMenu();
             String command = input.next();
+            command = command.toLowerCase();
 
             if (command.equals("b")) {
                 stayOnStudents = false;
@@ -551,6 +558,7 @@ public class SchoolApp {
 
     // EFFECTS: processes the user input from the student menu and calls on appropriate methods
     private void handleStudentCommand(String command) {
+        command = command.toLowerCase();
         if (command.equals("v")) {
             displayAllStudents();
         } else if (command.equals("a")) {
@@ -652,7 +660,7 @@ public class SchoolApp {
     // EFFECTS: allows user to enroll student into a new course
     private void enrollStudentInCourse(Student student) {
         System.out.println("Enrolling " + student.firstName + " " + student.lastName + " into a new course:");
-        System.out.println("Enter course name. Format example: 'cpsc210' ");
+        System.out.println("Enter course name. Format example: 'CPSC210' ");
         String courseName = input.next();
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {

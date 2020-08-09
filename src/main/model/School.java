@@ -18,6 +18,7 @@ public class School implements Saveable {
     public ArrayList<String> transactionRecordSummary = new ArrayList<>();
     public int lastStudentIDGenerated = 0;
     public int lastTeacherIDGenerated = 0;
+    public int lastTransactionIDGenerated = 0;
 
     // EFFECTS: constructs a new school object
     public School(String schoolName) {
