@@ -99,6 +99,16 @@ public class School implements Saveable {
     // EFFECTS: removes course from school offerings
     public void removeCourse(Course course) {
         this.courses.remove(course);
+        for (Student student : this.students) {
+            if (student.coursesEnrolled.contains(course.courseName)) {
+                student.coursesEnrolled.remove(course.courseName);
+            }
+        }
+        for (Teacher teacher : this.teachers) {
+            if (teacher.coursesTaught.contains(course.courseName)) {
+                teacher.coursesTaught.remove(course.courseName);
+            }
+        }
     }
 
     // EFFECTS: returns the total outstanding tuition from all students in the school

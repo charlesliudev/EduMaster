@@ -26,7 +26,6 @@ public class CoursesApp extends JPanel {
     public CoursesApp(School school) {
         this.mySchool = school;
         runCoursesApp();
-        //showCoursePage(mySchool.courses.get(0));
     }
 
     // builds the courses page
@@ -78,15 +77,29 @@ public class CoursesApp extends JPanel {
         return contentPane;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     // displays the add course section
     public void makeAddCourseSection(Container contentPane, SpringLayout layout) {
         JLabel addNewCourseLabel = new JLabel("Add New Course: ", JLabel.CENTER);
         addNewCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
-        JTextField courseNameTxtField = new JTextField("e.g.'CPSC-121'", 10);
-        JTextField tuitionTxtField = new JTextField("Annual Tuition", 10);
-        JTextField salaryTxtField = new JTextField("Annual Salary", 10);
-        JTextField maxStudentsTxtField = new JTextField("Seat Limit", 10);
-        JButton submitNewCourseBtn = new JButton("Add Course");
+
+        JTextField courseNameTxtField = addFocusCourseNameTxtField();
+        JTextField tuitionTxtField = addFocusTuitionTxtField();
+        JTextField salaryTxtField = addFocusSalaryTxtField();
+        JTextField maxStudentsTxtField = addFocusMaxStudentsTxtField();
+        JButton submitNewCourseBtn = addActionListenerSubmitCourseBtn(courseNameTxtField,
+                tuitionTxtField, salaryTxtField, maxStudentsTxtField);
 
         contentPane.add(addNewCourseLabel);
         contentPane.add(courseNameTxtField);
@@ -107,83 +120,125 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, maxStudentsTxtField, 50, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, submitNewCourseBtn, 15, SpringLayout.EAST, maxStudentsTxtField);
         layout.putConstraint(SpringLayout.NORTH, submitNewCourseBtn, 50, SpringLayout.NORTH, contentPane);
+    }
 
-        // ADD FOCUS LISTENER
+    // adds focus listener to course name text field and returns text field
+    public JTextField addFocusCourseNameTxtField() {
+        JTextField courseNameTxtField = new JTextField("e.g.'CPSC-121'", 10);
         courseNameTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 courseNameTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
                 if (courseNameTxtField.getText().equals("")) {
                     courseNameTxtField.setText("e.g.'CPSC-121'");
                 }
             }
         });
+        return courseNameTxtField;
+    }
 
+    // adds focus listener to tuition text field and returns text field
+    public JTextField addFocusTuitionTxtField() {
+        JTextField tuitionTxtField = new JTextField("Annual Tuition", 10);
         tuitionTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 tuitionTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
                 if (tuitionTxtField.getText().equals("")) {
                     tuitionTxtField.setText("Annual Tuition");
                 }
             }
         });
+        return tuitionTxtField;
+    }
 
+    // adds focus listener to salary text field and returns text field
+    public JTextField addFocusSalaryTxtField() {
+        JTextField salaryTxtField = new JTextField("Annual Salary", 10);
         salaryTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 salaryTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
                 if (salaryTxtField.getText().equals("")) {
                     salaryTxtField.setText("Annual Salary");
                 }
             }
         });
+        return salaryTxtField;
+    }
 
+    // adds focus listener to max students text field and returns text field
+    public JTextField addFocusMaxStudentsTxtField() {
+        JTextField maxStudentsTxtField = new JTextField("Seat Limit", 10);
         maxStudentsTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 maxStudentsTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
                 if (maxStudentsTxtField.getText().equals("")) {
                     maxStudentsTxtField.setText("Seat Limit");
                 }
             }
         });
+        return maxStudentsTxtField;
+    }
 
-        // ADD BUTTON LISTENER TO ADD NEW COURSE:
+    // adds action listener to submit new course button and returns the button
+    public JButton addActionListenerSubmitCourseBtn(JTextField courseNameTxtField, JTextField tuitionTxtField,
+                                                    JTextField salaryTxtField, JTextField maxStudentsTxtField) {
+        JButton submitNewCourseBtn = new JButton("Add Course");
         submitNewCourseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomeApp.playSound("src/main/ui/sounds/button-30.wav");
                 try {
-                    boolean keepGoing = true;
                     String courseToAddName = courseNameTxtField.getText();
                     int courseTuition = Integer.valueOf(tuitionTxtField.getText());
                     int courseSalary = Integer.valueOf(salaryTxtField.getText());
                     int maxStudents = Integer.valueOf(maxStudentsTxtField.getText());
 
-                    // check if valid inputs
-                    if ((courseTuition < 0) || (courseSalary < 0) || (maxStudents < 0)) {
-                        keepGoing = false;
-                        JOptionPane.showMessageDialog(frame, "Please enter valid positive integers.");
-                    }
-                    // inputs are valid, then continue with adding course
-                    if (keepGoing) {
+                    if (isValid(courseTuition, courseSalary, maxStudents)) {
                         Course newCourse = new Course(courseToAddName, courseTuition, courseSalary, maxStudents);
                         mySchool.addCourse(newCourse);
                         JOptionPane.showMessageDialog(frame, courseToAddName + " was successfully added.");
                         new CoursesApp(mySchool);
                         frame.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Please enter valid positive integers.");
                     }
                 } catch (Exception f) {
                     JOptionPane.showMessageDialog(frame, "Please enter valid inputs.");
                 }
             }
         });
+        return submitNewCourseBtn;
     }
+
+    // checks if int inputs are all > 0
+    public boolean isValid(int courseTuition, int courseSalary, int maxStudents) {
+        if ((courseTuition < 0) || (courseSalary < 0) || (maxStudents < 0)) {
+            return false;
+        }
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     // displays the remove course section
     public void makeRemoveCourseSection(Container contentPane, SpringLayout layout) {

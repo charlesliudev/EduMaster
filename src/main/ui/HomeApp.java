@@ -18,6 +18,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
+// *NOTE* HomeApp() layout was inspired by a KeepToo project home page. Used for design inspiration only.
+// ALL CODE INDEPENDENTLY WRITTEN.
 // creates and opens the main home frame
 public class HomeApp {
     School mySchool;
@@ -76,7 +78,20 @@ public class HomeApp {
         GridLayout layout = new GridLayout(1, 4, 15, 0);
         lowerPanel.setLayout(layout);
 
-        // overviewBtn
+        JButton overviewBtn = fullOverviewBtn();
+        JButton studentsBtn = fullStudentBtn();
+        JButton teachersBtn = fullTeacherBtn();
+        JButton coursesBtn = fullCourseBtn();
+
+        lowerPanel.add(overviewBtn);
+        lowerPanel.add(studentsBtn);
+        lowerPanel.add(teachersBtn);
+        lowerPanel.add(coursesBtn);
+        return lowerPanel;
+    }
+
+    // EFFECTS: adds the action listener to overview btn
+    public JButton fullOverviewBtn() {
         JButton overviewBtn = makeBtn("Overview", "overviewIconBlue.png");
         overviewBtn.addActionListener(new ActionListener() {
             @Override
@@ -85,7 +100,11 @@ public class HomeApp {
                 new OverviewApp(mySchool);
             }
         });
-        // studentsBtn
+        return overviewBtn;
+    }
+
+    // EFFECTS: adds the action listener to students btn
+    public JButton fullStudentBtn() {
         JButton studentsBtn = makeBtn("Students", "studentsIconBlue.png");
         studentsBtn.addActionListener(new ActionListener() {
             @Override
@@ -94,7 +113,11 @@ public class HomeApp {
                 new StudentsApp(mySchool);
             }
         });
-        // teachersBtn
+        return studentsBtn;
+    }
+
+    // EFFECTS: adds action listener to teachers btn
+    public JButton fullTeacherBtn() {
         JButton teachersBtn = makeBtn("Teachers", "teachersIconBlue.png");
         teachersBtn.addActionListener(new ActionListener() {
             @Override
@@ -103,7 +126,11 @@ public class HomeApp {
                 new TeachersApp(mySchool);
             }
         });
-        // coursesBtn
+        return teachersBtn;
+    }
+
+    // EFFECTS: adds action listener to courses btn
+    public JButton fullCourseBtn() {
         JButton coursesBtn = makeBtn("Courses", "courseIconBlue.png");
         coursesBtn.addActionListener(new ActionListener() {
             @Override
@@ -112,13 +139,7 @@ public class HomeApp {
                 new CoursesApp(mySchool);
             }
         });
-
-        lowerPanel.add(overviewBtn);
-        lowerPanel.add(studentsBtn);
-        lowerPanel.add(teachersBtn);
-        lowerPanel.add(coursesBtn);
-
-        return lowerPanel;
+        return coursesBtn;
     }
 
     // returns a button for home page, with button text and the appropriate icon
@@ -172,7 +193,7 @@ public class HomeApp {
         if (imgURL != null) {
             ImageIcon unscaledIcon = new ImageIcon(imgURL);
             Image image = unscaledIcon.getImage();
-            Image newImg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            Image newImg = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(newImg);
             return scaledIcon;
         } else {

@@ -68,6 +68,20 @@ public class SchoolTest {
     }
 
     @Test
+    public void testRemoveCourseAfterEnrolledOrAssigned() {
+        mySchool.addStudent(george);
+        mySchool.addTeacher(vivian);
+        george.enroll(cpsc121);
+        vivian.assignCourse(cpsc121);
+        assertTrue(george.coursesEnrolled.contains(cpsc121.courseName));
+        assertTrue(vivian.coursesTaught.contains(cpsc121.courseName));
+        mySchool.removeCourse(cpsc121);
+        assertFalse(mySchool.courses.contains(cpsc121));
+        assertFalse(george.coursesEnrolled.contains(cpsc121.courseName));
+        assertFalse(vivian.coursesTaught.contains(cpsc121.courseName));
+    }
+
+    @Test
     public void testEnactNewOutstandingTransactions() {
         mySchool.addStudent(george);
         mySchool.addTeacher(vivian);

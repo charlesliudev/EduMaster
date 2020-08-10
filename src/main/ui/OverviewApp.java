@@ -226,14 +226,13 @@ public class OverviewApp {
     }
 
 
-
     // takes png image, scales it and returns it as an ImageIcon object
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = HomeApp.class.getResource(path);
         if (imgURL != null) {
             ImageIcon unscaledIcon = new ImageIcon(imgURL);
             Image image = unscaledIcon.getImage();
-            Image newImg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            Image newImg = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(newImg);
 
             return scaledIcon;

@@ -77,67 +77,75 @@ public class TeachersApp extends JPanel {
 
     // displays the add teacher section
     public void makeAddTeacherSection(Container contentPane, SpringLayout layout) {
+        // make components
         JLabel addNewTeacherLabel = new JLabel("Add New Teacher: ", JLabel.CENTER);
         addNewTeacherLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
-        JTextField teacherFirstNameTxtField = new JTextField("First Name", 10);
-        JTextField teacherLastNameTxtField = new JTextField("Last Name", 10);
-        JButton submitNewTeacherBtn = new JButton("Add Teacher");
+        JTextField firstNameTxtField = addFocusFirstName();
+        JTextField lastNameTxtField = addFocusLastName();
+        JButton submitNewTeacherBtn = addActionListenerSubmitBtn(firstNameTxtField, lastNameTxtField);
 
+        // add components
         contentPane.add(addNewTeacherLabel);
-        contentPane.add(teacherFirstNameTxtField);
-        contentPane.add(teacherLastNameTxtField);
+        contentPane.add(firstNameTxtField);
+        contentPane.add(lastNameTxtField);
         contentPane.add(submitNewTeacherBtn);
 
-        // move add new teacher label
+        // move components
         layout.putConstraint(SpringLayout.WEST, addNewTeacherLabel, 100, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.NORTH, addNewTeacherLabel, 30, SpringLayout.NORTH, contentPane);
-        // move first name field
-        layout.putConstraint(SpringLayout.WEST, teacherFirstNameTxtField, 15,
-                SpringLayout.EAST, addNewTeacherLabel);
-        layout.putConstraint(SpringLayout.NORTH, teacherFirstNameTxtField, 25, SpringLayout.NORTH, contentPane);
-        // move last name field
-        layout.putConstraint(SpringLayout.WEST, teacherLastNameTxtField, 13,
-                SpringLayout.EAST, teacherFirstNameTxtField);
-        layout.putConstraint(SpringLayout.NORTH, teacherLastNameTxtField, 25, SpringLayout.NORTH, contentPane);
-        // move submit button
-        layout.putConstraint(SpringLayout.WEST, submitNewTeacherBtn, 10,
-                SpringLayout.EAST, teacherLastNameTxtField);
+        layout.putConstraint(SpringLayout.WEST, firstNameTxtField, 15, SpringLayout.EAST, addNewTeacherLabel);
+        layout.putConstraint(SpringLayout.NORTH, firstNameTxtField, 25, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.WEST, lastNameTxtField, 13, SpringLayout.EAST, firstNameTxtField);
+        layout.putConstraint(SpringLayout.NORTH, lastNameTxtField, 25, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.WEST, submitNewTeacherBtn, 10, SpringLayout.EAST, lastNameTxtField);
         layout.putConstraint(SpringLayout.NORTH, submitNewTeacherBtn, 25, SpringLayout.NORTH, contentPane);
+    }
 
-        // ADD FOCUS LISTENER
-        teacherFirstNameTxtField.addFocusListener(new FocusListener() {
+    // adds focus listener to first name text field and returns it
+    public JTextField addFocusFirstName() {
+        JTextField firstNameTxtField = new JTextField("First Name", 10);
+        firstNameTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                teacherFirstNameTxtField.setText("");
+                firstNameTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
-                if (teacherFirstNameTxtField.getText().equals("")) {
-                    teacherFirstNameTxtField.setText("First Name");
+                if (firstNameTxtField.getText().equals("")) {
+                    firstNameTxtField.setText("First Name");
                 }
             }
         });
+        return firstNameTxtField;
+    }
 
-        teacherLastNameTxtField.addFocusListener(new FocusListener() {
+    // adds focus listener to last name text field and returns it
+    public JTextField addFocusLastName() {
+        JTextField lastNameTxtField = new JTextField("Last Name", 10);
+        lastNameTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                teacherLastNameTxtField.setText("");
+                lastNameTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
-                if (teacherLastNameTxtField.getText().equals("")) {
-                    teacherLastNameTxtField.setText("Last Name");
+                if (lastNameTxtField.getText().equals("")) {
+                    lastNameTxtField.setText("Last Name");
                 }
             }
         });
+        return lastNameTxtField;
+    }
 
-        // ADD BUTTON LISTENER TO ADD NEW TEACHER:
+    // adds action listener to button and returns it
+    public JButton addActionListenerSubmitBtn(JTextField firstNameTxtField, JTextField lastNameTxtField) {
+        JButton submitNewTeacherBtn = new JButton("Add Teacher");
         submitNewTeacherBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomeApp.playSound("src/main/ui/sounds/button-30.wav");
-                String unhandledFirstName = teacherFirstNameTxtField.getText();
-                String firstName = unhandledFirstName.substring(0, 1).toUpperCase()
-                        + unhandledFirstName.substring(1).toLowerCase();
-                String unhandledLastName = teacherLastNameTxtField.getText();
-                String lastName = unhandledLastName.substring(0, 1).toUpperCase()
-                        + unhandledLastName.substring(1).toLowerCase();
+                String firstName = firstNameTxtField.getText().substring(0, 1).toUpperCase()
+                        + firstNameTxtField.getText().substring(1).toLowerCase();
+                String lastName = lastNameTxtField.getText().substring(0, 1).toUpperCase()
+                        + lastNameTxtField.getText().substring(1).toLowerCase();
 
                 if (!(firstName.equals("")) && !(lastName.equals(""))) {
                     Teacher newTeacher = new Teacher(firstName, lastName, generateTeacherID());
@@ -151,41 +159,48 @@ public class TeachersApp extends JPanel {
                 }
             }
         });
+        return submitNewTeacherBtn;
     }
 
     // displays the remove teacher section
     public void makeRemoveTeacherSection(Container contentPane, SpringLayout layout) {
         JLabel removeTeacherLabel = new JLabel("Remove a Teacher: ", JLabel.CENTER);
         removeTeacherLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
-        JTextField teacherIdTxtField = new JTextField("Teacher ID", 22);
-        JButton removeTeacherBtn = new JButton("Remove Teacher");
+        JTextField teacherIdTxtField = addFocusTeacherIdTxtField();
+        JButton removeTeacherBtn = addActionListenerRemoveTeacherBtn(teacherIdTxtField);
 
         contentPane.add(removeTeacherLabel);
         contentPane.add(teacherIdTxtField);
         contentPane.add(removeTeacherBtn);
 
-        // move remove teacher label
         layout.putConstraint(SpringLayout.WEST, removeTeacherLabel, 100, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.NORTH, removeTeacherLabel, 65, SpringLayout.NORTH, contentPane);
-        // move teacher id text field
         layout.putConstraint(SpringLayout.WEST, teacherIdTxtField, 10, SpringLayout.EAST, removeTeacherLabel);
         layout.putConstraint(SpringLayout.NORTH, teacherIdTxtField, 60, SpringLayout.NORTH, contentPane);
-        // move button
         layout.putConstraint(SpringLayout.WEST, removeTeacherBtn, 10, SpringLayout.EAST, teacherIdTxtField);
         layout.putConstraint(SpringLayout.NORTH, removeTeacherBtn, 60, SpringLayout.NORTH, contentPane);
+    }
 
-        // ADD FOCUS LISTENER
+    // adds focus listener to text field then returns it
+    public JTextField addFocusTeacherIdTxtField() {
+        JTextField teacherIdTxtField = new JTextField("Teacher ID", 22);
         teacherIdTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 teacherIdTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
                 if (teacherIdTxtField.getText().equals("")) {
                     teacherIdTxtField.setText("Teacher ID");
                 }
             }
         });
+        return teacherIdTxtField;
+    }
 
+    // adds action listener to remove teacher btn and returns btn
+    public JButton addActionListenerRemoveTeacherBtn(JTextField teacherIdTxtField) {
+        JButton removeTeacherBtn = new JButton("Remove Teacher");
         // ADD BUTTON LISTENER TO REMOVE TEACHER:
         removeTeacherBtn.addActionListener(new ActionListener() {
             @Override
@@ -208,6 +223,7 @@ public class TeachersApp extends JPanel {
                 }
             }
         });
+        return removeTeacherBtn;
     }
 
     // EFFECTS: takes an teacherID, finds teacher in school database. If found, return the teacher, else return null
@@ -224,37 +240,24 @@ public class TeachersApp extends JPanel {
     public void makeGetTeacherSection(Container contentPane, SpringLayout layout) {
         JLabel getTeacherLabel = new JLabel("Get a Teacher: ", JLabel.CENTER);
         getTeacherLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
-        JTextField teacherIdTxtField = new JTextField("Teacher ID", 22);
-        JButton getTeacherBtn = new JButton("Get Teacher");
+        JTextField teacherIdTxtField = addFocusTeacherIdTxtField();
+        JButton getTeacherBtn = addActionListenerGetTeacherBtn(teacherIdTxtField);
 
         contentPane.add(getTeacherLabel);
         contentPane.add(teacherIdTxtField);
         contentPane.add(getTeacherBtn);
 
-        // move get teacher label
         layout.putConstraint(SpringLayout.WEST, getTeacherLabel, 100, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.NORTH, getTeacherLabel, 100, SpringLayout.NORTH, contentPane);
-        // move teacher id text field
         layout.putConstraint(SpringLayout.WEST, teacherIdTxtField, 40, SpringLayout.EAST, getTeacherLabel);
         layout.putConstraint(SpringLayout.NORTH, teacherIdTxtField, 95, SpringLayout.NORTH, contentPane);
-        // move button
         layout.putConstraint(SpringLayout.WEST, getTeacherBtn, 10, SpringLayout.EAST, teacherIdTxtField);
         layout.putConstraint(SpringLayout.NORTH, getTeacherBtn, 95, SpringLayout.NORTH, contentPane);
+    }
 
-        // ADD FOCUS LISTENER
-        teacherIdTxtField.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-                teacherIdTxtField.setText("");
-            }
-
-            public void focusLost(FocusEvent e) {
-                if (teacherIdTxtField.getText().equals("")) {
-                    teacherIdTxtField.setText("Teacher ID");
-                }
-            }
-        });
-
-        // ADD BUTTON LISTENER TO GET TEACHER:
+    // adds action listener to get teacher button and returns the button
+    public JButton addActionListenerGetTeacherBtn(JTextField teacherIdTxtField) {
+        JButton getTeacherBtn = new JButton("Get Teacher");
         getTeacherBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -272,6 +275,7 @@ public class TeachersApp extends JPanel {
                 }
             }
         });
+        return getTeacherBtn;
     }
 
     // show the teachers in table
@@ -360,17 +364,20 @@ public class TeachersApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, assignNewCourseLabel, 30, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, assignNewCourseLabel, 90, SpringLayout.NORTH, singleTeacherPanel);
 
-        JTextField newCourseName = new JTextField("e.g. 'CPSC-210'", 10);
+        JTextField newCourseName = addFocusListenerCourseNameTxtField();
         singleTeacherPanel.add(newCourseName);
         layout.putConstraint(SpringLayout.WEST, newCourseName, 150, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, newCourseName, 85, SpringLayout.NORTH, singleTeacherPanel);
 
-        JButton submitNewCourse = new JButton("Assign");
+        JButton submitNewCourse = addActionListenerSubmitNewCourseBtn(newCourseName, teacher);
         singleTeacherPanel.add(submitNewCourse);
         layout.putConstraint(SpringLayout.WEST, submitNewCourse, 280, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, submitNewCourse, 85, SpringLayout.NORTH, singleTeacherPanel);
+    }
 
-        // ADD FOCUS LISTENER
+    // adds focus listener to new course name text field and returns it
+    public JTextField addFocusListenerCourseNameTxtField() {
+        JTextField newCourseName = new JTextField("e.g.'CPSC-210'", 10);
         newCourseName.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 newCourseName.setText("");
@@ -382,8 +389,12 @@ public class TeachersApp extends JPanel {
                 }
             }
         });
+        return newCourseName;
+    }
 
-        // ADD BUTTON LISTENER TO ASSIGN TEACHER:
+    // adds action listener to submit new course button and returns it
+    public JButton addActionListenerSubmitNewCourseBtn(JTextField newCourseName, Teacher teacher) {
+        JButton submitNewCourse = new JButton("Assign");
         submitNewCourse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -401,6 +412,7 @@ public class TeachersApp extends JPanel {
                 }
             }
         });
+        return submitNewCourse;
     }
 
     // EFFECTS: takes the name of a course and searches for it in school. Return course if found, else return null
@@ -413,6 +425,7 @@ public class TeachersApp extends JPanel {
         return null;
     }
 
+
     // shows section where user can record teacher salary payment
     public void makePaySalarySection(Teacher teacher, JPanel singleTeacherPanel, SpringLayout layout) {
         JLabel paySalaryLabel = new JLabel("Pay Salary: ");
@@ -421,16 +434,20 @@ public class TeachersApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, paySalaryLabel, 30, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, paySalaryLabel, 120, SpringLayout.NORTH, singleTeacherPanel);
 
-        JTextField amountPaid = new JTextField("amount($)", 10);
+        JTextField amountPaid = addFocusListenerAmountTxtField();
         singleTeacherPanel.add(amountPaid);
         layout.putConstraint(SpringLayout.WEST, amountPaid, 150, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, amountPaid, 115, SpringLayout.NORTH, singleTeacherPanel);
 
-        JButton submitAmountPaid = new JButton("Pay Amount");
+        JButton submitAmountPaid = addActionListenerPaySalaryBtn(amountPaid, teacher);
         singleTeacherPanel.add(submitAmountPaid);
         layout.putConstraint(SpringLayout.WEST, submitAmountPaid, 280, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, submitAmountPaid, 115, SpringLayout.NORTH, singleTeacherPanel);
+    }
 
+    // adds focus listener to salary amount text field and returns it
+    public JTextField addFocusListenerAmountTxtField() {
+        JTextField amountPaid = new JTextField("amount($)", 10);
         // ADD FOCUS LISTENER
         amountPaid.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -443,8 +460,12 @@ public class TeachersApp extends JPanel {
                 }
             }
         });
+        return amountPaid;
+    }
 
-        // ADD BUTTON LISTENER TO PAY SALARY
+    // adds action listener to pay salary button
+    public JButton addActionListenerPaySalaryBtn(JTextField amountPaid, Teacher teacher) {
+        JButton submitAmountPaid = new JButton("Pay Amount");
         submitAmountPaid.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -464,6 +485,7 @@ public class TeachersApp extends JPanel {
                 }
             }
         });
+        return submitAmountPaid;
     }
 
     // makes and adds the assigned courses to teach table to panel
