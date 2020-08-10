@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class SchoolTest {
     School mySchool;
@@ -70,15 +71,23 @@ public class SchoolTest {
     @Test
     public void testRemoveCourseAfterEnrolledOrAssigned() {
         mySchool.addStudent(george);
+        mySchool.addStudent(elizabeth);
+        mySchool.addTeacher(samuel);
         mySchool.addTeacher(vivian);
+
         george.enroll(cpsc121);
         vivian.assignCourse(cpsc121);
         assertTrue(george.coursesEnrolled.contains(cpsc121.courseName));
+        assertFalse(elizabeth.coursesEnrolled.contains(cpsc121.courseName));
         assertTrue(vivian.coursesTaught.contains(cpsc121.courseName));
+        assertFalse(samuel.coursesTaught.contains(cpsc121.courseName));
+
         mySchool.removeCourse(cpsc121);
         assertFalse(mySchool.courses.contains(cpsc121));
         assertFalse(george.coursesEnrolled.contains(cpsc121.courseName));
         assertFalse(vivian.coursesTaught.contains(cpsc121.courseName));
+        assertFalse(elizabeth.coursesEnrolled.contains(cpsc121.courseName));
+        assertFalse(samuel.coursesTaught.contains(cpsc121.courseName));
     }
 
     @Test
