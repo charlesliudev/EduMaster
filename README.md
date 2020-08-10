@@ -45,7 +45,7 @@ with an application that is simple but in the field of financial management.
 - You can generate the first required event by adding Students to the School: Students -> First Name -> Last Name -> 
 Add Student. The new student will then be displayed into the "Enrolled-Students" table.
 - You can generate the second required event by adding Teachers to the School: Teachers -> First Name -> Last Name -> 
-Add Teacher. The new student will then be displayed into the "Teachers" table.
+Add Teacher. The new teacher will then be displayed into the "Teachers" table.
 - You can trigger the audio component of this application by clicking on any button! 
 - You can automatically load the previous state of the application simply by opening it.
 - You can automatically save the state of the application by closing it.
