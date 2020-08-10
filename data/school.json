@@ -1,0 +1,129 @@
+{
+  "schoolName": "UBC",
+  "students": [
+    {
+      "firstName": "Charles",
+      "lastName": "Liu",
+      "studentID": 100000,
+      "coursesEnrolled": [],
+      "coursesPaidFor": [],
+      "outstandingTuition": 0,
+      "tuitionRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Peter",
+      "lastName": "Parker",
+      "studentID": 100001,
+      "coursesEnrolled": [],
+      "coursesPaidFor": [],
+      "outstandingTuition": 0,
+      "tuitionRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Tony",
+      "lastName": "Stark",
+      "studentID": 100002,
+      "coursesEnrolled": [],
+      "coursesPaidFor": [],
+      "outstandingTuition": 0,
+      "tuitionRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Clark",
+      "lastName": "Kent",
+      "studentID": 100003,
+      "coursesEnrolled": [],
+      "coursesPaidFor": [],
+      "outstandingTuition": 0,
+      "tuitionRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Chris",
+      "lastName": "Evans",
+      "studentID": 100004,
+      "coursesEnrolled": [],
+      "coursesPaidFor": [],
+      "outstandingTuition": 0,
+      "tuitionRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Alan",
+      "lastName": "Walker",
+      "studentID": 100005,
+      "coursesEnrolled": [],
+      "coursesPaidFor": [],
+      "outstandingTuition": 0,
+      "tuitionRecord": [],
+      "schoolAttended": "UBC"
+    }
+  ],
+  "teachers": [
+    {
+      "firstName": "Felix",
+      "lastName": "Grund",
+      "teacherID": 200000,
+      "coursesTaught": [],
+      "coursesPaidFor": [],
+      "outstandingSalary": 0,
+      "salaryRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Robert",
+      "lastName": "Gateman",
+      "teacherID": 200001,
+      "coursesTaught": [],
+      "coursesPaidFor": [],
+      "outstandingSalary": 0,
+      "salaryRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Ann",
+      "lastName": "Stone",
+      "teacherID": 200002,
+      "coursesTaught": [],
+      "coursesPaidFor": [],
+      "outstandingSalary": 0,
+      "salaryRecord": [],
+      "schoolAttended": "UBC"
+    }
+  ],
+  "courses": [
+    {
+      "courseName": "CPSC-210",
+      "teachers": [],
+      "students": [],
+      "courseCost": 500,
+      "courseSalary": 1000,
+      "maxStudents": 30
+    },
+    {
+      "courseName": "LING-100",
+      "teachers": [],
+      "students": [],
+      "courseCost": 400,
+      "courseSalary": 800,
+      "maxStudents": 20
+    },
+    {
+      "courseName": "COMM-290",
+      "teachers": [],
+      "students": [],
+      "courseCost": 600,
+      "courseSalary": 1000,
+      "maxStudents": 50
+    }
+  ],
+  "accumulatedAnnualTuition": 0,
+  "accumulatedAnnualSalary": 0,
+  "transactionRecordSummary": [],
+  "lastStudentIDGenerated": 100005,
+  "lastTeacherIDGenerated": 200002,
+  "lastTransactionIDGenerated": 0
+}

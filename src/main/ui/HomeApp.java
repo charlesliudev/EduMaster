@@ -3,17 +3,22 @@ package ui;
 import com.google.gson.Gson;
 import model.School;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
-// creatse and opens the main home frame
+// creates and opens the main home frame
 public class HomeApp {
     School mySchool;
     Color myColor = new Color(52, 79, 235);
@@ -28,14 +33,40 @@ public class HomeApp {
         loadAll();
         JFrame frame = new JFrame("EduMaster Home");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mySchool.saveAll("./data/school.json");
+                System.exit(0);
+            }
+        });
         frame.setLayout(new BorderLayout());
         frame.setBackground(myColor);
 
         frame.add(makeUpperPanel(), BorderLayout.NORTH);
         frame.add(makeLowerPanel(), BorderLayout.CENTER);
 
+        frame.pack();
+        frame.getContentPane().requestFocusInWindow();
         frame.setSize(800, 500);
         frame.setVisible(true);
+    }
+
+    // makes and returns the upper half of home page
+    public Component makeUpperPanel() {
+        JPanel upperPanel = new JPanel();
+        upperPanel.setLayout(new BorderLayout());
+        upperPanel.setBackground(myColor);
+
+        // create and add main title
+        JLabel mainTitleLabel = new JLabel(" EduMaster Home");
+        mainTitleLabel.setIcon(createImageIcon("./images/homeMainIcon.png"));
+        mainTitleLabel.setFont(new Font("Proxima Nova", Font.BOLD, 30));
+        mainTitleLabel.setForeground(Color.white);
+        mainTitleLabel.setBorder(new EmptyBorder(70, 50, 70, 0));
+        upperPanel.add(mainTitleLabel, BorderLayout.CENTER);
+
+        return upperPanel;
     }
 
     // makes and returns the lower half of home page, with options
@@ -43,21 +74,44 @@ public class HomeApp {
         JPanel lowerPanel = new JPanel();
         lowerPanel.setBorder(BorderFactory.createEmptyBorder(40, 55, 55, 55));
         GridLayout layout = new GridLayout(1, 4, 15, 0);
-
         lowerPanel.setLayout(layout);
 
-        JButton overviewBtn = makeBtn("Overview", "overviewBtnIcon.png");
-        // studentsBtn action listener
-        JButton studentsBtn = makeBtn("Students", "studentsBtnIcon.png");
+        // overviewBtn
+        JButton overviewBtn = makeBtn("Overview", "overviewIconBlue.png");
+        overviewBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playSound("src/main/ui/sounds/button-30.wav");
+                new OverviewApp(mySchool);
+            }
+        });
+        // studentsBtn
+        JButton studentsBtn = makeBtn("Students", "studentsIconBlue.png");
         studentsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                playSound("src/main/ui/sounds/button-30.wav");
                 new StudentsApp(mySchool);
             }
         });
-
-        JButton teachersBtn = makeBtn("Teachers", "teachersBtnIcon.png");
-        JButton coursesBtn = makeBtn("Courses", "coursesBtnIcon.png");
+        // teachersBtn
+        JButton teachersBtn = makeBtn("Teachers", "teachersIconBlue.png");
+        teachersBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playSound("src/main/ui/sounds/button-30.wav");
+                new TeachersApp(mySchool);
+            }
+        });
+        // coursesBtn
+        JButton coursesBtn = makeBtn("Courses", "courseIconBlue.png");
+        coursesBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playSound("src/main/ui/sounds/button-30.wav");
+                new CoursesApp(mySchool);
+            }
+        });
 
         lowerPanel.add(overviewBtn);
         lowerPanel.add(studentsBtn);
@@ -79,37 +133,6 @@ public class HomeApp {
         return newBtn;
     }
 
-    // makes and returns the upper half of home page
-    public Component makeUpperPanel() {
-        JPanel upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout());
-        upperPanel.setBackground(myColor);
-
-        // create and add main title
-        JLabel mainTitleLabel = new JLabel(" EduMaster Home");
-        mainTitleLabel.setIcon(createImageIcon("./images/edumasterhomeicon.png"));
-        mainTitleLabel.setFont(new Font("Proxima Nova", Font.BOLD, 30));
-        mainTitleLabel.setForeground(Color.white);
-        mainTitleLabel.setBorder(new EmptyBorder(70, 50, 70, 0));
-        upperPanel.add(mainTitleLabel, BorderLayout.CENTER);
-
-        return upperPanel;
-    }
-
-//    public Component rightSideUpperPanel() {
-//        JPanel upperRightPanel = new JPanel();
-//        upperRightPanel.setLayout(new GridLayout(2, 1));
-//
-//        JButton newTransactionsButton = new JButton("Enact New Transactions");
-//
-//        upperRightPanel.add(newTransactionsButton);
-//
-//        JButton newYearButton = new JButton("Start New Year");
-//        upperRightPanel.add(newYearButton);
-//
-//        return upperRightPanel;
-//    }
-
     // MODIFIES: this
     // EFFECTS: loads School from school.json file, if that file exists.
     // otherwise, initialize new School
@@ -120,25 +143,41 @@ public class HomeApp {
             Reader reader = new FileReader("./data/school.json");
             mySchool = gson.fromJson(reader, School.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            init();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes School
+    private void init() {
+        mySchool = new School("UBC");
+    }
+
+    // EFFECTS: takes a file path and plays a sound file
+    public static void playSound(String soundName) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
         }
     }
 
     // takes png image, scales it and returns it as an ImageIcon object
     protected static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = TabbedPaneDemo.class.getResource(path);
+        java.net.URL imgURL = HomeApp.class.getResource(path);
         if (imgURL != null) {
             ImageIcon unscaledIcon = new ImageIcon(imgURL);
             Image image = unscaledIcon.getImage();
             Image newImg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(newImg);
-
             return scaledIcon;
-
         } else {
             System.err.println("Couldn't find file: " + path);
             return null;
         }
     }
-
 }

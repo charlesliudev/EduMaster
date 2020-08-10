@@ -10,8 +10,12 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+
+import static ui.HomeApp.createImageIcon;
 
 // builds and runs the students page
 public class StudentsApp extends JPanel {
@@ -24,7 +28,6 @@ public class StudentsApp extends JPanel {
     public StudentsApp(School school) {
         this.mySchool = school;
         runStudentsApp();
-        //showStudentPage(mySchool.students.get(0));
     }
 
     // builds the students page
@@ -33,9 +36,38 @@ public class StudentsApp extends JPanel {
         frame.setFont(new Font("Proxima Nova", Font.PLAIN, 13));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setForeground(myColor);
+        frame.setBackground(myColor);
+        frame.setLayout(new BorderLayout());
 
-        Container contentPane = frame.getContentPane();
+        frame.add(makeUpperPanel(), BorderLayout.NORTH);
+        frame.add(makeLowerPanel(), BorderLayout.CENTER);
 
+        frame.pack();
+        frame.getContentPane().requestFocusInWindow();
+        frame.setSize(800, 750);
+        frame.setVisible(true);
+    }
+
+    // makes the upper panel
+    public Component makeUpperPanel() {
+        JPanel upperPanel = new JPanel();
+        upperPanel.setLayout(new BorderLayout());
+        upperPanel.setBackground(myColor);
+        upperPanel.setPreferredSize(new Dimension(800, 150));
+
+        JLabel mainTitleLabel = new JLabel(" Students");
+        mainTitleLabel.setIcon(createImageIcon("./images/studentsIconWhite.png"));
+        mainTitleLabel.setFont(new Font("Proxima Nova", Font.BOLD, 30));
+        mainTitleLabel.setForeground(Color.white);
+        mainTitleLabel.setBorder(new EmptyBorder(70, 70, 70, 0));
+        upperPanel.add(mainTitleLabel, BorderLayout.CENTER);
+
+        return upperPanel;
+    }
+
+    // makes the lower panel
+    public Component makeLowerPanel() {
+        JPanel contentPane = new JPanel();
         SpringLayout layout = new SpringLayout();
         contentPane.setLayout(layout);
 
@@ -44,11 +76,10 @@ public class StudentsApp extends JPanel {
         makeGetStudentSection(contentPane, layout);
         makeStudentTable(contentPane, layout, mySchool.students);
 
-        frame.setSize(800, 600);
-        frame.setVisible(true);
+        return contentPane;
     }
 
-    // displaysn the add student section
+    // displays the add student section
     public void makeAddStudentSection(Container contentPane, SpringLayout layout) {
         JLabel addNewStudentLabel = new JLabel("Add New Student: ", JLabel.CENTER);
         addNewStudentLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -77,10 +108,34 @@ public class StudentsApp extends JPanel {
                 SpringLayout.EAST, studentLastNameTxtField);
         layout.putConstraint(SpringLayout.NORTH, submitNewStudentBtn, 25, SpringLayout.NORTH, contentPane);
 
+        // ADD FOCUS LISTENER
+        studentFirstNameTxtField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                studentFirstNameTxtField.setText("");
+            }
+            public void focusLost(FocusEvent e) {
+                if (studentFirstNameTxtField.getText().equals("")) {
+                    studentFirstNameTxtField.setText("First Name");
+                }
+            }
+        });
+
+        studentLastNameTxtField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                studentLastNameTxtField.setText("");
+            }
+            public void focusLost(FocusEvent e) {
+                if (studentLastNameTxtField.getText().equals("")) {
+                    studentLastNameTxtField.setText("Last Name");
+                }
+            }
+        });
+
         // ADD BUTTON LISTENER TO ADD NEW STUDENT:
         submitNewStudentBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HomeApp.playSound("src/main/ui/sounds/button-30.wav");
                 String unhandledFirstName = studentFirstNameTxtField.getText();
                 String firstName = unhandledFirstName.substring(0, 1).toUpperCase()
                         + unhandledFirstName.substring(1).toLowerCase();
@@ -123,10 +178,23 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, removeStudentBtn, 10, SpringLayout.EAST, studentIdTxtField);
         layout.putConstraint(SpringLayout.NORTH, removeStudentBtn, 60, SpringLayout.NORTH, contentPane);
 
+        // ADD FOCUS LISTENER
+        studentIdTxtField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                studentIdTxtField.setText("");
+            }
+            public void focusLost(FocusEvent e) {
+                if (studentIdTxtField.getText().equals("")) {
+                    studentIdTxtField.setText("Student ID");
+                }
+            }
+        });
+
         // ADD BUTTON LISTENER TO REMOVE STUDENT:
         removeStudentBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HomeApp.playSound("src/main/ui/sounds/button-30.wav");
                 try {
                     int studentId = Integer.valueOf(studentIdTxtField.getText());
                     if (findStudentByID(studentId) != null) {
@@ -140,6 +208,7 @@ public class StudentsApp extends JPanel {
                         JOptionPane.showMessageDialog(frame, "Please enter valid ID.");
                     }
                 } catch (NumberFormatException f) {
+                    f.printStackTrace();
                     JOptionPane.showMessageDialog(frame, "Please enter valid 6-digit ID.");
                 }
             }
@@ -177,10 +246,24 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, getStudentBtn, 10, SpringLayout.EAST, studentIdTxtField);
         layout.putConstraint(SpringLayout.NORTH, getStudentBtn, 95, SpringLayout.NORTH, contentPane);
 
+        // ADD FOCUS LISTENER
+        studentIdTxtField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                studentIdTxtField.setText("");
+            }
+
+            public void focusLost(FocusEvent e) {
+                if (studentIdTxtField.getText().equals("")) {
+                    studentIdTxtField.setText("Student ID");
+                }
+            }
+        });
+
         // ADD BUTTON LISTENER TO GET STUDENT:
         getStudentBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HomeApp.playSound("src/main/ui/sounds/button-30.wav");
                 try {
                     int studentId = Integer.valueOf(studentIdTxtField.getText());
                     if (findStudentByID(studentId) != null) {
@@ -245,6 +328,7 @@ public class StudentsApp extends JPanel {
         // end stuff
         singleStudentFrame.add(singleStudentPanel);
         singleStudentFrame.pack();
+        singleStudentFrame.getContentPane().requestFocusInWindow();
         singleStudentFrame.setSize(new Dimension(735, 610));
         singleStudentFrame.setVisible(true);
     }
@@ -282,7 +366,7 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, enrollNewCourseLabel, 30, SpringLayout.WEST, singleStudentPanel);
         layout.putConstraint(SpringLayout.NORTH, enrollNewCourseLabel, 90, SpringLayout.NORTH, singleStudentPanel);
 
-        JTextField newCourseName = new JTextField("e.g. 'CPSC-210'", 10);
+        JTextField newCourseName = new JTextField("e.g.'CPSC-210'", 10);
         singleStudentPanel.add(newCourseName);
         layout.putConstraint(SpringLayout.WEST, newCourseName, 150, SpringLayout.WEST, singleStudentPanel);
         layout.putConstraint(SpringLayout.NORTH, newCourseName, 85, SpringLayout.NORTH, singleStudentPanel);
@@ -292,10 +376,24 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, submitNewCourse, 280, SpringLayout.WEST, singleStudentPanel);
         layout.putConstraint(SpringLayout.NORTH, submitNewCourse, 85, SpringLayout.NORTH, singleStudentPanel);
 
+        // ADD FOCUS LISTENER
+        newCourseName.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                newCourseName.setText("");
+            }
+
+            public void focusLost(FocusEvent e) {
+                if (newCourseName.getText().equals("")) {
+                    newCourseName.setText("e.g.'CPSC-210'");
+                }
+            }
+        });
+
         // ADD BUTTON LISTENER TO ENROLL STUDENT:
         submitNewCourse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HomeApp.playSound("src/main/ui/sounds/button-30.wav");
                 String courseInput = newCourseName.getText();
                 Course theCourse = findCourseByName(courseInput);
                 if (theCourse != null) {
@@ -307,7 +405,8 @@ public class StudentsApp extends JPanel {
                         JOptionPane.showMessageDialog(singleStudentFrame, "Sorry, this course is full.");
                     }
                 } else {
-                    System.out.println("Sorry, course not found. Try viewing all courses offered.");
+                    JOptionPane.showMessageDialog(singleStudentFrame,
+                            "Sorry, course not found. Try viewing all courses offered.");
                 }
             }
         });
@@ -342,10 +441,25 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, submitAmountPaid, 280, SpringLayout.WEST, singleStudentPanel);
         layout.putConstraint(SpringLayout.NORTH, submitAmountPaid, 115, SpringLayout.NORTH, singleStudentPanel);
 
+
+        // ADD FOCUS LISTENER
+        amountPaid.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                amountPaid.setText("");
+            }
+
+            public void focusLost(FocusEvent e) {
+                if (amountPaid.getText().equals("")) {
+                    amountPaid.setText("amount($)");
+                }
+            }
+        });
+
         // ADD BUTTON LISTENER TO PAY TUITION
         submitAmountPaid.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HomeApp.playSound("src/main/ui/sounds/button-30.wav");
                 try {
                     int paymentAmount = Integer.valueOf(amountPaid.getText());
                     if (paymentAmount < 0) {

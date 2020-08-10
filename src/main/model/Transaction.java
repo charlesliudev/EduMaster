@@ -29,7 +29,7 @@ public class Transaction {
         this.amount = amount;
         this.transactionID = generateTransactionID(school);
         this.timestamp = formatDate(LocalDateTime.now());
-        this.transactionSummary = "Teacher " + teacher.teacherID + " was paid $" + amount + " on" + this.timestamp;
+        this.transactionSummary = "Teacher " + teacher.teacherID + " was paid $" + amount + " on " + this.timestamp;
     }
 
     //EFFECTS: returns a transaction ID that increments the last transaction ID by 1. If it is the school's first

@@ -40,3 +40,12 @@ with an application that is simple but in the field of financial management.
 - As a user, I want to be able to see a financial overview of the School
 - As a user, I want to be able to save the current state of the School
 - As a user, I want to be able to reload the previous state of the School when I open the application again
+
+## Instructions for Grader
+- You can generate the first required event by adding Students to the School: Students -> First Name -> Last Name -> 
+Add Student. The new student will then be displayed into the "Enrolled-Students" table.
+- You can generate the second required event by adding Teachers to the School: Teachers -> First Name -> Last Name -> 
+Add Teacher. The new student will then be displayed into the "Teachers" table.
+- You can trigger the audio component of this application by clicking on any button! 
+- You can automatically load the previous state of the application simply by opening it.
+- You can automatically save the state of the application by closing it.
