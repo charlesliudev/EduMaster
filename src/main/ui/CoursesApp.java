@@ -2,7 +2,6 @@ package ui;
 
 import model.Course;
 import model.School;
-import model.Student;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -77,23 +76,10 @@ public class CoursesApp extends JPanel {
         return contentPane;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     // displays the add course section
     public void makeAddCourseSection(Container contentPane, SpringLayout layout) {
         JLabel addNewCourseLabel = new JLabel("Add New Course: ", JLabel.CENTER);
         addNewCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
-
         JTextField courseNameTxtField = addFocusCourseNameTxtField();
         JTextField tuitionTxtField = addFocusTuitionTxtField();
         JTextField salaryTxtField = addFocusSalaryTxtField();
@@ -101,12 +87,8 @@ public class CoursesApp extends JPanel {
         JButton submitNewCourseBtn = addActionListenerSubmitCourseBtn(courseNameTxtField,
                 tuitionTxtField, salaryTxtField, maxStudentsTxtField);
 
-        contentPane.add(addNewCourseLabel);
-        contentPane.add(courseNameTxtField);
-        contentPane.add(tuitionTxtField);
-        contentPane.add(salaryTxtField);
-        contentPane.add(maxStudentsTxtField);
-        contentPane.add(submitNewCourseBtn);
+        addContentToPane(addNewCourseLabel, courseNameTxtField, tuitionTxtField, salaryTxtField,
+                maxStudentsTxtField, submitNewCourseBtn, contentPane);
 
         layout.putConstraint(SpringLayout.WEST, addNewCourseLabel, 100, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.NORTH, addNewCourseLabel, 30, SpringLayout.NORTH, contentPane);
@@ -120,6 +102,18 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, maxStudentsTxtField, 50, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, submitNewCourseBtn, 15, SpringLayout.EAST, maxStudentsTxtField);
         layout.putConstraint(SpringLayout.NORTH, submitNewCourseBtn, 50, SpringLayout.NORTH, contentPane);
+    }
+
+    // adds content to contentPane
+    public void addContentToPane(JLabel addNewCourseLabel, JTextField courseNameTxtField, JTextField tuitionTxtField,
+                                 JTextField salaryTxtField, JTextField maxStudentsTxtField,
+                                 JButton submitNewCourseBtn, Container contentPane) {
+        contentPane.add(addNewCourseLabel);
+        contentPane.add(courseNameTxtField);
+        contentPane.add(tuitionTxtField);
+        contentPane.add(salaryTxtField);
+        contentPane.add(maxStudentsTxtField);
+        contentPane.add(submitNewCourseBtn);
     }
 
     // adds focus listener to course name text field and returns text field
@@ -205,9 +199,7 @@ public class CoursesApp extends JPanel {
                     int maxStudents = Integer.valueOf(maxStudentsTxtField.getText());
 
                     if (isValid(courseTuition, courseSalary, maxStudents)) {
-                        Course newCourse = new Course(courseToAddName, courseTuition, courseSalary, maxStudents);
-                        mySchool.addCourse(newCourse);
-                        JOptionPane.showMessageDialog(frame, courseToAddName + " was successfully added.");
+                        addCourseDecreaseMethodSize(courseToAddName, courseTuition, courseSalary, maxStudents);
                         new CoursesApp(mySchool);
                         frame.dispose();
                     } else {
@@ -221,6 +213,14 @@ public class CoursesApp extends JPanel {
         return submitNewCourseBtn;
     }
 
+    // adds the course to the school when button is clicked
+    public void addCourseDecreaseMethodSize(String courseToAddName, int courseTuition,
+                                            int courseSalary, int maxStudents) {
+        Course newCourse = new Course(courseToAddName, courseTuition, courseSalary, maxStudents);
+        mySchool.addCourse(newCourse);
+        JOptionPane.showMessageDialog(frame, courseToAddName + " was successfully added.");
+    }
+
     // checks if int inputs are all > 0
     public boolean isValid(int courseTuition, int courseSalary, int maxStudents) {
         if ((courseTuition < 0) || (courseSalary < 0) || (maxStudents < 0)) {
@@ -229,23 +229,12 @@ public class CoursesApp extends JPanel {
         return true;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     // displays the remove course section
     public void makeRemoveCourseSection(Container contentPane, SpringLayout layout) {
         JLabel removeCourseLabel = new JLabel("Remove a Course: ", JLabel.CENTER);
         removeCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
-        JTextField courseNameTxtField = new JTextField("e.g.'CPSC-210'", 22);
-        JButton removeCourseBtn = new JButton("Remove Course");
+        JTextField courseNameTxtField = addFocusLongCourseNameTxtField();
+        JButton removeCourseBtn = addActionListenerRemoveCourseBtn(courseNameTxtField);
 
         contentPane.add(removeCourseLabel);
         contentPane.add(courseNameTxtField);
@@ -259,20 +248,28 @@ public class CoursesApp extends JPanel {
 
         layout.putConstraint(SpringLayout.WEST, removeCourseBtn, 15, SpringLayout.EAST, courseNameTxtField);
         layout.putConstraint(SpringLayout.NORTH, removeCourseBtn, 85, SpringLayout.NORTH, contentPane);
+    }
 
-        // ADD FOCUS LISTENER
+    // adds focus listener to course name txt field
+    public JTextField addFocusLongCourseNameTxtField() {
+        JTextField courseNameTxtField = new JTextField("e.g.'CPSC-210'", 22);
         courseNameTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 courseNameTxtField.setText("");
             }
+
             public void focusLost(FocusEvent e) {
                 if (courseNameTxtField.getText().equals("")) {
                     courseNameTxtField.setText("e.g.'CPSC-210'");
                 }
             }
         });
+        return courseNameTxtField;
+    }
 
-        // ADD BUTTON LISTENER TO REMOVE COURSE:
+    // adds action listener to remove course button, makes the button and returns it
+    public JButton addActionListenerRemoveCourseBtn(JTextField courseNameTxtField) {
+        JButton removeCourseBtn = new JButton("Remove Course");
         removeCourseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -289,14 +286,15 @@ public class CoursesApp extends JPanel {
                 }
             }
         });
+        return removeCourseBtn;
     }
 
     // gets a course and displays course profile
     public void makeGetCourseSection(Container contentPane, SpringLayout layout) {
         JLabel getCourseLabel = new JLabel("Get a Course: ", JLabel.CENTER);
         getCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
-        JTextField courseNameTxtField = new JTextField("e.g.'CPSC-210'", 22);
-        JButton getCourseBtn = new JButton("Get Course");
+        JTextField courseNameTxtField = addFocusLongCourseNameTxtField();
+        JButton getCourseBtn = addActionListenerGetCourseBtn(courseNameTxtField);
 
         contentPane.add(getCourseLabel);
         contentPane.add(courseNameTxtField);
@@ -309,20 +307,12 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, getCourseBtn, 15, SpringLayout.EAST, courseNameTxtField);
         layout.putConstraint(SpringLayout.NORTH, getCourseBtn, 120, SpringLayout.NORTH, contentPane);
 
-        // ADD FOCUS LISTENER
-        courseNameTxtField.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-                courseNameTxtField.setText("");
-            }
 
-            public void focusLost(FocusEvent e) {
-                if (courseNameTxtField.getText().equals("")) {
-                    courseNameTxtField.setText("e.g.'CPSC-210'");
-                }
-            }
-        });
+    }
 
-        // ADD BUTTON LISTENER TO GET COURSE:
+    // adds action listener to get course button and returns button
+    public JButton addActionListenerGetCourseBtn(JTextField courseNameTxtField) {
+        JButton getCourseBtn = new JButton("Get Course");
         getCourseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -336,6 +326,7 @@ public class CoursesApp extends JPanel {
                 }
             }
         });
+        return getCourseBtn;
     }
 
     // EFFECTS: takes the name of a course and searches for it in school. Return course if found, else return null

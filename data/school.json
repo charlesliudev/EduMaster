@@ -64,6 +64,14 @@
       "courseCost": 300,
       "courseSalary": 2000,
       "maxStudents": 50
+    },
+    {
+      "courseName": "LING-100",
+      "teachers": [],
+      "students": [],
+      "courseCost": 300,
+      "courseSalary": 800,
+      "maxStudents": 20
     }
   ],
   "accumulatedAnnualTuition": 500,
