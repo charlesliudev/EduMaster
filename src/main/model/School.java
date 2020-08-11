@@ -129,7 +129,7 @@ public class School implements Saveable {
     }
 
     // MODIFIES: this
-    // EFFECTS: resets AccumulatedAnnualTuition and AccumulatedAnnualSalary to 0
+    // EFFECTS: resets AccumulatedAnnualTuition and AccumulatedAnnualSalary to 0 to represent new year
     public void startNewYear() {
         this.accumulatedAnnualSalary = 0;
         this.accumulatedAnnualTuition = 0;
