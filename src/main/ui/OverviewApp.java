@@ -11,19 +11,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// builds and runs the overview page
+// EFFECTS: builds and runs the overview page
 public class OverviewApp {
     School mySchool;
     Color myColor = new Color(52, 79, 235);
     JFrame frame;
 
-    // runs overview app
+    // EFFECTS: runs overview app
     public OverviewApp(School school) {
         this.mySchool = school;
         runOverviewApp();
     }
 
-    // builds the students page
+    // EFFECTS: builds the students page
     public void runOverviewApp() {
         frame = new JFrame("Overview");
         frame.setFont(new Font("Proxima Nova", Font.PLAIN, 15));
@@ -41,7 +41,7 @@ public class OverviewApp {
         frame.setVisible(true);
     }
 
-    // makes upper panel of frame
+    // EFFECTS: makes upper panel of frame and returns it
     public Component makeUpperPanel() {
         JPanel upperPanel = new JPanel();
         upperPanel.setLayout(new BorderLayout());
@@ -58,7 +58,7 @@ public class OverviewApp {
         return upperPanel;
     }
 
-    // makes lower panel of frame
+    // EFFECTS: makes lower panel of frame and returns it
     public Component makeLowerPanel() {
         JPanel lowerPanel = new JPanel();
         SpringLayout layout = new SpringLayout();
@@ -75,7 +75,8 @@ public class OverviewApp {
     }
 
 
-    // makes and adds the master command Enact New Transactions
+    // MODIFIES: lowerPanel
+    // EFFECTS: makes and adds the master command Enact New Transactions
     public void makeEnactNewTrans(JPanel lowerPanel, SpringLayout layout) {
         JLabel enactNewTransLabel = new JLabel("Enact Outstanding Transactions:", JLabel.CENTER);
         enactNewTransLabel.setFont(new Font("Proxima Nova", Font.BOLD, 14));
@@ -102,7 +103,8 @@ public class OverviewApp {
         });
     }
 
-    // makes and adds the master command Start New Year
+    // MODIFIES: lowerPanel
+    // EFFECTS: makes and adds the master command Start New Year
     public void makeStartNewYear(JPanel lowerPanel, SpringLayout layout) {
         JLabel startNewYearLabel = new JLabel("Start New Financial Year:", JLabel.CENTER);
         startNewYearLabel.setFont(new Font("Proxima Nova", Font.BOLD, 14));
@@ -129,7 +131,8 @@ public class OverviewApp {
         });
     }
 
-    // makes and adds the course number count
+    // MODIFIES: lowerPanel
+    // EFFECTS: makes and adds the course number count
     public void makeNumberCourses(JPanel lowerPanel, SpringLayout layout) {
         JLabel numberCourses = new JLabel("Number of Courses Offered: " + mySchool.courses.size(), JLabel.CENTER);
         lowerPanel.add(numberCourses);
@@ -138,7 +141,8 @@ public class OverviewApp {
     }
 
 
-    // makes and adds student data block to panel in table
+    // MODIFIES; lowerPanel
+    // EFFECTS: makes and adds student data block to panel in table
     public Component makeStudentTable(JPanel lowerPanel, SpringLayout layout) {
         String[] tableHeader = {"Item", "Value"};
         Object[][] studentData = new Object[3][2];
@@ -169,7 +173,8 @@ public class OverviewApp {
         return scrollPane;
     }
 
-    // makes and adds teacher data block to panel in table
+    // MODIFIES: lowerPanel
+    // EFFECTS: makes and adds teacher data block to panel in table
     public Component makeTeacherTable(JPanel lowerPanel, SpringLayout layout) {
         String[] tableHeader = {"Item", "Value"};
         Object[][] teacherData = new Object[3][2];
@@ -200,9 +205,8 @@ public class OverviewApp {
         return scrollPane;
     }
 
-    // makes and adds transaction history data block to panel in table
-
-    // makes and adds tuition history table to panel for passed in student
+    // MODIFIES: lowerPanel
+    // EFFECTS: makes and adds transaction history table to panel for passed in student
     public void makeTransactionHistoryTable(JPanel lowerPanel, SpringLayout layout) {
         String[] tableHeader = {"Transaction Summary"};
         Object[][] transactionData = new Object[mySchool.transactionRecordSummary.size() + 1][1];
@@ -225,8 +229,7 @@ public class OverviewApp {
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 205, SpringLayout.NORTH, lowerPanel);
     }
 
-
-    // takes png image, scales it and returns it as an ImageIcon object
+    // EFFECTS: takes png image, scales it and returns it as an ImageIcon object
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = HomeApp.class.getResource(path);
         if (imgURL != null) {
@@ -242,6 +245,4 @@ public class OverviewApp {
             return null;
         }
     }
-
-
 }

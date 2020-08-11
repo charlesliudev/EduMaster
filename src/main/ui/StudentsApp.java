@@ -14,20 +14,20 @@ import java.util.ArrayList;
 
 import static ui.HomeApp.createImageIcon;
 
-// builds and runs the students page
+// EFFECTS: builds and runs the students page
 public class StudentsApp extends JPanel {
     School mySchool;
     Color myColor = new Color(52, 79, 235);
     JFrame frame;
     JFrame singleStudentFrame;
 
-    // runs student app
+    // EFFECTS: runs student app
     public StudentsApp(School school) {
         this.mySchool = school;
         runStudentsApp();
     }
 
-    // builds the students page
+    // EFFECTS: builds the students page
     public void runStudentsApp() {
         frame = new JFrame("Students");
         frame.setFont(new Font("Proxima Nova", Font.PLAIN, 13));
@@ -45,7 +45,7 @@ public class StudentsApp extends JPanel {
         frame.setVisible(true);
     }
 
-    // makes the upper panel
+    // EFFECTS: makes the upper panel and returns it
     public Component makeUpperPanel() {
         JPanel upperPanel = new JPanel();
         upperPanel.setLayout(new BorderLayout());
@@ -62,7 +62,7 @@ public class StudentsApp extends JPanel {
         return upperPanel;
     }
 
-    // makes the lower panel
+    // EFFECTS: makes the lower panel and returns it
     public Component makeLowerPanel() {
         JPanel contentPane = new JPanel();
         SpringLayout layout = new SpringLayout();
@@ -76,7 +76,8 @@ public class StudentsApp extends JPanel {
         return contentPane;
     }
 
-    // displays the add student section
+    // MODIFIES: contentPane
+    // EFFECTS: displays the add student section
     public void makeAddStudentSection(Container contentPane, SpringLayout layout) {
         JLabel addNewStudentLabel = new JLabel("Add New Student: ", JLabel.CENTER);
         addNewStudentLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -99,7 +100,7 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, submitNewStudentBtn, 25, SpringLayout.NORTH, contentPane);
     }
 
-    // adds focus listener to first name text field and returns it
+    // EFFECTS: adds focus listener to first name text field and returns it
     public JTextField addFocusFirstName() {
         JTextField firstNameTxtField = new JTextField("First Name", 10);
         firstNameTxtField.addFocusListener(new FocusListener() {
@@ -116,7 +117,7 @@ public class StudentsApp extends JPanel {
         return firstNameTxtField;
     }
 
-    // adds focus listener to last name text field and returns it
+    // EFFECTS: adds focus listener to last name text field and returns it
     public JTextField addFocusLastName() {
         JTextField lastNameTxtField = new JTextField("Last Name", 10);
         lastNameTxtField.addFocusListener(new FocusListener() {
@@ -133,6 +134,7 @@ public class StudentsApp extends JPanel {
         return lastNameTxtField;
     }
 
+    // EFFECTS: adds action listener to submit new student btn and returns it
     public JButton addActionListenerSubmitBtn(JTextField firstNameTxtField, JTextField lastNameTxtField) {
         JButton submitNewStudentBtn = new JButton("Add Student");
         // ADD BUTTON LISTENER TO ADD NEW STUDENT:
@@ -160,7 +162,8 @@ public class StudentsApp extends JPanel {
         return submitNewStudentBtn;
     }
 
-    // displays the remove student section
+    // MODIFIES: contentPane
+    // EFFECTS: displays the remove student section
     public void makeRemoveStudentSection(Container contentPane, SpringLayout layout) {
         JLabel removeStudentLabel = new JLabel("Remove a Student: ", JLabel.CENTER);
         removeStudentLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -179,7 +182,7 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, removeStudentBtn, 60, SpringLayout.NORTH, contentPane);
     }
 
-    // adds focus listener to text field then returns it
+    // EFFECTS: adds focus listener to text field then returns it
     public JTextField addFocusStudentIdTxtField() {
         JTextField studentIdTxtField = new JTextField("Student ID", 22);
         studentIdTxtField.addFocusListener(new FocusListener() {
@@ -196,7 +199,7 @@ public class StudentsApp extends JPanel {
         return studentIdTxtField;
     }
 
-    // adds action listener to remove teacher btn and returns btn
+    // EFFECTS: adds action listener to remove teacher btn and returns btn
     public JButton addActionListenerRemoveStudentBtn(JTextField studentIdTxtField) {
         JButton removeStudentBtn = new JButton("Remove Student");
         removeStudentBtn.addActionListener(new ActionListener() {
@@ -233,8 +236,8 @@ public class StudentsApp extends JPanel {
         return null;
     }
 
-
-    // get a student
+    // MODIFIES: contentPane
+    // EFFECTS: makes the get a student section and adds it to contentPane
     public void makeGetStudentSection(Container contentPane, SpringLayout layout) {
         JLabel getStudentLabel = new JLabel("Get a Student: ", JLabel.CENTER);
         getStudentLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -253,7 +256,7 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, getStudentBtn, 95, SpringLayout.NORTH, contentPane);
     }
 
-    //adds action listener to get student button and returns the button
+    //EFFECTS: adds action listener to get student button and returns the button
     public JButton addActionListenerGetStudentBtn(JTextField studentIdTxtField) {
         JButton getStudentBtn = new JButton("Get Student");
         getStudentBtn.addActionListener(new ActionListener() {
@@ -276,7 +279,8 @@ public class StudentsApp extends JPanel {
         return getStudentBtn;
     }
 
-    // show the students in table
+    // MODIFIES: contentPane
+    // EFFECTS: show the students in table and add to contentPane
     public void makeStudentTable(Container contentPane, SpringLayout layout, ArrayList<Student> students) {
         // create students table
         String[] studentTableHeader = {"First Name", "Last Name", "Student ID"};
@@ -304,6 +308,7 @@ public class StudentsApp extends JPanel {
     }
 
     // DISPLAY AN INDIVIDUAL STUDENT: ---------------------------------------
+    // EFFECTS: makes the student profile page
     public void showStudentPage(Student student) {
         singleStudentFrame = new JFrame("Viewing " + student.firstName + " " + student.lastName);
         singleStudentFrame.setFont(new Font("Proxima Nova", Font.PLAIN, 13));
@@ -329,7 +334,8 @@ public class StudentsApp extends JPanel {
         singleStudentFrame.setVisible(true);
     }
 
-    // makes and adds the name title to student panel
+    // MODIFIES: singleStudentPanel
+    // EFFECTS: makes and adds the name title to student panel
     public void makeNameTitle(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         String fullName = student.firstName + " " + student.lastName;
         JLabel nameTitle = new JLabel(fullName + "'s Profile", JLabel.CENTER);
@@ -339,7 +345,8 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, nameTitle, 15, SpringLayout.NORTH, singleStudentPanel);
     }
 
-    // shows student ID and outstanding tuition for single student
+    // MODIFIES: singleStudentPanel
+    // EFFECTS: shows student ID and outstanding tuition for single student
     public void makeStudentDataBlock(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         JLabel studentIdLabel = new JLabel("Student ID: " + student.studentID);
         singleStudentPanel.add(studentIdLabel);
@@ -354,7 +361,8 @@ public class StudentsApp extends JPanel {
                 SpringLayout.NORTH, singleStudentPanel);
     }
 
-    // shows section where user can enroll student into new course
+    // MODIFIES: singleStudentPanel
+    // EFFECTS: shows section where user can enroll student into new course
     public void makeEnrollNewCourseSection(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         JLabel enrollNewCourseLabel = new JLabel("Enroll to Course: ");
         enrollNewCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -373,7 +381,7 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, submitNewCourse, 85, SpringLayout.NORTH, singleStudentPanel);
     }
 
-    // adds focus listener to new course name text field and returns it
+    //EFFECTS: adds focus listener to new course name text field and returns it
     public JTextField addFocusListenerCourseNameTxtField() {
         JTextField newCourseName = new JTextField("e.g.'CPSC-210'", 10);
         newCourseName.addFocusListener(new FocusListener() {
@@ -390,7 +398,7 @@ public class StudentsApp extends JPanel {
         return newCourseName;
     }
 
-    // adds action listener to submit new course button and returns it
+    // EFFECTS: adds action listener to submit new course button and returns it
     public JButton addActionListenerSubmitNewCourseBtn(JTextField newCourseName, Student student) {
         JButton submitNewCourse = new JButton("Enroll");
         submitNewCourse.addActionListener(new ActionListener() {
@@ -416,7 +424,6 @@ public class StudentsApp extends JPanel {
         return submitNewCourse;
     }
 
-
     // EFFECTS: takes the name of a course and searches for it in school. Return course if found, else return null
     private Course findCourseByName(String name) {
         for (Course course : mySchool.courses) {
@@ -427,7 +434,8 @@ public class StudentsApp extends JPanel {
         return null;
     }
 
-    // shows section where user can record student tuition payment
+    // MODIFIES: singleStudentPanel
+    // EFFECTS: shows section where user can record student tuition payment
     public void makePayTuitionSection(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         JLabel payTuitionLabel = new JLabel("Pay Tuition: ");
         payTuitionLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -446,7 +454,7 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, submitAmountPaid, 115, SpringLayout.NORTH, singleStudentPanel);
     }
 
-    // adds focus listener to tuition amount text field and returns it
+    // EFFECTS: adds focus listener to tuition amount text field and returns it
     public JTextField addFocusListenerAmountTxtField() {
         JTextField amountPaid = new JTextField("amount($)", 10);
         amountPaid.addFocusListener(new FocusListener() {
@@ -463,7 +471,7 @@ public class StudentsApp extends JPanel {
         return amountPaid;
     }
 
-    // adds action listener to pay salary button
+    // EFFECTS: adds action listener to pay salary button
     public JButton addActionListenerPayTuitionBtn(JTextField amountPaid, Student student) {
         JButton submitAmountPaid = new JButton("Pay Amount");
         submitAmountPaid.addActionListener(new ActionListener() {
@@ -488,7 +496,8 @@ public class StudentsApp extends JPanel {
         return submitAmountPaid;
     }
 
-    // makes and adds the enrolled courses table to panel
+    // MODIFIES: singleStudentPanel
+    // EFFECTS: makes and adds the enrolled courses table to panel
     public void makeEnrolledCoursesTable(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         String[] tableHeader = {"Course Name"};
         Object[][] courseData = new Object[student.coursesEnrolled.size() + 1][1];
@@ -511,7 +520,8 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 160, SpringLayout.NORTH, singleStudentPanel);
     }
 
-    // makes and adds tuition history table to panel for passed in student
+    // MODIFIES: singleStudentPanel
+    // EFFECTS: makes and adds tuition history table to panel for passed in student
     public void makeTuitionHistoryTable(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         String[] tableHeader = {"Amount Paid ($)", "Timestamp", "Transaction ID"};
         Object[][] tuitionData = new Object[student.tuitionRecord.size() + 1][3];

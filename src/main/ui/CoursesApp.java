@@ -14,20 +14,20 @@ import java.util.ArrayList;
 
 import static ui.HomeApp.createImageIcon;
 
-// builds and runs the courses page
+// EFFECTS: builds and runs the courses page
 public class CoursesApp extends JPanel {
     School mySchool;
     Color myColor = new Color(52, 79, 235);
     JFrame frame;
     JFrame singleCourseFrame;
 
-    // runs course app
+    // EFFECTS: runs course app
     public CoursesApp(School school) {
         this.mySchool = school;
         runCoursesApp();
     }
 
-    // builds the courses page
+    // EFFECTS: builds the courses page
     public void runCoursesApp() {
         frame = new JFrame("Courses");
         frame.setFont(new Font("Proxima Nova", Font.PLAIN, 13));
@@ -45,7 +45,7 @@ public class CoursesApp extends JPanel {
         frame.setVisible(true);
     }
 
-    // makes the upper panel
+    // EFFECTS: makes the upper panel and returns it
     public Component makeUpperPanel() {
         JPanel upperPanel = new JPanel();
         upperPanel.setLayout(new BorderLayout());
@@ -62,7 +62,7 @@ public class CoursesApp extends JPanel {
         return upperPanel;
     }
 
-    // makes the lower panel
+    // EFFECTS: makes the lower panel and returns it
     public Component makeLowerPanel() {
         JPanel contentPane = new JPanel();
         SpringLayout layout = new SpringLayout();
@@ -76,7 +76,8 @@ public class CoursesApp extends JPanel {
         return contentPane;
     }
 
-    // displays the add course section
+    // MODIFIES: contentPane
+    // EFFECTS: displays the add course section and add to contentPane
     public void makeAddCourseSection(Container contentPane, SpringLayout layout) {
         JLabel addNewCourseLabel = new JLabel("Add New Course: ", JLabel.CENTER);
         addNewCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -104,7 +105,8 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, submitNewCourseBtn, 50, SpringLayout.NORTH, contentPane);
     }
 
-    // adds content to contentPane
+    // MODIFIES: contentPane
+    // EFFECTS: takes components and adds them to contentPane
     public void addContentToPane(JLabel addNewCourseLabel, JTextField courseNameTxtField, JTextField tuitionTxtField,
                                  JTextField salaryTxtField, JTextField maxStudentsTxtField,
                                  JButton submitNewCourseBtn, Container contentPane) {
@@ -116,7 +118,7 @@ public class CoursesApp extends JPanel {
         contentPane.add(submitNewCourseBtn);
     }
 
-    // adds focus listener to course name text field and returns text field
+    // EFFECTS: adds focus listener to course name text field and returns text field
     public JTextField addFocusCourseNameTxtField() {
         JTextField courseNameTxtField = new JTextField("e.g.'CPSC-121'", 10);
         courseNameTxtField.addFocusListener(new FocusListener() {
@@ -133,7 +135,7 @@ public class CoursesApp extends JPanel {
         return courseNameTxtField;
     }
 
-    // adds focus listener to tuition text field and returns text field
+    // EFFECTS: adds focus listener to tuition text field and returns text field
     public JTextField addFocusTuitionTxtField() {
         JTextField tuitionTxtField = new JTextField("Annual Tuition", 10);
         tuitionTxtField.addFocusListener(new FocusListener() {
@@ -150,7 +152,7 @@ public class CoursesApp extends JPanel {
         return tuitionTxtField;
     }
 
-    // adds focus listener to salary text field and returns text field
+    // EFFECTS: adds focus listener to salary text field and returns text field
     public JTextField addFocusSalaryTxtField() {
         JTextField salaryTxtField = new JTextField("Annual Salary", 10);
         salaryTxtField.addFocusListener(new FocusListener() {
@@ -167,7 +169,7 @@ public class CoursesApp extends JPanel {
         return salaryTxtField;
     }
 
-    // adds focus listener to max students text field and returns text field
+    // EFFECTS: adds focus listener to max students text field and returns text field
     public JTextField addFocusMaxStudentsTxtField() {
         JTextField maxStudentsTxtField = new JTextField("Seat Limit", 10);
         maxStudentsTxtField.addFocusListener(new FocusListener() {
@@ -184,7 +186,7 @@ public class CoursesApp extends JPanel {
         return maxStudentsTxtField;
     }
 
-    // adds action listener to submit new course button and returns the button
+    // EFFECTS: adds action listener to submit new course button and returns the button
     public JButton addActionListenerSubmitCourseBtn(JTextField courseNameTxtField, JTextField tuitionTxtField,
                                                     JTextField salaryTxtField, JTextField maxStudentsTxtField) {
         JButton submitNewCourseBtn = new JButton("Add Course");
@@ -213,7 +215,8 @@ public class CoursesApp extends JPanel {
         return submitNewCourseBtn;
     }
 
-    // adds the course to the school when button is clicked
+    // EFFECTS: adds the course to the school when button is clicked
+    // *NOTE* this method exists to decrease size of addActionListenerSubmitCourseBtn
     public void addCourseDecreaseMethodSize(String courseToAddName, int courseTuition,
                                             int courseSalary, int maxStudents) {
         Course newCourse = new Course(courseToAddName, courseTuition, courseSalary, maxStudents);
@@ -221,7 +224,7 @@ public class CoursesApp extends JPanel {
         JOptionPane.showMessageDialog(frame, courseToAddName + " was successfully added.");
     }
 
-    // checks if int inputs are all > 0
+    // EFFECTS: checks if all int inputs are all > 0, return true if they are, false otherwise
     public boolean isValid(int courseTuition, int courseSalary, int maxStudents) {
         if ((courseTuition < 0) || (courseSalary < 0) || (maxStudents < 0)) {
             return false;
@@ -229,7 +232,8 @@ public class CoursesApp extends JPanel {
         return true;
     }
 
-    // displays the remove course section
+    // MODIFIES: contentPane
+    // EFFECTS: displays the remove course section and adds to contentPane
     public void makeRemoveCourseSection(Container contentPane, SpringLayout layout) {
         JLabel removeCourseLabel = new JLabel("Remove a Course: ", JLabel.CENTER);
         removeCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -250,7 +254,7 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, removeCourseBtn, 85, SpringLayout.NORTH, contentPane);
     }
 
-    // adds focus listener to course name txt field
+    // EFFECTS: adds focus listener to course name txt field
     public JTextField addFocusLongCourseNameTxtField() {
         JTextField courseNameTxtField = new JTextField("e.g.'CPSC-210'", 22);
         courseNameTxtField.addFocusListener(new FocusListener() {
@@ -267,7 +271,7 @@ public class CoursesApp extends JPanel {
         return courseNameTxtField;
     }
 
-    // adds action listener to remove course button, makes the button and returns it
+    // EFFECTS: adds action listener to remove course button, makes the button and returns it
     public JButton addActionListenerRemoveCourseBtn(JTextField courseNameTxtField) {
         JButton removeCourseBtn = new JButton("Remove Course");
         removeCourseBtn.addActionListener(new ActionListener() {
@@ -289,7 +293,8 @@ public class CoursesApp extends JPanel {
         return removeCourseBtn;
     }
 
-    // gets a course and displays course profile
+    // MODIFIES: contentPane
+    // EFFECTS: gets a course and displays course profile
     public void makeGetCourseSection(Container contentPane, SpringLayout layout) {
         JLabel getCourseLabel = new JLabel("Get a Course: ", JLabel.CENTER);
         getCourseLabel.setFont(new Font("Proxima Nova", Font.BOLD, 13));
@@ -310,7 +315,7 @@ public class CoursesApp extends JPanel {
 
     }
 
-    // adds action listener to get course button and returns button
+    // EFFECTS: adds action listener to get course button and returns button
     public JButton addActionListenerGetCourseBtn(JTextField courseNameTxtField) {
         JButton getCourseBtn = new JButton("Get Course");
         getCourseBtn.addActionListener(new ActionListener() {
@@ -339,7 +344,8 @@ public class CoursesApp extends JPanel {
         return null;
     }
 
-    // show all the courses offered in a table
+    // MODIFIES: contentPane
+    // EFFECTS: show all the courses offered in a table and adds to contentPane
     public void makeCourseTable(Container contentPane, SpringLayout layout, ArrayList<Course> courses) {
         // create courses table
         String[] courseTableHeader = {"Course", "# of Students Enrolled", "Max. Students"};
@@ -366,6 +372,7 @@ public class CoursesApp extends JPanel {
     }
 
     // DISPLAY AN INDIVIDUAL COURSE: --------------------------------------------------
+    // EFFECTS: makes show individual course profile page
     public void showCoursePage(Course course) {
         singleCourseFrame = new JFrame("Viewing " + course.courseName);
         singleCourseFrame.setFont(new Font("Proxima Nova", Font.PLAIN, 13));
@@ -388,7 +395,8 @@ public class CoursesApp extends JPanel {
         singleCourseFrame.setVisible(true);
     }
 
-    // makes and adds the name title to course panel
+    // MODIFIES: singleCoursePanel
+    // EFFECTS: makes and adds the name title to course panel
     public void makeNameTitle(Course course, JPanel singleCoursePanel, SpringLayout layout) {
         JLabel nameTitle = new JLabel(course.courseName + " Profile", JLabel.CENTER);
         nameTitle.setFont(new Font("Proxima Nova", Font.BOLD, 17));
@@ -397,7 +405,8 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, nameTitle, 15, SpringLayout.NORTH, singleCoursePanel);
     }
 
-    // shows the tuition fees, salary pay, and max student count of course
+    // MODIFIES: singleCoursePanel
+    // EFFECTS: shows the tuition fees, salary pay, and max student count of course
     public void makeCourseDataBlock(Course course, JPanel singleCoursePanel, SpringLayout layout) {
         JLabel courseTuitionLabel = new JLabel("Annual Tuition: $" + course.courseCost);
         singleCoursePanel.add(courseTuitionLabel);
@@ -415,7 +424,8 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, courseMaxStudentLabel, 85, SpringLayout.NORTH, singleCoursePanel);
     }
 
-    // makes and adds the students enrolled in course and teachers that teach the course into a table
+    // MODIFIES: singleCoursePanel
+    // EFFECTS: makes and adds the students enrolled in course and teachers that teach the course into a table
     public void makeStudentTeacherTable(Course course, JPanel singleCoursePanel, SpringLayout layout) {
         String[] tableHeader = {"Students by ID", "Teachers by ID"};
         Object[][] tableData = new Object[returnLargerLength(course.students, course.teachers)][2];
@@ -444,7 +454,7 @@ public class CoursesApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 115, SpringLayout.NORTH, singleCoursePanel);
     }
 
-    // takes two lists of strings and returns longer length
+    // EFFECTS: takes two lists of strings and returns longer length
     public int returnLargerLength(ArrayList<String> listOne, ArrayList<String> listTwo) {
         if (listOne.size() > listTwo.size()) {
             return listOne.size();
@@ -452,5 +462,4 @@ public class CoursesApp extends JPanel {
             return listTwo.size();
         }
     }
-
 }

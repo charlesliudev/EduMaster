@@ -6,19 +6,29 @@
       "lastName": "Liu",
       "studentID": 100000,
       "coursesEnrolled": [
-        "CPSC-210"
+        "CPSC-210",
+        "COMM-290",
+        "LING-100"
       ],
       "coursesPaidFor": [
         "CPSC-121",
-        "CPSC-210"
+        "CPSC-210",
+        "COMM-290",
+        "LING-100"
       ],
-      "outstandingTuition": 500,
+      "outstandingTuition": 0,
       "tuitionRecord": [
         {
           "amount": 500,
           "timestamp": "09-08-2020 21:36:02",
           "transactionID": 300000,
           "transactionSummary": "Student 100000 paid in $500 on 09-08-2020 21:36:02"
+        },
+        {
+          "amount": 1100,
+          "timestamp": "10-08-2020 13:23:47",
+          "transactionID": 300001,
+          "transactionSummary": "Student 100000 paid in $1100 on 10-08-2020 13:23:47"
         }
       ],
       "schoolAttended": "UBC"
@@ -27,10 +37,44 @@
       "firstName": "Peter",
       "lastName": "Parker",
       "studentID": 100002,
-      "coursesEnrolled": [],
-      "coursesPaidFor": [],
+      "coursesEnrolled": [
+        "CPSC-121",
+        "COMM-290"
+      ],
+      "coursesPaidFor": [
+        "CPSC-121",
+        "COMM-290"
+      ],
       "outstandingTuition": 0,
-      "tuitionRecord": [],
+      "tuitionRecord": [
+        {
+          "amount": 600,
+          "timestamp": "10-08-2020 13:24:04",
+          "transactionID": 300002,
+          "transactionSummary": "Student 100002 paid in $600 on 10-08-2020 13:24:04"
+        }
+      ],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Tony",
+      "lastName": "Stark",
+      "studentID": 100003,
+      "coursesEnrolled": [
+        "LING-100"
+      ],
+      "coursesPaidFor": [
+        "LING-100"
+      ],
+      "outstandingTuition": 100,
+      "tuitionRecord": [
+        {
+          "amount": 200,
+          "timestamp": "10-08-2020 13:24:16",
+          "transactionID": 300003,
+          "transactionSummary": "Student 100003 paid in $200 on 10-08-2020 13:24:16"
+        }
+      ],
       "schoolAttended": "UBC"
     }
   ],
@@ -39,17 +83,55 @@
       "firstName": "Robert",
       "lastName": "Gateman",
       "teacherID": 200000,
-      "coursesTaught": [],
-      "coursesPaidFor": [],
+      "coursesTaught": [
+        "CPSC-210",
+        "CPSC-121"
+      ],
+      "coursesPaidFor": [
+        "CPSC-210",
+        "CPSC-121"
+      ],
       "outstandingSalary": 0,
-      "salaryRecord": [],
+      "salaryRecord": [
+        {
+          "amount": 2000,
+          "timestamp": "10-08-2020 13:24:38",
+          "transactionID": 300004,
+          "transactionSummary": "Teacher 200000 was paid $2000 on 10-08-2020 13:24:38"
+        }
+      ],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "El",
+      "lastName": "Halabi",
+      "teacherID": 200002,
+      "coursesTaught": [
+        "LING-100",
+        "COMM-290"
+      ],
+      "coursesPaidFor": [
+        "LING-100",
+        "COMM-290"
+      ],
+      "outstandingSalary": 0,
+      "salaryRecord": [
+        {
+          "amount": 2800,
+          "timestamp": "10-08-2020 13:24:50",
+          "transactionID": 300005,
+          "transactionSummary": "Teacher 200002 was paid $2800 on 10-08-2020 13:24:50"
+        }
+      ],
       "schoolAttended": "UBC"
     }
   ],
   "courses": [
     {
       "courseName": "CPSC-210",
-      "teachers": [],
+      "teachers": [
+        "200000"
+      ],
       "students": [
         "100000"
       ],
@@ -59,27 +141,54 @@
     },
     {
       "courseName": "COMM-290",
-      "teachers": [],
-      "students": [],
+      "teachers": [
+        "200002"
+      ],
+      "students": [
+        "100000",
+        "100002"
+      ],
       "courseCost": 300,
       "courseSalary": 2000,
       "maxStudents": 50
     },
     {
       "courseName": "LING-100",
-      "teachers": [],
-      "students": [],
+      "teachers": [
+        "200002"
+      ],
+      "students": [
+        "100000",
+        "100003"
+      ],
       "courseCost": 300,
       "courseSalary": 800,
       "maxStudents": 20
+    },
+    {
+      "courseName": "CPSC-121",
+      "teachers": [
+        "200000"
+      ],
+      "students": [
+        "100002"
+      ],
+      "courseCost": 300,
+      "courseSalary": 1000,
+      "maxStudents": 60
     }
   ],
-  "accumulatedAnnualTuition": 500,
-  "accumulatedAnnualSalary": 0,
+  "accumulatedAnnualTuition": 2400,
+  "accumulatedAnnualSalary": 4800,
   "transactionRecordSummary": [
-    "Student 100000 paid in $500 on 09-08-2020 21:36:02"
+    "Student 100000 paid in $500 on 09-08-2020 21:36:02",
+    "Student 100000 paid in $1100 on 10-08-2020 13:23:47",
+    "Student 100002 paid in $600 on 10-08-2020 13:24:04",
+    "Student 100003 paid in $200 on 10-08-2020 13:24:16",
+    "Teacher 200000 was paid $2000 on 10-08-2020 13:24:38",
+    "Teacher 200002 was paid $2800 on 10-08-2020 13:24:50"
   ],
-  "lastStudentIDGenerated": 100002,
-  "lastTeacherIDGenerated": 200001,
-  "lastTransactionIDGenerated": 300000
+  "lastStudentIDGenerated": 100003,
+  "lastTeacherIDGenerated": 200002,
+  "lastTransactionIDGenerated": 300005
 }

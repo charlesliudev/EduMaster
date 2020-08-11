@@ -25,12 +25,12 @@ public class HomeApp {
     School mySchool;
     Color myColor = new Color(52, 79, 235);
 
-    // runs home app
+    // EFFECTS: runs home app
     public HomeApp() {
         runHomeApp();
     }
 
-    // creates the home frame
+    // EFFECTS: creates the home frame
     public void runHomeApp() {
         loadAll();
         JFrame frame = new JFrame("EduMaster Home");
@@ -54,7 +54,7 @@ public class HomeApp {
         frame.setVisible(true);
     }
 
-    // makes and returns the upper half of home page
+    // EFFECTS: makes and returns the upper half of home page
     public Component makeUpperPanel() {
         JPanel upperPanel = new JPanel();
         upperPanel.setLayout(new BorderLayout());
@@ -71,7 +71,7 @@ public class HomeApp {
         return upperPanel;
     }
 
-    // makes and returns the lower half of home page, with options
+    // EFFECTS: makes and returns the lower half of home page, with options
     public Component makeLowerPanel() {
         JPanel lowerPanel = new JPanel();
         lowerPanel.setBorder(BorderFactory.createEmptyBorder(40, 55, 55, 55));
@@ -142,7 +142,7 @@ public class HomeApp {
         return coursesBtn;
     }
 
-    // returns a button for home page, with button text and the appropriate icon
+    // EFFECTS: returns a button for home page, with button text and the appropriate icon
     public JButton makeBtn(String buttonTxt, String iconName) {
         JButton newBtn = new JButton(buttonTxt);
         newBtn.setForeground(myColor);
@@ -187,7 +187,7 @@ public class HomeApp {
         }
     }
 
-    // takes png image, scales it and returns it as an ImageIcon object
+    // EFFECTS: takes png image, scales it and returns it as an ImageIcon object
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = HomeApp.class.getResource(path);
         if (imgURL != null) {
