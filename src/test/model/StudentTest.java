@@ -45,16 +45,16 @@ class StudentTest {
 
     @Test
     public void testEnroll() {
-        assertFalse(george.coursesEnrolled.contains(cpsc210));
-        assertFalse(cpsc210.students.contains(george));
-        george.enroll(cpsc210);
-        assertTrue(george.coursesEnrolled.contains(cpsc210));
-        assertTrue(cpsc210.students.contains(george));
-        assertFalse(george.coursesEnrolled.contains(cpsc110));
-        assertFalse(cpsc110.students.contains(george));
-        george.enroll(cpsc110);
-        assertTrue(george.coursesEnrolled.contains(cpsc110));
-        assertTrue(cpsc110.students.contains(george));
+        assertFalse(george.courses.contains(cpsc210.courseName));
+        assertFalse(cpsc210.getStudents().contains(george));
+        george.assignCourse(cpsc210);
+        assertTrue(george.courses.contains(cpsc210.courseName));
+        assertTrue(cpsc210.getStudents().contains("" + george.id));
+        assertFalse(george.courses.contains(cpsc110.courseName));
+        assertFalse(cpsc110.getStudents().contains("" + george.id));
+        george.assignCourse(cpsc110);
+        assertTrue(george.courses.contains(cpsc110.courseName));
+        assertTrue(cpsc110.getStudents().contains("" + george.id));
     }
 
     @Test
@@ -71,29 +71,21 @@ class StudentTest {
 
     @Test
     public void testEnrollInFullCourse() {
-        rebecca.enroll(cpsc210);
-        jessie.enroll(cpsc210);
-        brian.enroll(cpsc210);
-        assertEquals(cpsc210.students.size(), 3);
-        assertFalse(cpsc210.students.contains(george));
-        george.enroll(cpsc210);
-        assertFalse(george.coursesEnrolled.contains(cpsc210));
-        assertFalse(cpsc210.students.contains(george));
-    }
-
-    @Test
-    public void testGenerateStudentID() {
-        assertTrue((0 < george.studentID) && (george.studentID < 1000000));
-        assertTrue((0 < rebecca.studentID) && (rebecca.studentID < 1000000));
-        assertTrue((0 < jessie.studentID) && (jessie.studentID < 1000000));
-        assertTrue((0 < brian.studentID) && (brian.studentID < 1000000));
+        rebecca.assignCourse(cpsc210);
+        jessie.assignCourse(cpsc210);
+        brian.assignCourse(cpsc210);
+        assertEquals(cpsc210.getStudents().size(), 3);
+        assertFalse(cpsc210.getStudents().contains(george));
+        george.assignCourse(cpsc210);
+        assertFalse(george.getCourses().contains(cpsc210));
+        assertFalse(cpsc210.getStudents().contains(george));
     }
 
     @Test
     public void testGetterMethods() {
-        assertEquals(george.getStudentID(), george.studentID);
-        assertEquals(george.getCoursesEnrolled(), george.coursesEnrolled);
+        assertEquals(george.getId(), george.id);
+        assertEquals(george.getCourses(), george.courses);
         assertEquals(george.getCoursesPaidFor(), george.coursesPaidFor);
-        assertEquals(george.getTuitionRecord(), george.tuitionRecord);
+        assertEquals(george.getTransactionRecord(), george.transactionRecord);
     }
 }

@@ -1,7 +1,6 @@
 package model;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -75,19 +74,19 @@ public class SchoolTest {
         mySchool.addTeacher(samuel);
         mySchool.addTeacher(vivian);
 
-        george.enroll(cpsc121);
+        george.assignCourse(cpsc121);
         vivian.assignCourse(cpsc121);
-        assertTrue(george.coursesEnrolled.contains(cpsc121.courseName));
-        assertFalse(elizabeth.coursesEnrolled.contains(cpsc121.courseName));
-        assertTrue(vivian.coursesTaught.contains(cpsc121.courseName));
-        assertFalse(samuel.coursesTaught.contains(cpsc121.courseName));
+        assertTrue(george.courses.contains(cpsc121.courseName));
+        assertFalse(elizabeth.courses.contains(cpsc121.courseName));
+        assertTrue(vivian.courses.contains(cpsc121.courseName));
+        assertFalse(samuel.courses.contains(cpsc121.courseName));
 
         mySchool.removeCourse(cpsc121);
         assertFalse(mySchool.courses.contains(cpsc121));
-        assertFalse(george.coursesEnrolled.contains(cpsc121.courseName));
-        assertFalse(vivian.coursesTaught.contains(cpsc121.courseName));
-        assertFalse(elizabeth.coursesEnrolled.contains(cpsc121.courseName));
-        assertFalse(samuel.coursesTaught.contains(cpsc121.courseName));
+        assertFalse(george.courses.contains(cpsc121.courseName));
+        assertFalse(vivian.courses.contains(cpsc121.courseName));
+        assertFalse(elizabeth.courses.contains(cpsc121.courseName));
+        assertFalse(samuel.courses.contains(cpsc121.courseName));
     }
 
     @Test
@@ -95,48 +94,48 @@ public class SchoolTest {
         mySchool.addStudent(george);
         mySchool.addTeacher(vivian);
 
-        george.enroll(cpsc210);
-        george.enroll(cpsc110);
-        assertEquals(george.outstandingTuition, 0);
+        george.assignCourse(cpsc210);
+        george.assignCourse(cpsc110);
+        assertEquals(george.outstandingTransaction, 0);
 
         vivian.assignCourse(cpsc110);
         vivian.assignCourse(cpsc121);
-        assertEquals(vivian.outstandingSalary, 0);
+        assertEquals(vivian.outstandingTransaction, 0);
 
         mySchool.enactNewOutstandingTransactions();
 
-        assertEquals(george.outstandingTuition, 1100);
-        assertEquals(vivian.outstandingSalary, 8000);
+        assertEquals(george.outstandingTransaction, 1100);
+        assertEquals(vivian.outstandingTransaction, 8000);
     }
 
     @Test
     public void testEnactTuitionTwiceForOneCourse() {
         mySchool.addStudent(george);
-        george.enroll(cpsc210);
-        assertEquals(george.getOutstandingTuition(), 0);
+        george.assignCourse(cpsc210);
+        assertEquals(george.getOutstandingTransaction(), 0);
         mySchool.enactNewOutstandingTransactions();
-        assertEquals(george.getOutstandingTuition(), 600);
+        assertEquals(george.getOutstandingTransaction(), 600);
         mySchool.enactNewOutstandingTransactions();
-        assertEquals(george.getOutstandingTuition(), 600);
+        assertEquals(george.getOutstandingTransaction(), 600);
     }
 
     @Test
     public void testEnactSalaryTwiceForOneCourse() {
         mySchool.addTeacher(vivian);
         vivian.assignCourse(cpsc210);
-        assertEquals(vivian.getOutstandingSalary(), 0);
+        assertEquals(vivian.getOutstandingTransaction(), 0);
         mySchool.enactNewOutstandingTransactions();
-        assertEquals(vivian.getOutstandingSalary(), 5000);
+        assertEquals(vivian.getOutstandingTransaction(), 5000);
         mySchool.enactNewOutstandingTransactions();
-        assertEquals(vivian.getOutstandingSalary(), 5000);
+        assertEquals(vivian.getOutstandingTransaction(), 5000);
     }
 
     @Test
     public void testGetAllOutstandingTuition() {
         mySchool.addStudent(george);
         mySchool.addStudent(elizabeth);
-        george.enroll(cpsc210);
-        elizabeth.enroll(cpsc110);
+        george.assignCourse(cpsc210);
+        elizabeth.assignCourse(cpsc110);
 
         mySchool.enactNewOutstandingTransactions();
 
@@ -161,8 +160,8 @@ public class SchoolTest {
         mySchool.addTeacher(vivian);
         assertEquals(mySchool.accumulatedAnnualTuition, 0);
         assertEquals(mySchool.accumulatedAnnualSalary, 0);
-        george.payTuition(1000, mySchool);
-        vivian.collectSalary(2000, mySchool);
+        george.payOutstandingTransaction(1000, mySchool);
+        vivian.payOutstandingTransaction(2000, mySchool);
         assertEquals(mySchool.accumulatedAnnualTuition, 1000);
         assertEquals(mySchool.accumulatedAnnualSalary, 2000);
 

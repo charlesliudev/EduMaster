@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 import static ui.HomeApp.createImageIcon;
@@ -151,7 +150,7 @@ public class StudentsApp extends JPanel {
                     Student newStudent = new Student(firstName, lastName, generateStudentID());
                     mySchool.addStudent(newStudent);
                     JOptionPane.showMessageDialog(frame, firstName + " " + lastName + " added with an ID of "
-                            + newStudent.studentID);
+                            + newStudent.id);
                     new StudentsApp(mySchool);
                     frame.dispose();
                 } else {
@@ -229,7 +228,7 @@ public class StudentsApp extends JPanel {
     // EFFECTS: takes a student ID and searches for student in school. Return student if found, else return null
     private Student findStudentByID(int id) {
         for (Student student : mySchool.students) {
-            if (student.studentID == id) {
+            if (student.id == id) {
                 return student;
             }
         }
@@ -289,7 +288,7 @@ public class StudentsApp extends JPanel {
         for (Student student : students) {
             studentData[rowCounter][0] = student.firstName;
             studentData[rowCounter][1] = student.lastName;
-            studentData[rowCounter][2] = student.studentID;
+            studentData[rowCounter][2] = student.id;
             rowCounter += 1;
         }
 
@@ -348,12 +347,12 @@ public class StudentsApp extends JPanel {
     // MODIFIES: singleStudentPanel
     // EFFECTS: shows student ID and outstanding tuition for single student
     public void makeStudentDataBlock(Student student, JPanel singleStudentPanel, SpringLayout layout) {
-        JLabel studentIdLabel = new JLabel("Student ID: " + student.studentID);
+        JLabel studentIdLabel = new JLabel("Student ID: " + student.id);
         singleStudentPanel.add(studentIdLabel);
         layout.putConstraint(SpringLayout.WEST, studentIdLabel, 30, SpringLayout.WEST, singleStudentPanel);
         layout.putConstraint(SpringLayout.NORTH, studentIdLabel, 45, SpringLayout.NORTH, singleStudentPanel);
 
-        JLabel outstandingTuitionLabel = new JLabel("Outstanding Tuition: $" + student.outstandingTuition);
+        JLabel outstandingTuitionLabel = new JLabel("Outstanding Tuition: $" + student.outstandingTransaction);
         singleStudentPanel.add(outstandingTuitionLabel);
         layout.putConstraint(SpringLayout.WEST, outstandingTuitionLabel, 30,
                 SpringLayout.WEST, singleStudentPanel);
@@ -408,7 +407,7 @@ public class StudentsApp extends JPanel {
                 String courseInput = newCourseName.getText();
                 Course theCourse = findCourseByName(courseInput);
                 if (theCourse != null) {
-                    if (student.enroll(theCourse)) {
+                    if (student.assignCourse(theCourse)) {
                         JOptionPane.showMessageDialog(singleStudentFrame, "Course enrolled in successfully.");
                         singleStudentFrame.dispose();
                         showStudentPage(student);
@@ -483,7 +482,7 @@ public class StudentsApp extends JPanel {
                     if (paymentAmount < 0) {
                         JOptionPane.showMessageDialog(singleStudentFrame, "Amount must be positive.");
                     } else {
-                        student.payTuition(paymentAmount, mySchool);
+                        student.payOutstandingTransaction(paymentAmount, mySchool);
                         JOptionPane.showMessageDialog(singleStudentFrame, "Amount paid successfully.");
                         singleStudentFrame.dispose();
                         showStudentPage(student);
@@ -500,9 +499,9 @@ public class StudentsApp extends JPanel {
     // EFFECTS: makes and adds the enrolled courses table to panel
     public void makeEnrolledCoursesTable(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         String[] tableHeader = {"Course Name"};
-        Object[][] courseData = new Object[student.coursesEnrolled.size() + 1][1];
+        Object[][] courseData = new Object[student.courses.size() + 1][1];
         int rowCounter = 0;
-        for (String course : student.coursesEnrolled) {
+        for (String course : student.courses) {
             courseData[rowCounter][0] = course;
             rowCounter += 1;
         }
@@ -524,9 +523,9 @@ public class StudentsApp extends JPanel {
     // EFFECTS: makes and adds tuition history table to panel for passed in student
     public void makeTuitionHistoryTable(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         String[] tableHeader = {"Amount Paid ($)", "Timestamp", "Transaction ID"};
-        Object[][] tuitionData = new Object[student.tuitionRecord.size() + 1][3];
+        Object[][] tuitionData = new Object[student.transactionRecord.size() + 1][3];
         int rowCounter = 0;
-        for (Transaction transaction : student.tuitionRecord) {
+        for (Transaction transaction : student.transactionRecord) {
             tuitionData[rowCounter][0] = transaction.amount;
             tuitionData[rowCounter][1] = transaction.timestamp;
             tuitionData[rowCounter][2] = transaction.transactionID;

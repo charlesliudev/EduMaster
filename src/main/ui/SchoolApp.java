@@ -231,7 +231,7 @@ public class SchoolApp {
     private void showAssignedCourses(Teacher teacher) {
         System.out.println(teacher.firstName + "'s assigned courses:");
         System.out.println("----------------------");
-        for (String courseName : teacher.coursesTaught) {
+        for (String courseName : teacher.courses) {
             System.out.println(courseName);
         }
     }
@@ -240,7 +240,7 @@ public class SchoolApp {
     private void showSalaryHistory(Teacher teacher) {
         System.out.println(teacher.firstName + "'s payment history:");
         System.out.println("-------------------------");
-        for (Transaction payment : teacher.salaryRecord) {
+        for (Transaction payment : teacher.transactionRecord) {
             System.out.println(payment.timestamp + ": $" + payment.amount);
         }
     }
@@ -255,9 +255,9 @@ public class SchoolApp {
             if (paymentAmount < 0) {
                 System.out.println("Error occurred. Amount must be positive.");
             } else {
-                teacher.collectSalary(paymentAmount, mySchool);
+                teacher.payOutstandingTransaction(paymentAmount, mySchool);
                 System.out.println("Salary paid successfully.");
-                System.out.println("Remaining outstanding salary: $" + teacher.outstandingSalary + ".");
+                System.out.println("Remaining outstanding salary: $" + teacher.outstandingTransaction + ".");
             }
         } catch (NumberFormatException e) {
             System.out.println("Please enter a positive integer amount.");
@@ -288,7 +288,7 @@ public class SchoolApp {
         System.out.println("\tTeacher ID, First Name, Last Name");
         System.out.println("\t-----------------------------------");
         for (Teacher teacher : mySchool.teachers) {
-            System.out.println("\t" + teacher.teacherID + ", " + teacher.firstName + ", " + teacher.lastName);
+            System.out.println("\t" + teacher.id + ", " + teacher.firstName + ", " + teacher.lastName);
         }
     }
 
@@ -301,7 +301,7 @@ public class SchoolApp {
         String lastName = input.next().toLowerCase();
         Teacher newTeacher = new Teacher(firstName, lastName, generateTeacherID());
         mySchool.addTeacher(newTeacher);
-        System.out.println("Teacher successfully added, with an ID of " + newTeacher.teacherID + ".");
+        System.out.println("Teacher successfully added, with an ID of " + newTeacher.id + ".");
     }
 
     // MODIFIES: this
@@ -326,7 +326,7 @@ public class SchoolApp {
     // EFFECTS: takes an teacherID, finds teacher in school database. If found, return the teacher, else return null
     private Teacher findTeacherByID(int id) {
         for (Teacher teacher : mySchool.teachers) {
-            if (teacher.teacherID == id) {
+            if (teacher.id == id) {
                 return teacher;
             }
         }
@@ -338,8 +338,8 @@ public class SchoolApp {
         System.out.println("------------------------------------");
         System.out.println("Currently viewing " + teacher.firstName + " " + teacher.lastName + "'s profile:");
         System.out.println(teacher.firstName + " " + teacher.lastName);
-        System.out.println("Teacher ID: " + teacher.teacherID);
-        System.out.println("Outstanding Salary to Pay: $" + teacher.outstandingSalary);
+        System.out.println("Teacher ID: " + teacher.id);
+        System.out.println("Outstanding Salary to Pay: $" + teacher.outstandingTransaction);
         System.out.println("Options: ");
     }
 
@@ -505,7 +505,7 @@ public class SchoolApp {
         System.out.println("------------------------------------");
         for (String studentID : course.students) {
             Student student = findStudentByID(Integer.valueOf(studentID));
-            System.out.println("\t" + student.studentID + ", " + student.firstName + ", " + student.lastName);
+            System.out.println("\t" + student.id + ", " + student.firstName + ", " + student.lastName);
         }
     }
 
@@ -515,7 +515,7 @@ public class SchoolApp {
         System.out.println("------------------------------------");
         for (String teacherID : course.teachers) {
             Teacher teacher = findTeacherByID(Integer.valueOf(teacherID));
-            System.out.println("\t" + teacher.teacherID + ", " + teacher.firstName + ", " + teacher.lastName);
+            System.out.println("\t" + teacher.id + ", " + teacher.firstName + ", " + teacher.lastName);
         }
     }
 
@@ -623,7 +623,7 @@ public class SchoolApp {
     private void showEnrolledCourses(Student student) {
         System.out.println("\t" + student.firstName + "'s enrolled courses:");
         System.out.println("\t--------------------------------");
-        for (String courseName : student.coursesEnrolled) {
+        for (String courseName : student.courses) {
             System.out.println("\t" + courseName);
         }
     }
@@ -632,7 +632,7 @@ public class SchoolApp {
     private void showTuitionHistory(Student student) {
         System.out.println(student.firstName + "'s payment history:");
         System.out.println("-------------------------");
-        for (Transaction payment : student.tuitionRecord) {
+        for (Transaction payment : student.transactionRecord) {
             System.out.println(payment.timestamp + ": $" + payment.amount);
         }
     }
@@ -647,9 +647,9 @@ public class SchoolApp {
             if (paymentAmount < 0) {
                 System.out.println("Error occurred. Amount must be positive.");
             } else {
-                student.payTuition(paymentAmount, mySchool);
+                student.payOutstandingTransaction(paymentAmount, mySchool);
                 System.out.println("Tuition paid successfully.");
-                System.out.println("Remaining outstanding tuition: $" + student.outstandingTuition + ".");
+                System.out.println("Remaining outstanding tuition: $" + student.outstandingTransaction + ".");
             }
         } catch (NumberFormatException e) {
             System.out.println("Please enter a positive integer amount.");
@@ -664,7 +664,7 @@ public class SchoolApp {
         String courseName = input.next();
         Course theCourse = findCourseByName(courseName);
         if (theCourse != null) {
-            if (student.enroll(theCourse)) {
+            if (student.assignCourse(theCourse)) {
                 System.out.println("Course enrolled in successfully.");
             } else {
                 System.out.println("Sorry, this course is full.");
@@ -680,7 +680,7 @@ public class SchoolApp {
         System.out.println("\tStudent ID, First Name, Last Name");
         System.out.println("\t-----------------------------------");
         for (Student student : mySchool.students) {
-            System.out.println("\t" + student.studentID + ", " + student.firstName + ", " + student.lastName);
+            System.out.println("\t" + student.id + ", " + student.firstName + ", " + student.lastName);
         }
     }
 
@@ -693,7 +693,7 @@ public class SchoolApp {
         String lastName = input.next().toLowerCase();
         Student newStudent = new Student(firstName, lastName, generateStudentID());
         mySchool.addStudent(newStudent);
-        System.out.println("Student successfully added, with an ID of " + newStudent.studentID + ".");
+        System.out.println("Student successfully added, with an ID of " + newStudent.id + ".");
     }
 
     // MODIFIES: this
@@ -718,7 +718,7 @@ public class SchoolApp {
     // EFFECTS: takes a student ID and searches for student in school. Return student if found, else return null
     private Student findStudentByID(int id) {
         for (Student student : mySchool.students) {
-            if (student.studentID == id) {
+            if (student.id == id) {
                 return student;
             }
         }
@@ -731,8 +731,8 @@ public class SchoolApp {
         System.out.println("-----------------------------------");
         System.out.println("Currently viewing " + student.firstName + " " + student.lastName + "'s profile:");
         System.out.println(student.firstName + " " + student.lastName);
-        System.out.println("Student ID: " + student.studentID);
-        System.out.println("Outstanding Tuition Fees: $" + student.outstandingTuition);
+        System.out.println("Student ID: " + student.id);
+        System.out.println("Outstanding Tuition Fees: $" + student.outstandingTransaction);
         System.out.println("Options: ");
     }
 

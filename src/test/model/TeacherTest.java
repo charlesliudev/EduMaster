@@ -28,10 +28,10 @@ public class TeacherTest {
 
     @Test
     public void testCollectSalary() {
-        vivian.outstandingSalary = 2000;
-        assertEquals(vivian.outstandingSalary, 2000);
-        vivian.collectSalary(1000, mySchool);
-        assertEquals(vivian.outstandingSalary, 1000);
+        vivian.outstandingTransaction = 2000;
+        assertEquals(vivian.getOutstandingTransaction(), 2000);
+        vivian.payOutstandingTransaction(1000, mySchool);
+        assertEquals(vivian.getOutstandingTransaction(), 1000);
         assertEquals(mySchool.accumulatedAnnualSalary, 1000);
         assertEquals(mySchool.transactionRecordSummary.size(), 1);
         assertEquals(vivian.salaryRecord.size(), 1);
@@ -67,9 +67,9 @@ public class TeacherTest {
     public void testGetterMethods() {
         assertEquals(vivian.getFirstName(), vivian.firstName);
         assertEquals(vivian.getLastName(), vivian.lastName);
-        assertEquals(vivian.getTeacherID(), vivian.teacherID);
-        assertEquals(vivian.getCoursesTaught(), vivian.coursesTaught);
+        assertEquals(vivian.getId(), vivian.id);
+        assertEquals(vivian.getCourses(), vivian.courses);
         assertEquals(vivian.getCoursesPaidFor(), vivian.coursesPaidFor);
-        assertEquals(vivian.getSalaryRecord(), vivian.salaryRecord);
+        assertEquals(vivian.getTransactionRecord(), vivian.transactionRecord);
     }
 }

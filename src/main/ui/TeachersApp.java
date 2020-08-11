@@ -152,7 +152,7 @@ public class TeachersApp extends JPanel {
                     Teacher newTeacher = new Teacher(firstName, lastName, generateTeacherID());
                     mySchool.addTeacher(newTeacher);
                     JOptionPane.showMessageDialog(frame, firstName + " " + lastName + " added with an ID of "
-                            + newTeacher.teacherID);
+                            + newTeacher.id);
                     new TeachersApp(mySchool);
                     frame.dispose();
                 } else {
@@ -231,7 +231,7 @@ public class TeachersApp extends JPanel {
     // EFFECTS: takes an teacherID, finds teacher in school database. If found, return the teacher, else return null
     private Teacher findTeacherByID(int id) {
         for (Teacher teacher : mySchool.teachers) {
-            if (teacher.teacherID == id) {
+            if (teacher.id == id) {
                 return teacher;
             }
         }
@@ -291,7 +291,7 @@ public class TeachersApp extends JPanel {
         for (Teacher teacher : teachers) {
             teacherData[rowCounter][0] = teacher.firstName;
             teacherData[rowCounter][1] = teacher.lastName;
-            teacherData[rowCounter][2] = teacher.teacherID;
+            teacherData[rowCounter][2] = teacher.id;
             rowCounter += 1;
         }
 
@@ -351,12 +351,12 @@ public class TeachersApp extends JPanel {
     // MODIFIES: singleTeacherPanel
     // EFFECTS: shows teacher ID and outstanding salaries due for single teacher
     public void makeTeacherDataBlock(Teacher teacher, JPanel singleTeacherPanel, SpringLayout layout) {
-        JLabel teacherIdLabel = new JLabel("Teacher ID: " + teacher.teacherID);
+        JLabel teacherIdLabel = new JLabel("Teacher ID: " + teacher.id);
         singleTeacherPanel.add(teacherIdLabel);
         layout.putConstraint(SpringLayout.WEST, teacherIdLabel, 30, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, teacherIdLabel, 45, SpringLayout.NORTH, singleTeacherPanel);
 
-        JLabel outstandingSalaryLabel = new JLabel("Outstanding Salary: $" + teacher.outstandingSalary);
+        JLabel outstandingSalaryLabel = new JLabel("Outstanding Salary: $" + teacher.outstandingTransaction);
         singleTeacherPanel.add(outstandingSalaryLabel);
         layout.putConstraint(SpringLayout.WEST, outstandingSalaryLabel, 30,
                 SpringLayout.WEST, singleTeacherPanel);
@@ -484,7 +484,7 @@ public class TeachersApp extends JPanel {
                     if (paymentAmount < 0) {
                         JOptionPane.showMessageDialog(singleTeacherFrame, "Amount must be positive.");
                     } else {
-                        teacher.collectSalary(paymentAmount, mySchool);
+                        teacher.payOutstandingTransaction(paymentAmount, mySchool);
                         JOptionPane.showMessageDialog(singleTeacherFrame, "Amount paid successfully.");
                         singleTeacherFrame.dispose();
                         showTeacherPage(teacher);
@@ -501,9 +501,9 @@ public class TeachersApp extends JPanel {
     // EFFECTS: makes and adds the assigned courses to teach table to panel
     public void makeAssignedCoursesTable(Teacher teacher, JPanel singleTeacherPanel, SpringLayout layout) {
         String[] tableHeader = {"Course Name"};
-        Object[][] courseData = new Object[teacher.coursesTaught.size() + 1][1];
+        Object[][] courseData = new Object[teacher.courses.size() + 1][1];
         int rowCounter = 0;
-        for (String course : teacher.coursesTaught) {
+        for (String course : teacher.courses) {
             courseData[rowCounter][0] = course;
             rowCounter += 1;
         }
@@ -525,9 +525,9 @@ public class TeachersApp extends JPanel {
     // EFFECTS: makes and adds the salary history table to panel for passed in teacher
     public void makeSalaryHistoryTable(Teacher teacher, JPanel singleTeacherPanel, SpringLayout layout) {
         String[] tableHeader = {"Amount Paid ($)", "Timestamp", "Transaction ID"};
-        Object[][] salaryData = new Object[teacher.salaryRecord.size() + 1][3];
+        Object[][] salaryData = new Object[teacher.transactionRecord.size() + 1][3];
         int rowCounter = 0;
-        for (Transaction transaction : teacher.salaryRecord) {
+        for (Transaction transaction : teacher.transactionRecord) {
             salaryData[rowCounter][0] = transaction.amount;
             salaryData[rowCounter][1] = transaction.timestamp;
             salaryData[rowCounter][2] = transaction.transactionID;

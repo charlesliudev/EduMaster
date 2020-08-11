@@ -22,13 +22,13 @@ public class TransactionTest {
 
     @Test
     public void testStudentConstructor() {
-        george.payTuition(1000, mySchool);
-        assertEquals(george.tuitionRecord.get(0).amount, 1000);
+        george.payOutstandingTransaction(1000, mySchool);
+        assertEquals(george.transactionRecord.get(0).amount, 1000);
     }
 
     @Test
     public void testTeacherConstructor() {
-        vivian.collectSalary(1000, mySchool);
-        assertEquals(vivian.salaryRecord.get(0).amount, 1000);
+        vivian.payOutstandingTransaction(1000, mySchool);
+        assertEquals(vivian.transactionRecord.get(0).amount, 1000);
     }
 }

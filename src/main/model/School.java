@@ -1,7 +1,6 @@
 package model;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,26 +34,26 @@ public class School implements Saveable {
         // increment student tuition due
         for (Student student : this.students) {
             int amountToIncrement = 0;
-            for (String courseName : student.coursesEnrolled) {
+            for (String courseName : student.courses) {
                 Course course = getCourseByName(courseName);
                 if (! (student.coursesPaidFor.contains(course.courseName))) {
                     amountToIncrement += course.courseCost;
                     student.coursesPaidFor.add(courseName);
                 }
             }
-            student.outstandingTuition += amountToIncrement;
+            student.outstandingTransaction += amountToIncrement;
         }
         // increment teacher salaries due
         for (Teacher teacher : this.teachers) {
             int amountToIncrement = 0;
-            for (String courseName : teacher.coursesTaught) {
+            for (String courseName : teacher.courses) {
                 Course course = getCourseByName(courseName);
                 if (! (teacher.coursesPaidFor.contains(course.courseName))) {
                     amountToIncrement += course.courseSalary;
                     teacher.coursesPaidFor.add(course.courseName);
                 }
             }
-            teacher.outstandingSalary += amountToIncrement;
+            teacher.outstandingTransaction += amountToIncrement;
         }
     }
 
@@ -100,13 +99,13 @@ public class School implements Saveable {
     public void removeCourse(Course course) {
         this.courses.remove(course);
         for (Student student : this.students) {
-            if (student.coursesEnrolled.contains(course.courseName)) {
-                student.coursesEnrolled.remove(course.courseName);
+            if (student.courses.contains(course.courseName)) {
+                student.courses.remove(course.courseName);
             }
         }
         for (Teacher teacher : this.teachers) {
-            if (teacher.coursesTaught.contains(course.courseName)) {
-                teacher.coursesTaught.remove(course.courseName);
+            if (teacher.courses.contains(course.courseName)) {
+                teacher.courses.remove(course.courseName);
             }
         }
     }
@@ -115,7 +114,7 @@ public class School implements Saveable {
     public int getAllOutstandingTuition() {
         int totalOutstanding = 0;
         for (Student student : students) {
-            totalOutstanding += student.outstandingTuition;
+            totalOutstanding += student.outstandingTransaction;
         }
         return totalOutstanding;
     }
@@ -124,7 +123,7 @@ public class School implements Saveable {
     public int getAllOutstandingSalaries() {
         int totalOutstanding = 0;
         for (Teacher teacher : teachers) {
-            totalOutstanding += teacher.outstandingSalary;
+            totalOutstanding += teacher.outstandingTransaction;
         }
         return totalOutstanding;
     }
