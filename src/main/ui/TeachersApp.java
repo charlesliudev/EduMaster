@@ -363,6 +363,7 @@ public class TeachersApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, outstandingSalaryLabel, 65,
                 SpringLayout.NORTH, singleTeacherPanel);
     }
+
     // MODIFIES: singleTeacherPanel
     // EFFECTS: shows section where user can assign teacher into a new course
     public void makeAssignNewCourseSection(Teacher teacher, JPanel singleTeacherPanel, SpringLayout layout) {
