@@ -61,10 +61,10 @@ class StudentTest {
     public void testEnrollSameCourseTwice() {
         assertEquals(george.courses.size(), 0);
         assertEquals(cpsc210.students.size(), 0);
-        george.enroll(cpsc210);
+        george.assignCourse(cpsc210);
         assertEquals(cpsc210.students.size(), 1);
         assertEquals(george.courses.size(), 1);
-        george.enroll(cpsc210);
+        george.assignCourse(cpsc210);
         assertEquals(cpsc210.students.size(), 1);
         assertEquals(george.courses.size(), 1);
     }
