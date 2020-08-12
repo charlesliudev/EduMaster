@@ -34,7 +34,7 @@ public class TeacherTest {
         assertEquals(vivian.getOutstandingTransaction(), 1000);
         assertEquals(mySchool.accumulatedAnnualSalary, 1000);
         assertEquals(mySchool.transactionRecordSummary.size(), 1);
-        assertEquals(vivian.salaryRecord.size(), 1);
+        assertEquals(vivian.transactionRecord.size(), 1);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class TeacherTest {
 
     @Test
     public void testAssignSameCourseTwice() {
-        assertEquals(vivian.coursesTaught.size(), 0);
+        assertEquals(vivian.courses.size(), 0);
         assertEquals(cpsc210.teachers.size(), 0);
         vivian.assignCourse(cpsc210);
         assertEquals(vivian.courses.size(), 1);
