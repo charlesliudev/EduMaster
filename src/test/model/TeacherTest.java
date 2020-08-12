@@ -34,32 +34,32 @@ public class TeacherTest {
         assertEquals(vivian.getOutstandingTransaction(), 1000);
         assertEquals(mySchool.accumulatedAnnualSalary, 1000);
         assertEquals(mySchool.transactionRecordSummary.size(), 1);
-        assertEquals(vivian.salaryRecord.size(), 1);
+        assertEquals(vivian.transactionRecord.size(), 1);
     }
 
     @Test
     public void testAssignCourse() {
-        assertFalse(vivian.coursesTaught.contains(cpsc210));
+        assertFalse(vivian.courses.contains(cpsc210));
         assertFalse(cpsc210.teachers.contains(vivian));
         vivian.assignCourse(cpsc210);
-        assertTrue(vivian.coursesTaught.contains(cpsc210));
+        assertTrue(vivian.courses.contains(cpsc210));
         assertTrue(cpsc210.teachers.contains(vivian));
-        assertFalse(vivian.coursesTaught.contains(cpsc110));
+        assertFalse(vivian.courses.contains(cpsc110));
         assertFalse(cpsc110.teachers.contains(vivian));
         vivian.assignCourse(cpsc110);
-        assertTrue(vivian.coursesTaught.contains(cpsc110));
+        assertTrue(vivian.courses.contains(cpsc110));
         assertTrue(cpsc110.teachers.contains(vivian));
     }
 
     @Test
     public void testAssignSameCourseTwice() {
-        assertEquals(vivian.coursesTaught.size(), 0);
+        assertEquals(vivian.courses.size(), 0);
         assertEquals(cpsc210.teachers.size(), 0);
         vivian.assignCourse(cpsc210);
-        assertEquals(vivian.coursesTaught.size(), 1);
+        assertEquals(vivian.courses.size(), 1);
         assertEquals(cpsc210.teachers.size(), 1);
         vivian.assignCourse(cpsc210);
-        assertEquals(vivian.coursesTaught.size(), 1);
+        assertEquals(vivian.courses.size(), 1);
         assertEquals(cpsc210.teachers.size(), 1);
     }
 
