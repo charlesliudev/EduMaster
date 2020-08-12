@@ -42,7 +42,7 @@ public class SchoolTest {
         assertFalse(mySchool.students.contains(george));
         mySchool.addStudent(george);
         assertTrue(mySchool.students.contains(george));
-        assertEquals(george.schoolAttended, mySchool.schoolName);
+        assertEquals(george.getSchoolAttended(), mySchool.schoolName);
         mySchool.removeStudent(george);
         assertFalse(mySchool.students.contains(george));
     }
@@ -52,7 +52,7 @@ public class SchoolTest {
         assertFalse(mySchool.teachers.contains(vivian));
         mySchool.addTeacher(vivian);
         assertTrue(mySchool.teachers.contains(vivian));
-        assertEquals(vivian.schoolAttended, mySchool.schoolName);
+        assertEquals(vivian.getSchoolAttended(), mySchool.schoolName);
         mySchool.removeTeacher(vivian);
         assertFalse(mySchool.teachers.contains(vivian));
     }
