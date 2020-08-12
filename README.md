@@ -49,3 +49,11 @@ Add Teacher. The new teacher will then be displayed into the "Teachers" table.
 - You can trigger the audio component of this application by clicking on any button! 
 - You can automatically load the previous state of the application simply by opening it.
 - You can automatically save the state of the application by closing it.
+
+## Phase 4: Task 2
+I have included a new type hierachy in my code. The new superclass is the abstract class SchoolMember, representing
+all individuals who are members of the school. The two subclasses of SchoolMember are Student and Teacher, who
+each have their own unique implementations of the abstract methods 'assignCourse' and 'payOutstandingTransaction'. This 
+new SchoolMember class abstracts away the many similarities between a Student and a Teacher in a school, including 
+having first and last names, unique IDs, courses enrolled in or taught, and having outstanding transactions due with 
+the school.
