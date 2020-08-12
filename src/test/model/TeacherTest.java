@@ -73,3 +73,4 @@ public class TeacherTest {
         assertEquals(vivian.getTransactionRecord(), vivian.transactionRecord);
     }
 }
+
