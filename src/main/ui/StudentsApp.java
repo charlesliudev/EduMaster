@@ -51,14 +51,19 @@ public class StudentsApp extends JPanel {
         upperPanel.setBackground(myColor);
         upperPanel.setPreferredSize(new Dimension(800, 150));
 
+        makeTitle(upperPanel);
+
+        return upperPanel;
+    }
+
+    // EFFECTS: takes a panel, makes a title and adds the title to the panel
+    public void makeTitle(JPanel upperPanel) {
         JLabel mainTitleLabel = new JLabel(" Students");
         mainTitleLabel.setIcon(createImageIcon("./images/studentsIconWhite.png"));
         mainTitleLabel.setFont(new Font("Proxima Nova", Font.BOLD, 30));
         mainTitleLabel.setForeground(Color.white);
         mainTitleLabel.setBorder(new EmptyBorder(70, 70, 70, 0));
         upperPanel.add(mainTitleLabel, BorderLayout.CENTER);
-
-        return upperPanel;
     }
 
     // EFFECTS: makes the lower panel and returns it
@@ -283,14 +288,7 @@ public class StudentsApp extends JPanel {
     public void makeStudentTable(Container contentPane, SpringLayout layout, ArrayList<Student> students) {
         // create students table
         String[] studentTableHeader = {"First Name", "Last Name", "Student ID"};
-        Object[][] studentData = new Object[students.size() + 1][3];
-        int rowCounter = 0;
-        for (Student student : students) {
-            studentData[rowCounter][0] = student.firstName;
-            studentData[rowCounter][1] = student.lastName;
-            studentData[rowCounter][2] = student.id;
-            rowCounter += 1;
-        }
+        Object[][] studentData = makeStudentData(students);
 
         JTable studentTable = new JTable(studentData, studentTableHeader);
         studentTable.setPreferredSize(new Dimension(800, 400));
@@ -304,6 +302,19 @@ public class StudentsApp extends JPanel {
         contentPane.add(scrollPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 100, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 140, SpringLayout.NORTH, contentPane);
+    }
+
+    // makes student data and returns as Object[][] for table
+    public Object[][] makeStudentData(ArrayList<Student> students) {
+        Object[][] studentData = new Object[students.size() + 1][3];
+        int rowCounter = 0;
+        for (Student student : students) {
+            studentData[rowCounter][0] = student.firstName;
+            studentData[rowCounter][1] = student.lastName;
+            studentData[rowCounter][2] = student.id;
+            rowCounter += 1;
+        }
+        return studentData;
     }
 
     // DISPLAY AN INDIVIDUAL STUDENT: ---------------------------------------
@@ -499,12 +510,8 @@ public class StudentsApp extends JPanel {
     // EFFECTS: makes and adds the enrolled courses table to panel
     public void makeEnrolledCoursesTable(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         String[] tableHeader = {"Course Name"};
-        Object[][] courseData = new Object[student.courses.size() + 1][1];
-        int rowCounter = 0;
-        for (String course : student.courses) {
-            courseData[rowCounter][0] = course;
-            rowCounter += 1;
-        }
+        Object[][] courseData = makeCourseData(student);
+
         JTable enrolledCoursesTable = new JTable(courseData, tableHeader);
         enrolledCoursesTable.setPreferredSize(null);
         enrolledCoursesTable.setDefaultEditor(Object.class, null);
@@ -519,18 +526,23 @@ public class StudentsApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 160, SpringLayout.NORTH, singleStudentPanel);
     }
 
+    // makes course data and returns as Object[][] for table
+    public Object[][] makeCourseData(Student student) {
+        Object[][] courseData = new Object[student.courses.size() + 1][1];
+        int rowCounter = 0;
+        for (String course : student.courses) {
+            courseData[rowCounter][0] = course;
+            rowCounter += 1;
+        }
+        return courseData;
+    }
+
     // MODIFIES: singleStudentPanel
     // EFFECTS: makes and adds tuition history table to panel for passed in student
     public void makeTuitionHistoryTable(Student student, JPanel singleStudentPanel, SpringLayout layout) {
         String[] tableHeader = {"Amount Paid ($)", "Timestamp", "Transaction ID"};
-        Object[][] tuitionData = new Object[student.transactionRecord.size() + 1][3];
-        int rowCounter = 0;
-        for (Transaction transaction : student.transactionRecord) {
-            tuitionData[rowCounter][0] = transaction.amount;
-            tuitionData[rowCounter][1] = transaction.timestamp;
-            tuitionData[rowCounter][2] = transaction.transactionID;
-            rowCounter += 1;
-        }
+        Object[][] tuitionData = makeTuitionData(student);
+
         JTable tuitionHistoryTable = new JTable(tuitionData, tableHeader);
         tuitionHistoryTable.setPreferredSize(null);
         tuitionHistoryTable.setDefaultEditor(Object.class, null);
@@ -543,6 +555,19 @@ public class StudentsApp extends JPanel {
         singleStudentPanel.add(scrollPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 30, SpringLayout.WEST, singleStudentPanel);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 160, SpringLayout.NORTH, singleStudentPanel);
+    }
+
+    // makes tuition data and returns as Object[][] for table
+    public Object[][] makeTuitionData(Student student) {
+        Object[][] tuitionData = new Object[student.transactionRecord.size() + 1][3];
+        int rowCounter = 0;
+        for (Transaction transaction : student.transactionRecord) {
+            tuitionData[rowCounter][0] = transaction.amount;
+            tuitionData[rowCounter][1] = transaction.timestamp;
+            tuitionData[rowCounter][2] = transaction.transactionID;
+            rowCounter += 1;
+        }
+        return tuitionData;
     }
 
     //EFFECTS: returns a 6 digit number that is the last ID generated incremented by 1

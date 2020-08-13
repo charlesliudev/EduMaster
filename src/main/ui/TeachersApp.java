@@ -51,14 +51,19 @@ public class TeachersApp extends JPanel {
         upperPanel.setBackground(myColor);
         upperPanel.setPreferredSize(new Dimension(800, 150));
 
+        makeTitle(upperPanel);
+
+        return upperPanel;
+    }
+
+    // EFFECTS: takes a panel, makes a title and adds the title to the panel
+    public void makeTitle(JPanel upperPanel) {
         JLabel mainTitleLabel = new JLabel(" Teachers");
         mainTitleLabel.setIcon(createImageIcon("./images/teachersIconWhite.png"));
         mainTitleLabel.setFont(new Font("Proxima Nova", Font.BOLD, 30));
         mainTitleLabel.setForeground(Color.white);
         mainTitleLabel.setBorder(new EmptyBorder(70, 70, 70, 0));
         upperPanel.add(mainTitleLabel, BorderLayout.CENTER);
-
-        return upperPanel;
     }
 
     //EFFECTS:  makes the lower panel and returns it
@@ -286,14 +291,7 @@ public class TeachersApp extends JPanel {
     public void makeTeacherTable(Container contentPane, SpringLayout layout, ArrayList<Teacher> teachers) {
         // create teachers table
         String[] teacherTableHeader = {"First Name", "Last Name", "Teacher ID"};
-        Object[][] teacherData = new Object[teachers.size() + 1][3];
-        int rowCounter = 0;
-        for (Teacher teacher : teachers) {
-            teacherData[rowCounter][0] = teacher.firstName;
-            teacherData[rowCounter][1] = teacher.lastName;
-            teacherData[rowCounter][2] = teacher.id;
-            rowCounter += 1;
-        }
+        Object[][] teacherData = makeTeacherData(teachers);
 
         JTable teacherTable = new JTable(teacherData, teacherTableHeader);
         teacherTable.setPreferredSize(new Dimension(800, 400));
@@ -307,6 +305,19 @@ public class TeachersApp extends JPanel {
         contentPane.add(scrollPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 100, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 140, SpringLayout.NORTH, contentPane);
+    }
+
+    // makes teacher data and returns as Object[][] for table
+    public Object[][] makeTeacherData(ArrayList<Teacher> teachers) {
+        Object[][] teacherData = new Object[teachers.size() + 1][3];
+        int rowCounter = 0;
+        for (Teacher teacher : teachers) {
+            teacherData[rowCounter][0] = teacher.firstName;
+            teacherData[rowCounter][1] = teacher.lastName;
+            teacherData[rowCounter][2] = teacher.id;
+            rowCounter += 1;
+        }
+        return teacherData;
     }
 
     // DISPLAY AN INDIVIDUAL TEACHER: --------------------------------------------
@@ -501,12 +512,8 @@ public class TeachersApp extends JPanel {
     // EFFECTS: makes and adds the assigned courses to teach table to panel
     public void makeAssignedCoursesTable(Teacher teacher, JPanel singleTeacherPanel, SpringLayout layout) {
         String[] tableHeader = {"Course Name"};
-        Object[][] courseData = new Object[teacher.courses.size() + 1][1];
-        int rowCounter = 0;
-        for (String course : teacher.courses) {
-            courseData[rowCounter][0] = course;
-            rowCounter += 1;
-        }
+        Object[][] courseData = makeCourseData(teacher);
+
         JTable assignedCoursesTable = new JTable(courseData, tableHeader);
         assignedCoursesTable.setPreferredSize(null);
         assignedCoursesTable.setDefaultEditor(Object.class, null);
@@ -521,18 +528,23 @@ public class TeachersApp extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 160, SpringLayout.NORTH, singleTeacherPanel);
     }
 
+    // makes assigned courses data and returns as Object[][] for table
+    public Object[][] makeCourseData(Teacher teacher) {
+        Object[][] courseData = new Object[teacher.courses.size() + 1][1];
+        int rowCounter = 0;
+        for (String course : teacher.courses) {
+            courseData[rowCounter][0] = course;
+            rowCounter += 1;
+        }
+        return courseData;
+    }
+
     // MODIFIES: singleTeacherPanel
     // EFFECTS: makes and adds the salary history table to panel for passed in teacher
     public void makeSalaryHistoryTable(Teacher teacher, JPanel singleTeacherPanel, SpringLayout layout) {
         String[] tableHeader = {"Amount Paid ($)", "Timestamp", "Transaction ID"};
-        Object[][] salaryData = new Object[teacher.transactionRecord.size() + 1][3];
-        int rowCounter = 0;
-        for (Transaction transaction : teacher.transactionRecord) {
-            salaryData[rowCounter][0] = transaction.amount;
-            salaryData[rowCounter][1] = transaction.timestamp;
-            salaryData[rowCounter][2] = transaction.transactionID;
-            rowCounter += 1;
-        }
+        Object[][] salaryData = makeSalaryData(teacher);
+
         JTable salaryHistoryTable = new JTable(salaryData, tableHeader);
         salaryHistoryTable.setPreferredSize(null);
         salaryHistoryTable.setDefaultEditor(Object.class, null);
@@ -546,6 +558,20 @@ public class TeachersApp extends JPanel {
         layout.putConstraint(SpringLayout.WEST, scrollPane, 30, SpringLayout.WEST, singleTeacherPanel);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 160, SpringLayout.NORTH, singleTeacherPanel);
     }
+
+    // makes salary data and returns as Object[][] for table
+    public Object[][] makeSalaryData(Teacher teacher) {
+        Object[][] salaryData = new Object[teacher.transactionRecord.size() + 1][3];
+        int rowCounter = 0;
+        for (Transaction transaction : teacher.transactionRecord) {
+            salaryData[rowCounter][0] = transaction.amount;
+            salaryData[rowCounter][1] = transaction.timestamp;
+            salaryData[rowCounter][2] = transaction.transactionID;
+            rowCounter += 1;
+        }
+        return salaryData;
+    }
+
 
     //EFFECTS: returns a 6 digit number that is the last ID generated incremented by 1
     // ID starts with '2' to represent it is a teacher ID

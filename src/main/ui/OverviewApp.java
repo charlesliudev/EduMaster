@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static ui.HomeApp.createImageIcon;
+
 // EFFECTS: builds and runs the overview page
 public class OverviewApp {
     School mySchool;
@@ -48,14 +50,19 @@ public class OverviewApp {
         upperPanel.setBackground(myColor);
         upperPanel.setPreferredSize(new Dimension(800, 150));
 
+        makeTitle(upperPanel);
+
+        return upperPanel;
+    }
+
+    // EFFECTS: takes a panel, makes a title and adds the title to the panel
+    public void makeTitle(JPanel upperPanel) {
         JLabel mainTitleLabel = new JLabel(" Overview");
         mainTitleLabel.setIcon(createImageIcon("./images/overviewIconWhite.png"));
         mainTitleLabel.setFont(new Font("Proxima Nova", Font.BOLD, 30));
         mainTitleLabel.setForeground(Color.white);
         mainTitleLabel.setBorder(new EmptyBorder(70, 70, 70, 0));
         upperPanel.add(mainTitleLabel, BorderLayout.CENTER);
-
-        return upperPanel;
     }
 
     // EFFECTS: makes lower panel of frame and returns it
@@ -145,13 +152,7 @@ public class OverviewApp {
     // EFFECTS: makes and adds student data block to panel in table
     public Component makeStudentTable(JPanel lowerPanel, SpringLayout layout) {
         String[] tableHeader = {"Item", "Value"};
-        Object[][] studentData = new Object[3][2];
-        studentData[0][0] = "Number of Students:";
-        studentData[0][1] = mySchool.students.size();
-        studentData[1][0] = "Total Outstanding Tuition:";
-        studentData[1][1] = "$" + mySchool.getAllOutstandingTuition();
-        studentData[2][0] = "Accumulated Annual Tuition:";
-        studentData[2][1] = "$" + mySchool.accumulatedAnnualTuition;
+        Object[][] studentData = makeStudentData();
 
         JTable studentTable = new JTable(studentData, tableHeader);
         studentTable.setPreferredSize(new Dimension(300, 100));
@@ -173,17 +174,23 @@ public class OverviewApp {
         return scrollPane;
     }
 
+    // makes student data and returns as Object[][] for table
+    public Object[][] makeStudentData() {
+        Object[][] studentData = new Object[3][2];
+        studentData[0][0] = "Number of Students:";
+        studentData[0][1] = mySchool.students.size();
+        studentData[1][0] = "Total Outstanding Tuition:";
+        studentData[1][1] = "$" + mySchool.getAllOutstandingTuition();
+        studentData[2][0] = "Accumulated Annual Tuition:";
+        studentData[2][1] = "$" + mySchool.accumulatedAnnualTuition;
+        return studentData;
+    }
+
     // MODIFIES: lowerPanel
     // EFFECTS: makes and adds teacher data block to panel in table
     public Component makeTeacherTable(JPanel lowerPanel, SpringLayout layout) {
         String[] tableHeader = {"Item", "Value"};
-        Object[][] teacherData = new Object[3][2];
-        teacherData[0][0] = "Number of Teachers:";
-        teacherData[0][1] = mySchool.teachers.size();
-        teacherData[1][0] = "Total Outstanding Salaries:";
-        teacherData[1][1] = "$" + mySchool.getAllOutstandingSalaries();
-        teacherData[2][0] = "Accumulated Annual Salaries:";
-        teacherData[2][1] = "$" + mySchool.accumulatedAnnualSalary;
+        Object[][] teacherData = makeTeacherData();
 
         JTable teacherTable = new JTable(teacherData, tableHeader);
         teacherTable.setPreferredSize(new Dimension(300, 100));
@@ -205,16 +212,24 @@ public class OverviewApp {
         return scrollPane;
     }
 
+    // makes teacher data and returns as Object[][] for table
+    public Object[][] makeTeacherData() {
+        Object[][] teacherData = new Object[3][2];
+        teacherData[0][0] = "Number of Teachers:";
+        teacherData[0][1] = mySchool.teachers.size();
+        teacherData[1][0] = "Total Outstanding Salaries:";
+        teacherData[1][1] = "$" + mySchool.getAllOutstandingSalaries();
+        teacherData[2][0] = "Accumulated Annual Salaries:";
+        teacherData[2][1] = "$" + mySchool.accumulatedAnnualSalary;
+        return teacherData;
+    }
+
     // MODIFIES: lowerPanel
     // EFFECTS: makes and adds transaction history table to panel for passed in student
     public void makeTransactionHistoryTable(JPanel lowerPanel, SpringLayout layout) {
         String[] tableHeader = {"Transaction Summary"};
-        Object[][] transactionData = new Object[mySchool.transactionRecordSummary.size() + 1][1];
-        int rowCounter = 1;
-        for (String transaction : mySchool.transactionRecordSummary) {
-            transactionData[rowCounter][0] = transaction;
-            rowCounter += 1;
-        }
+        Object[][] transactionData = makeTransactionData();
+
         JTable transactionRecordTable = new JTable(transactionData, tableHeader);
         transactionRecordTable.setPreferredSize(null);
         transactionRecordTable.setDefaultEditor(Object.class, null);
@@ -227,6 +242,17 @@ public class OverviewApp {
         lowerPanel.add(scrollPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 80, SpringLayout.WEST, lowerPanel);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 205, SpringLayout.NORTH, lowerPanel);
+    }
+
+    // makes transaction data and returns as Object[][] for table
+    public Object[][] makeTransactionData() {
+        Object[][] transactionData = new Object[mySchool.transactionRecordSummary.size() + 1][1];
+        int rowCounter = 1;
+        for (String transaction : mySchool.transactionRecordSummary) {
+            transactionData[rowCounter][0] = transaction;
+            rowCounter += 1;
+        }
+        return transactionData;
     }
 
     // EFFECTS: takes png image, scales it and returns it as an ImageIcon object

@@ -78,20 +78,21 @@ public class HomeApp {
         GridLayout layout = new GridLayout(1, 4, 15, 0);
         lowerPanel.setLayout(layout);
 
-        JButton overviewBtn = fullOverviewBtn();
-        JButton studentsBtn = fullStudentBtn();
-        JButton teachersBtn = fullTeacherBtn();
-        JButton coursesBtn = fullCourseBtn();
+        JButton overviewBtn = overviewBtn();
+        JButton studentsBtn = studentBtn();
+        JButton teachersBtn = teacherBtn();
+        JButton coursesBtn = courseBtn();
 
         lowerPanel.add(overviewBtn);
         lowerPanel.add(studentsBtn);
         lowerPanel.add(teachersBtn);
         lowerPanel.add(coursesBtn);
+
         return lowerPanel;
     }
 
-    // EFFECTS: adds the action listener to overview btn
-    public JButton fullOverviewBtn() {
+    // EFFECTS: makes overview btn with action listener
+    public JButton overviewBtn() {
         JButton overviewBtn = makeBtn("Overview", "overviewIconBlue.png");
         overviewBtn.addActionListener(new ActionListener() {
             @Override
@@ -103,8 +104,8 @@ public class HomeApp {
         return overviewBtn;
     }
 
-    // EFFECTS: adds the action listener to students btn
-    public JButton fullStudentBtn() {
+    // EFFECTS: makes student btn with action listener
+    public JButton studentBtn() {
         JButton studentsBtn = makeBtn("Students", "studentsIconBlue.png");
         studentsBtn.addActionListener(new ActionListener() {
             @Override
@@ -116,8 +117,8 @@ public class HomeApp {
         return studentsBtn;
     }
 
-    // EFFECTS: adds action listener to teachers btn
-    public JButton fullTeacherBtn() {
+    // EFFECTS: makes teacher btn with action listener
+    public JButton teacherBtn() {
         JButton teachersBtn = makeBtn("Teachers", "teachersIconBlue.png");
         teachersBtn.addActionListener(new ActionListener() {
             @Override
@@ -129,8 +130,8 @@ public class HomeApp {
         return teachersBtn;
     }
 
-    // EFFECTS: adds action listener to courses btn
-    public JButton fullCourseBtn() {
+    // EFFECTS: makes courses btn with action listener
+    public JButton courseBtn() {
         JButton coursesBtn = makeBtn("Courses", "courseIconBlue.png");
         coursesBtn.addActionListener(new ActionListener() {
             @Override
@@ -142,7 +143,7 @@ public class HomeApp {
         return coursesBtn;
     }
 
-    // EFFECTS: returns a button for home page, with button text and the appropriate icon
+    // EFFECTS: returns a button for home page, with button text and the appropriate icon, but without listeners
     public JButton makeBtn(String buttonTxt, String iconName) {
         JButton newBtn = new JButton(buttonTxt);
         newBtn.setForeground(myColor);

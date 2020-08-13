@@ -12,7 +12,7 @@ import model.Teacher;
 import model.Course;
 import model.Transaction;
 
-// School Management Application
+// School Management Application (console-ui)
 public class SchoolApp {
     private Scanner input;
     School mySchool;

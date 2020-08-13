@@ -52,14 +52,19 @@ public class CoursesApp extends JPanel {
         upperPanel.setBackground(myColor);
         upperPanel.setPreferredSize(new Dimension(800, 150));
 
+        makeTitle(upperPanel);
+
+        return upperPanel;
+    }
+
+    // EFFECTS: takes a panel, makes a title and adds the title to the panel
+    public void makeTitle(JPanel upperPanel) {
         JLabel mainTitleLabel = new JLabel(" Courses");
         mainTitleLabel.setIcon(createImageIcon("./images/coursesIconWhite.png"));
         mainTitleLabel.setFont(new Font("Proxima Nova", Font.BOLD, 30));
         mainTitleLabel.setForeground(Color.white);
         mainTitleLabel.setBorder(new EmptyBorder(70, 70, 70, 0));
         upperPanel.add(mainTitleLabel, BorderLayout.CENTER);
-
-        return upperPanel;
     }
 
     // EFFECTS: makes the lower panel and returns it
@@ -106,7 +111,7 @@ public class CoursesApp extends JPanel {
     }
 
     // MODIFIES: contentPane
-    // EFFECTS: takes components and adds them to contentPane
+    // EFFECTS: takes components in add course section and adds them to contentPane
     public void addContentToPane(JLabel addNewCourseLabel, JTextField courseNameTxtField, JTextField tuitionTxtField,
                                  JTextField salaryTxtField, JTextField maxStudentsTxtField,
                                  JButton submitNewCourseBtn, Container contentPane) {
@@ -349,14 +354,8 @@ public class CoursesApp extends JPanel {
     public void makeCourseTable(Container contentPane, SpringLayout layout, ArrayList<Course> courses) {
         // create courses table
         String[] courseTableHeader = {"Course", "# of Students Enrolled", "Max. Students"};
-        Object[][] courseData = new Object[courses.size()][3];
-        int rowCounter = 0;
-        for (Course course : courses) {
-            courseData[rowCounter][0] = course.courseName;
-            courseData[rowCounter][1] = course.students.size();
-            courseData[rowCounter][2] = course.maxStudents;
-            rowCounter += 1;
-        }
+        Object[][] courseData = makeCourseData(courses);
+
         JTable courseTable = new JTable(courseData, courseTableHeader);
         courseTable.setPreferredSize(new Dimension(800, 400));
         courseTable.setDefaultEditor(Object.class, null);
@@ -369,6 +368,19 @@ public class CoursesApp extends JPanel {
         contentPane.add(scrollPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 100, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 170, SpringLayout.NORTH, contentPane);
+    }
+
+    // makes course data and returns as Object[][] for table
+    public Object[][] makeCourseData(ArrayList<Course> courses) {
+        Object[][] courseData = new Object[courses.size()][3];
+        int rowCounter = 0;
+        for (Course course : courses) {
+            courseData[rowCounter][0] = course.courseName;
+            courseData[rowCounter][1] = course.students.size();
+            courseData[rowCounter][2] = course.maxStudents;
+            rowCounter += 1;
+        }
+        return courseData;
     }
 
     // DISPLAY AN INDIVIDUAL COURSE: --------------------------------------------------
@@ -428,17 +440,7 @@ public class CoursesApp extends JPanel {
     // EFFECTS: makes and adds the students enrolled in course and teachers that teach the course into a table
     public void makeStudentTeacherTable(Course course, JPanel singleCoursePanel, SpringLayout layout) {
         String[] tableHeader = {"Students by ID", "Teachers by ID"};
-        Object[][] tableData = new Object[returnLargerLength(course.students, course.teachers)][2];
-        int studentRowCounter = 0;
-        int teacherRowCounter = 0;
-        for (String student : course.students) {
-            tableData[studentRowCounter][0] = student;
-            studentRowCounter += 1;
-        }
-        for (String teacher : course.teachers) {
-            tableData[teacherRowCounter][1] = teacher;
-            teacherRowCounter += 1;
-        }
+        Object[][] tableData = makeTableData(course);
 
         JTable theTable = new JTable(tableData, tableHeader);
         theTable.setPreferredSize(null);
@@ -452,6 +454,22 @@ public class CoursesApp extends JPanel {
         singleCoursePanel.add(scrollPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 30, SpringLayout.WEST, singleCoursePanel);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 115, SpringLayout.NORTH, singleCoursePanel);
+    }
+    // makes table data and returns as Object[][] for table
+
+    public Object[][] makeTableData(Course course) {
+        Object[][] tableData = new Object[returnLargerLength(course.students, course.teachers)][2];
+        int studentRowCounter = 0;
+        int teacherRowCounter = 0;
+        for (String student : course.students) {
+            tableData[studentRowCounter][0] = student;
+            studentRowCounter += 1;
+        }
+        for (String teacher : course.teachers) {
+            tableData[teacherRowCounter][1] = teacher;
+            teacherRowCounter += 1;
+        }
+        return tableData;
     }
 
     // EFFECTS: takes two lists of strings and returns longer length

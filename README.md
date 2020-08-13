@@ -57,3 +57,22 @@ each have their own unique implementations of the abstract methods 'assignCourse
 new SchoolMember class abstracts away the many similarities between a Student and a Teacher in a school, including 
 having first and last names, unique IDs, courses enrolled in or taught, and having outstanding transactions due with 
 the school.
+
+## Phase 4: Task 3
+Each menu (Home, Overview, Students, Teachers, Courses) in the EduMaster application has an upperPanel that acts as a 
+header with a title. They each have the method makeUpperPanel() which builds that upper panel of the menu frame. 
+This method has more than one responsibility and is non-cohesive because it needs to design the panel itself 
+(background colors, preferred size, layout manager, etc.) and also needs to design the title that goes into the panel 
+(font, size, color, icon). To improve the design of this method, I have abstracted out the making of the title into a 
+makeTitle() method on each menu page. Now in makeUpperPanel(), rather than having 6 lines of code to add the title, 
+it simply calls makeTitle() once and the full title with its design components is added.
+
+There are many JTables used in this application and each JTable is built with a single method, makeTable(). 
+This method is non-cohesive, because it has the responsibility firstly of designing the data objects 
+(transforming data from e.g. ArrayLists into Object[][] which JTable requires as input), and then using the data 
+objects to build a table. The design of the data objects in each method is up to 10 lines long. To follow good design 
+principles, I have abstracted out the design of the data objects into a different method, makeData() which will return 
+the data object to makeTable(). The makeTable() method can then simply call makeData() in one line to get the data and 
+use it to make the table, rather than calling 10 lines to make the data object.
+
+

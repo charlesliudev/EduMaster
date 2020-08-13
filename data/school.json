@@ -5,16 +5,51 @@
       "firstName": "Charles",
       "lastName": "Liu",
       "id": 100000,
-      "courses": [],
-      "coursesPaidFor": [],
-      "outstandingTransaction": 0,
-      "transactionRecord": [],
+      "courses": [
+        "CPSC-210",
+        "ECON-101",
+        "LING-100"
+      ],
+      "coursesPaidFor": [
+        "CPSC-210",
+        "ECON-101",
+        "LING-100"
+      ],
+      "outstandingTransaction": 800,
+      "transactionRecord": [
+        {
+          "amount": 200,
+          "timestamp": "12-08-2020 11:22:37",
+          "transactionID": 300002,
+          "transactionSummary": "Student 100000 paid in $200 on 12-08-2020 11:22:37"
+        },
+        {
+          "amount": 200,
+          "timestamp": "13-08-2020 14:14:55",
+          "transactionID": 300003,
+          "transactionSummary": "Student 100000 paid in $200 on 13-08-2020 14:14:55"
+        }
+      ],
       "schoolAttended": "UBC"
     },
     {
       "firstName": "Peter",
       "lastName": "Parker",
       "id": 100001,
+      "courses": [
+        "ECON-101"
+      ],
+      "coursesPaidFor": [
+        "ECON-101"
+      ],
+      "outstandingTransaction": 500,
+      "transactionRecord": [],
+      "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "Silver",
+      "lastName": "Burla",
+      "id": 100004,
       "courses": [],
       "coursesPaidFor": [],
       "outstandingTransaction": 0,
@@ -22,38 +57,17 @@
       "schoolAttended": "UBC"
     },
     {
-      "firstName": "Jacky",
-      "lastName": "Chan",
-      "id": 100002,
-      "courses": [
-        "CPSC-210"
-      ],
-      "coursesPaidFor": [
-        "CPSC-210"
-      ],
+      "firstName": "Percy",
+      "lastName": "Jackson",
+      "id": 100005,
+      "courses": [],
+      "coursesPaidFor": [],
       "outstandingTransaction": 0,
-      "transactionRecord": [
-        {
-          "amount": 400,
-          "timestamp": "11-08-2020 15:39:30",
-          "transactionID": 300000,
-          "transactionSummary": "Student 100002 paid in $400 on 11-08-2020 15:39:30"
-        }
-      ],
+      "transactionRecord": [],
       "schoolAttended": "UBC"
     }
   ],
   "teachers": [
-    {
-      "firstName": "Josh",
-      "lastName": "Chen",
-      "id": 200000,
-      "courses": [],
-      "coursesPaidFor": [],
-      "outstandingTransaction": 0,
-      "transactionRecord": [],
-      "schoolAttended": "UBC"
-    },
     {
       "firstName": "Robert",
       "lastName": "Gateman",
@@ -74,29 +88,77 @@
         }
       ],
       "schoolAttended": "UBC"
+    },
+    {
+      "firstName": "El",
+      "lastName": "Halabi",
+      "id": 200003,
+      "courses": [
+        "CPSC-210"
+      ],
+      "coursesPaidFor": [
+        "CPSC-210"
+      ],
+      "outstandingTransaction": 1000,
+      "transactionRecord": [],
+      "schoolAttended": "UBC"
     }
   ],
   "courses": [
     {
       "courseName": "CPSC-210",
       "teachers": [
-        "200001"
+        "200001",
+        "200000",
+        "200003"
       ],
       "students": [
-        "100002"
+        "100002",
+        "100000"
       ],
       "courseCost": 400,
       "courseSalary": 1000,
       "maxStudents": 30
+    },
+    {
+      "courseName": "LING-100",
+      "teachers": [],
+      "students": [
+        "100000"
+      ],
+      "courseCost": 300,
+      "courseSalary": 1000,
+      "maxStudents": 30
+    },
+    {
+      "courseName": "ECON-101",
+      "teachers": [],
+      "students": [
+        "100000",
+        "100001"
+      ],
+      "courseCost": 500,
+      "courseSalary": 3000,
+      "maxStudents": 2
+    },
+    {
+      "courseName": "COMM-101",
+      "teachers": [],
+      "students": [],
+      "courseCost": 300,
+      "courseSalary": 800,
+      "maxStudents": 20
     }
   ],
-  "accumulatedAnnualTuition": 400,
-  "accumulatedAnnualSalary": 1000,
+  "accumulatedAnnualTuition": 200,
+  "accumulatedAnnualSalary": 0,
   "transactionRecordSummary": [
     "Student 100002 paid in $400 on 11-08-2020 15:39:30",
-    "Teacher 200001 was paid $1000 on 11-08-2020 15:44:47"
+    "Teacher 200001 was paid $1000 on 11-08-2020 15:44:47",
+    "Student 100000 paid in $200 on 12-08-2020 11:22:37",
+    "Student 100000 paid in $200 on 13-08-2020 14:14:55"
   ],
-  "lastStudentIDGenerated": 100003,
-  "lastTeacherIDGenerated": 200002,
-  "lastTransactionIDGenerated": 300001
+  "lastStudentIDGenerated": 100005,
+  "lastTeacherIDGenerated": 200003,
+  "lastTransactionIDGenerated": 300003
 }
