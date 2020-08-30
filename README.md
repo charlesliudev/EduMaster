@@ -1,6 +1,4 @@
-# My Personal Project
-
-## EduMaster
+# EduMaster
 
 **What does the application do?**
 
@@ -15,64 +13,4 @@ teachers are periodically accrued such that users can view at any time the statu
 When a student pays his/her fees, or a teacher receives a salary, the transaction can be recorded in the application
 against the outstanding amounts. Users also have the option to view the school's entire transaction history with a 
 particular student or teacher.
-
-**Why?**
-
-This project capitalizes on my love for business administration! As a Business & Computer Science student at UBC, I 
-wanted to incorporate the other half of my studies at Sauder into this project. Although accounting is one of the
-most popular specializations in business, it is also indisputably one of the most tedious and repetitive. Accountants
-and other financial managers often have very tedious expense management tasks that involve monitoring daily company
-transactions. Any software that can make their tasks easier are high in demand, so I wanted to start 
-with an application that is simple but in the field of financial management.
-
-## User Stories
-
-- As a user, I want to be able to add new students, teachers, and courses to the School
-- As a user, I want to be able to remove students, teachers, and courses from the School
-- As a user, I want to be able to enroll a student into a new course
-- As a user, I want to be able to assign a teacher to teach a course
-- As a user, I want to be able to increase the outstanding tuition fees due for the student
-- As a user, I want to be able to increase the outstanding salaries due to teachers
-- As a user, I want to be able to pay off the outstanding salaries to teachers
-- As a user, I want to be able to write off the outstanding tuition from students when paid
-- As a user, I want to be able to select a student and view their profile and tuition history
-- As a user, I want to be able to select a teacher and view their profile and salary history
-- As a user, I want to be able to see a financial overview of the School
-- As a user, I want to be able to save the current state of the School
-- As a user, I want to be able to reload the previous state of the School when I open the application again
-
-## Instructions for Grader
-- You can generate the first required event by adding Students to the School: Students -> First Name -> Last Name -> 
-Add Student. The new student will then be displayed into the "Enrolled-Students" table.
-- You can generate the second required event by adding Teachers to the School: Teachers -> First Name -> Last Name -> 
-Add Teacher. The new teacher will then be displayed into the "Teachers" table.
-- You can trigger the audio component of this application by clicking on any button! 
-- You can automatically load the previous state of the application simply by opening it.
-- You can automatically save the state of the application by closing it.
-
-## Phase 4: Task 2
-I have included a new type hierachy in my code. The new superclass is the abstract class SchoolMember, representing
-all individuals who are members of the school. The two subclasses of SchoolMember are Student and Teacher, who
-each have their own unique implementations of the abstract methods 'assignCourse' and 'payOutstandingTransaction'. This 
-new SchoolMember class abstracts away the many similarities between a Student and a Teacher in a school, including 
-having first and last names, unique IDs, courses enrolled in or taught, and having outstanding transactions due with 
-the school.
-
-## Phase 4: Task 3
-Each menu (Home, Overview, Students, Teachers, Courses) in the EduMaster application has an upperPanel that acts as a 
-header with a title. They each have the method makeUpperPanel() which builds that upper panel of the menu frame. 
-This method has more than one responsibility and is non-cohesive because it needs to design the panel itself 
-(background colors, preferred size, layout manager, etc.) and also needs to design the title that goes into the panel 
-(font, size, color, icon). To improve the design of this method, I have abstracted out the making of the title into a 
-makeTitle() method on each menu page. Now in makeUpperPanel(), rather than having 6 lines of code to add the title, 
-it simply calls makeTitle() once and the full title with its design components is added.
-
-There are many JTables used in this application and each JTable is built with a single method, makeTable(). 
-This method is non-cohesive, because it has the responsibility firstly of designing the data objects 
-(transforming data from e.g. ArrayLists into Object[][] which JTable requires as input), and then using the data 
-objects to build a table. The design of the data objects in each method is up to 10 lines long. To follow good design 
-principles, I have abstracted out the design of the data objects into a different method, makeData() which will return 
-the data object to makeTable(). The makeTable() method can then simply call makeData() in one line to get the data and 
-use it to make the table, rather than calling 10 lines to make the data object.
-
 
